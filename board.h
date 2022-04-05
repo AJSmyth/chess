@@ -34,7 +34,7 @@ typedef struct {
 } Board;
 
 //Test functions
-void PrintBoard(Board *);
-void FillBoard(Board *);
+void PrintBoard(Board *board);
+void FillBoard(Board *board);
 wchar_t GetUnicode(EPieceType, EColor);
 #endif

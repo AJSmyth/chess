@@ -3,17 +3,10 @@
 #include <stdlib.h>
 #include <locale.h>
 
-int main(int argc, char *argv[]) {
-	setlocale(LC_CTYPE,"");	
-	Board *chessBoard = malloc(sizeof(Board));
-	FillBoard(chessBoard);
-	PrintBoard(chessBoard);
-}
-
 void PrintBoard(Board *board) {
-	printf("\n\n╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗\n");
+	printf("\n  ╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗\n");
 	for (int rank = 7; rank >= 0; --rank) {
-		printf("║");
+		printf("%d ║", rank + 1);
 		for (int file = 0; file < 8; ++file) {
 			printf(" %lc ", GetUnicode(board->board[file][rank]->piece, board->board[file][rank]->color));
 			if (file != 7) printf("│");
@@ -21,9 +14,11 @@ void PrintBoard(Board *board) {
 		printf("║\n");
 
 		if (rank != 0)
-			printf("╟───┼───┼───┼───┼───┼───┼───┼───╢\n");
-		else 
-			printf("╚═══╧═══╧═══╧═══╧═══╧═══╧═══╧═══╝\n");
+			printf("  ╟───┼───┼───┼───┼───┼───┼───┼───╢\n");
+		else { 
+			printf("  ╚═══╧═══╧═══╧═══╧═══╧═══╧═══╧═══╝\n");
+			printf("    A   B   C   D   E   F   G   H\n");
+		}
 	}
 }
 
