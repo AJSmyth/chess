@@ -8,7 +8,11 @@ void PrintBoard(Board *board) {
 	for (int rank = 7; rank >= 0; --rank) {
 		printf("%d ║", rank + 1);
 		for (int file = 0; file < 8; ++file) {
-			printf(" %lc ", GetUnicode(board->board[file][rank]->piece, board->board[file][rank]->color));
+			if(!board->board[file][rank]->hl){
+				printf(" %lc ", GetUnicode(board->board[file][rank]->piece, board->board[file][rank]->color));
+			}else{
+				printf("<%lc>", GetUnicode(board->board[file][rank]->piece, board->board[file][rank]->color));
+			}
 			if (file != 7) printf("│");
 		}
 		printf("║\n");
@@ -27,6 +31,7 @@ void FillBoard(Board *chessBoard) {
 	for (int file = 0; file < 8; ++file) {
 		for (int rank = 0; rank < 8; ++rank) {
 			chessBoard->board[file][rank] = malloc(sizeof(Piece));
+			chessBoard->board[file][rank]->hl = 0;
 		}
 		//fill empty tiles from A3 to H6
 		for (int rank = 1; rank < 5; ++rank) {
@@ -63,6 +68,19 @@ void FillBoard(Board *chessBoard) {
 	chessBoard->board[5][7]->piece = BISHOP;
 	chessBoard->board[6][7]->piece = KNIGHT;
 	chessBoard->board[7][7]->piece = ROOK;
+}
+//this function is here to setup the board in however way needed for testing
+void FillBoardTest(Board *chessBoard) {
+	for (int file = 0; file < 8; ++file) {
+		for (int rank = 0; rank < 8; ++rank) {
+			chessBoard->board[file][rank] = malloc(sizeof(Piece));
+			chessBoard->board[file][rank]->hl = 0;
+			chessBoard->board[file][rank]->piece = EMPTY;
+			chessBoard->board[file][rank]->color = NO_COLOR;
+		}
+	}
+	chessBoard->board[4][4]->piece = QUEEN;
+	chessBoard->board[4][4]->color = WHITE;
 }
 
 wchar_t GetUnicode(EPieceType piece, EColor color) {

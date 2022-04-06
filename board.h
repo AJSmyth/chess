@@ -1,6 +1,7 @@
 #ifndef BOARD_H
 #define BOARD_H
 #include <wchar.h>
+#include <stdbool.h>
 
 typedef enum {
 	EMPTY = 0,
@@ -27,6 +28,7 @@ typedef enum {
 typedef struct {
 	EColor color;
 	EPieceType piece;	
+	bool hl;
 } Piece;
 
 typedef struct {
@@ -36,5 +38,6 @@ typedef struct {
 //Test functions
 void PrintBoard(Board *board);
 void FillBoard(Board *board);
+void FillBoardTest(Board *board);
 wchar_t GetUnicode(EPieceType, EColor);
 #endif
