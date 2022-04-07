@@ -84,7 +84,35 @@ bool IsValid(int f0, int r0, int f1, int r1, Board *b) {
 	return false;
 }
 
+MOVE** getValidMovesKnight(int f0, int r0, Board *b) {
+	//TODO: WE NEED TO TEST THIS
+	MOVE *moves[63];
+	int knights_move[8];
+	int curr_move = 0;
+	knights_move[0] = f0 + 2;
+	knights_move[1] = r0 - 1;
 
+	knights_move[2] = f0 + 1;
+	knights_move[3] = r0 - 2;
+
+	knights_move[4] = f0 - 2;
+	knights_move[5] = r0 + 1;
+
+	knights_move[6] = f0 - 1;
+	knights_move[7] = r0 + 2;
+
+	for (int i=0; i < 7; i+=2) {
+		if (knights_move[i]>=0 && knights_move[i]<=7 && knights_move[i+1]>=0 && knights_move[i+1]<=7) {
+			moves[curr_move] = malloc(sizeof(MOVE));
+			moves[curr_move]->r0 = r0;
+			moves[curr_move]->f0 = f0;
+			moves[curr_move]->f1= knights_move[i];
+			moves[curr_move]->r1 = knights_move[i+1];
+			curr_move++;
+		}
+	}
+	return moves;
+}
 
 MOVE** getValidMovesQueen(int f, int r, Board *b){
 	MOVE *moves[63];
