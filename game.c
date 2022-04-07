@@ -230,7 +230,7 @@ MOVE **getValidMovesRook(int f0, int r0, Board *b) {
 	int f = f0, r = r0 + 1, moveCount = 0;
 	//check above
 	for (; r < 8; ++r) {
-		if (!IsInCheck(b->board[f0][r0]->color, b)) {
+		if (!IsInCheck(f0, r0, f, r, b)) {
 			if (b->board[f][r]->color != b->board[f0][r0]->color) {
 				moves[moveCount] = malloc(sizeof(MOVE));
 				moves[moveCount]->f0 = f0;
@@ -252,7 +252,7 @@ MOVE **getValidMovesRook(int f0, int r0, Board *b) {
 	//check below
 	f = f0, r = r0 - 1;	
 	for (; r >= 0; --r) {
-		if (!IsInCheck(b->board[f0][r0]->color, b)) {
+		if (!IsInCheck(f0, r0, f, r, b)) {
 			if (b->board[f][r]->color != b->board[f0][r0]->color) {
 				moves[moveCount] = malloc(sizeof(MOVE));
 				moves[moveCount]->f0 = f0;
@@ -275,7 +275,7 @@ MOVE **getValidMovesRook(int f0, int r0, Board *b) {
 	//check right
 	f = f0 + 1, r = r0;	
 	for (; f < 8; ++f) {
-		if (!IsInCheck(b->board[f0][r0]->color, b)) {
+		if (!IsInCheck(f0, r0, f, r, b)) {
 			if (b->board[f][r]->color != b->board[f0][r0]->color) {
 				moves[moveCount] = malloc(sizeof(MOVE));
 				moves[moveCount]->f0 = f0;
@@ -296,7 +296,7 @@ MOVE **getValidMovesRook(int f0, int r0, Board *b) {
 	//check left
 	f = f0 - 1, r = r0;	
 	for (; f >= 0; --f) {
-		if (!IsInCheck(b->board[f0][r0]->color, b)) {
+		if (!IsInCheck(f0, r0, f, r, b)) {
 			if (b->board[f][r]->color != b->board[f0][r0]->color) {
 				moves[moveCount] = malloc(sizeof(MOVE));
 				moves[moveCount]->f0 = f0;
@@ -319,6 +319,6 @@ MOVE **getValidMovesRook(int f0, int r0, Board *b) {
 
 
 
-bool IsInCheck(EColor color, Board *b) {
+bool IsInCheck(int f0, int r0, int f1, int r1, Board *b) {
 	return false;
 }
