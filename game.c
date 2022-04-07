@@ -103,12 +103,15 @@ MOVE** getValidMovesKnight(int f0, int r0, Board *b) {
 
 	for (int i=0; i < 7; i+=2) {
 		if (knights_move[i]>=0 && knights_move[i]<=7 && knights_move[i+1]>=0 && knights_move[i+1]<=7) {
-			moves[curr_move] = malloc(sizeof(MOVE));
-			moves[curr_move]->r0 = r0;
-			moves[curr_move]->f0 = f0;
-			moves[curr_move]->f1= knights_move[i];
-			moves[curr_move]->r1 = knights_move[i+1];
-			curr_move++;
+			if (b->board[knights_move[i]][knights_move[i+1]]->piece == EMPTY 
+			|| b->board[knights_move[i]][knights_move[i+1]]->color != b->board[f0][r0]->color) {
+				moves[curr_move] = malloc(sizeof(MOVE));
+				moves[curr_move]->r0 = r0;
+				moves[curr_move]->f0 = f0;
+				moves[curr_move]->f1= knights_move[i];
+				moves[curr_move]->r1 = knights_move[i+1];
+				curr_move++;
+			}
 		}
 	}
 	return moves;
