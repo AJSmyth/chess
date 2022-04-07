@@ -5,6 +5,8 @@
 #include <stdbool.h>
 #include <locale.h>
 
+extern const int VALID_MOVE_SIZE;
+
 typedef struct {
 	int r0;
 	int f0;
@@ -18,8 +20,8 @@ bool IsInCheck(EColor color, Board *b);
 bool IsMated(EColor color, Board *b);
 void Capture(int f0, int r0, Board *b);
 void Promote(int f0, int r0, Board *b);
-char PieceTypeToChar(EPieceType);
 
-MOVE* getValidMovesQueen(int f, int r, Board *b);
+MOVE** getValidMovesQueen(int f, int r, Board *b);
+MOVE **getValidMovesRook(int f, int r, Board *b);
 
 #endif

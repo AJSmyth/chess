@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 typedef enum {
-	EMPTY = 0,
+	EMPTY,
 	PAWN,
 	ROOK,
 	KNIGHT,
@@ -22,6 +22,7 @@ typedef enum {
 typedef enum {
 	WHITE,
 	BLACK,
+	//no color used for empty tiles, which are still technically pieces
 	NO_COLOR
 } EColor;
 
@@ -32,6 +33,7 @@ typedef struct {
 } Piece;
 
 typedef struct {
+	//board[file][rank], [0][0] corresponds to A1, [7][7] to H8  
 	Piece *board[8][8];
 } Board;
 

@@ -17,8 +17,7 @@ int main(int argc, char *argv[]) {
 		char s0[3], s1[3];
 		scanf("%2s %2s", s0, s1);
 		Move(s0[0] - 65, s0[1] - 49, s1[0] - 65, s1[1] - 49, chessBoard);
-		//getValidMovesQueen(s0[0] - 65, s0[1] - 49, chessBoard);
-		system("clear");
+		getValidMovesRook(s1[0] - 65, s1[1] - 49, chessBoard);
 		PrintBoard(chessBoard);
 	}	
 	return 0;
