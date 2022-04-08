@@ -288,7 +288,15 @@ MOVE **getValidMovesRook(int f0, int r0, Board *b) {
 	
 	return moves;
 }
+MOVE **getValidMovesPawn(int f0, int r0, Board *b){
+	MOVE *moves[VALID_MOVE_SIZE];
+	int f = f0, r = r0, movecount = 0;
+	if(b->board[f][r]-> piece = WHITE){
+		
 
+	}
+
+}
 
 
 bool IsInCheck(EColor color, Board *b) {
