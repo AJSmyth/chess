@@ -1,8 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <ncurses.h>
+#include <string.h>
 #include "board.h"
 #include "game.h"
+#include "gui.h"
 
 
 int main(int argc, char *argv[]) {
@@ -13,13 +16,21 @@ int main(int argc, char *argv[]) {
 	printf("Select 1 for White and 2 for Black and 3 for Free Play: ");
 	scanf("%d",&a);
 	FillBoard(chessBoard);
-	PrintBoard(chessBoard);
+	EGUIState gui = MENU;
 
+	//PrintBoard(chessBoard);
+
+<<<<<<< HEAD
 	//If side chosen is White
 	if (a == 1)
 	{
 		bool done = false;
 		while (!done){
+=======
+	bool done = false;
+	/*
+	 while (!done) {
+>>>>>>> e085263 (Initial Rebase Commit)
 		printf("Select a piece to move in the form \"FR FR\" (e.g. A2 A3): ");
 		char s0[3], s1[3];
 		char *MoveCheck;
@@ -131,6 +142,10 @@ int main(int argc, char *argv[]) {
 		}	
 	}
 
+
+
+	return 0;
+	*/
 
 
 	return 0;
