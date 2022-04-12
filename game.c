@@ -527,7 +527,7 @@ MOVE **getValidMovesPawn(int f0, int r0, Board *b){
 	if(b-> board[f0][r0]->color == WHITE){
 		int f = f0, r = r0 + 2, moveCount = 0;
 		if(r0 == 1 && b->board[f0][r0+2]->piece == EMPTY){
-			if(!IsInCheck(b->board[f0][r0]->color, b)){
+			if(!IsInCheck(f0, r0, f, r, b)){
 				moves[moveCount] = malloc(sizeof(MOVE));
 				moves[moveCount] -> f0 = f0;
 				moves[moveCount] -> r0 = r0;
@@ -538,9 +538,9 @@ MOVE **getValidMovesPawn(int f0, int r0, Board *b){
 			}
 		}
 		//check to see if white pawn can move forward a space
-		int f = f0, r = r0 + 1;
+		f = f0, r = r0 + 1;
 		if(r < 8 && b->board[f0][r0+1]->piece == EMPTY){
-			if(!IsInCheck(b->board[f0][r0]->color, b)){
+			if(!IsInCheck(f0, r0, f, r, b)){
 				moves[moveCount] = malloc(sizeof(MOVE));
 				moves[moveCount] -> f0 = f0;
 				moves[moveCount] -> r0 = r0;
@@ -552,7 +552,7 @@ MOVE **getValidMovesPawn(int f0, int r0, Board *b){
 		}
 		//check to see if white pawn can capture right diagonally
 		f = f0+1, r = r0 +1; //right diagonal
-		if(!IsInCheck(b->board[f0][r0]->color, b)){//check to see if move to be made will put King in check
+		if(!IsInCheck(f0, r0, f, r, b)){//check to see if move to be made will put King in check
 			if(f < 8 && r < 8 && b->board[f][r]->piece != WHITE && b->board[f][r]->piece != EMPTY){//piece should not be white and not empty to capture
 				moves[moveCount] = malloc(sizeof(MOVE));
 				moves[moveCount] -> f0 = f0;
@@ -564,7 +564,7 @@ MOVE **getValidMovesPawn(int f0, int r0, Board *b){
 		}
 		//check to see if white pawn can capture left diagonally
 		f = f0 - 1, r = r0 + 1; //left diagonal
-		if(!IsInCheck(b->board[f0][r0]->color, b)){ //check to see if move to be made will put King in check
+		if(!IsInCheck(f0, r0, f, r, b)){ //check to see if move to be made will put King in check
 			if(f < 8 && r < 8 && b->board[f][r]->piece != WHITE && b->board[f][r]->piece != EMPTY){ //piece should not be white and not empty to capture
 				moves[moveCount] = malloc(sizeof(MOVE));
 				moves[moveCount] -> f0 = f0;
@@ -581,7 +581,7 @@ MOVE **getValidMovesPawn(int f0, int r0, Board *b){
 		int f = f0, r = r0 - 2, moveCount = 0;
 		if(r0 == 6 && b->board[f0][r0-2]->piece == EMPTY){
 			int f = f0, r = r0 - 2, moveCount = 0;
-			if(!IsInCheck(b->board[f0][r0]->color, b)){
+			if(!IsInCheck(f0, r0, f, r, b)){
 				moves[moveCount] = malloc(sizeof(MOVE));
 				moves[moveCount] -> f0 = f0;
 				moves[moveCount] -> r0 = r0;
@@ -592,9 +592,9 @@ MOVE **getValidMovesPawn(int f0, int r0, Board *b){
 			}
 		}
 		//check to see if black pawn can move forward a space
-		int f = f0, r = r0 - 1;
+		f = f0, r = r0 - 1;
 		if(r > 0 && b->board[f0][r0-1]->piece == EMPTY){
-			if(!IsInCheck(b->board[f0][r0]->color, b)){
+			if(!IsInCheck(f0, r0, f, r, b)){
 				moves[moveCount] = malloc(sizeof(MOVE));
 				moves[moveCount] -> f0 = f0;
 				moves[moveCount] -> r0 = r0;
@@ -607,7 +607,7 @@ MOVE **getValidMovesPawn(int f0, int r0, Board *b){
 		//check to see if black pawn can capture right diagonally
 		f = f0 - 1, r = r0 - 1; //right diagonal
 		if(f > 0 && r > 0 && b->board[f0 -1][r0-1]->piece != EMPTY && b->board[f0-1][r0-1]->piece != WHITE){//piece should not be white and not empty to capture
-			if(!IsInCheck(b->board[f0][r0]->color, b)){//check to see if move to be made will put King in check
+			if(!IsInCheck(f0, r0, f, r, b)){//check to see if move to be made will put King in check
 				moves[moveCount] = malloc(sizeof(MOVE));
 				moves[moveCount] -> f0 = f0;
 				moves[moveCount] -> r0 = r0;
@@ -619,7 +619,7 @@ MOVE **getValidMovesPawn(int f0, int r0, Board *b){
 		}
 		//check to see if black pawn can capture left diagonally
 		f = f0 + 1, r = r0 - 1; //left diagonal
-		if(!IsInCheck(b->board[f0][r0]->color, b)){ //check to see if move to be made will put King in check
+		if(!IsInCheck(f0, r0, f, r, b)){ //check to see if move to be made will put King in check
 			if(f > 0 && r > 0 && b->board[f0 + 1][r0 - 1]->piece != EMPTY && b->board[f0 + 1][r0 - 1]->piece != WHITE){ //piece should not be white and not empty to capture
 				moves[moveCount] = malloc(sizeof(MOVE));
 				moves[moveCount] -> f0 = f0;
