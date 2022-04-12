@@ -45,7 +45,7 @@ void Capture(int f0, int r0, Board *b) {
 bool IsValid(int f0, int r0, int f1, int r1, Board *b) {
 	//pointer to array of pointers (stores the address of our array of move pointers)
 	//(since this array will be dynamically allocated)
-	MOVE *(*valid)[VALID_MOVE_SIZE];
+	MOVE * valid[VALID_MOVE_SIZE];
 
 	//get the valid moves array for the corresponding piece
 	switch (b->board[f0][r0]->piece) {
@@ -60,7 +60,7 @@ bool IsValid(int f0, int r0, int f1, int r1, Board *b) {
 			valid = getValidMovesKnight(f0, r0, b);
 			break;
 		case BISHOP:
-			valid = getValidMovesBishop(f0, r0, b);
+			getValidMovesBishop(f0, r0, b, valid);
 			break;
 		case PAWN:
 			valid = getValidMovesPawn(f0, r0, b);
@@ -74,12 +74,15 @@ bool IsValid(int f0, int r0, int f1, int r1, Board *b) {
 			return true;
 	}
 
+/*
 	//check the valid moves array for the current move
 	for (int i = 0; i < VALID_MOVE_SIZE; ++i) {
 	        if (r0 == (*valid)[i]->r0 &&  f0 == (*valid)[i]->f0 && r1 == (*valid[i])->r1 && f1 == (*valid)[i]->f1) {
 			return true;
 		}
+		
 	}
+	*/
 
 	//if the given move is not found in the valid moves
 	return false;
@@ -249,7 +252,6 @@ void getValidMovesQueen(int f, int r, Board *b, MOVE *moves[]){
 		}
 		curr_move++;
 	}
-	return moves;
 }
 
 MOVE **getValidMovesRook(int f0, int r0, Board *b) {
@@ -346,22 +348,23 @@ MOVE **getValidMovesRook(int f0, int r0, Board *b) {
 }
 
 //SEGMENTATION FAULT NEEDS MORE DEBUGGING
-MOVE** getValidMovesBishop(int f, int r, Board *b){
-	MOVE *moves[VALID_MOVE_SIZE];
+void getValidMovesBishop(int f, int r, Board *b, MOVE * moves[]){
 	int curr_move = 0;
 
 	//check diagonal top right
 	for (int i = f+1, j= r+1; i < 8 && j < 8; i++, j++){
 		if (b->board[f][r]->color != b->board[i][j]->color){
+
 			moves[curr_move] = malloc(sizeof(MOVE));
-			moves[curr_move]->r0 = r;
+			moves[curr_move]->r0 = r; 
 			moves[curr_move]->f0 = f;
 			moves[curr_move]->r1 = j;
 			moves[curr_move]->f1 = i;
+			b->board[i][j]->hl = 1;
 
-			b->board[f][r]->hl = 1;
-			if (b->board[f][r]->piece != EMPTY)
+			if (b->board[i][j]->piece != EMPTY){
 				break;
+			}
 
 		}else break;
 
@@ -371,11 +374,17 @@ MOVE** getValidMovesBishop(int f, int r, Board *b){
 	//check diagonal bottom right
 	for (int i = f+1, j= r-1; i < 8 && j>=0; i++, j--){
 		if (b->board[f][r]->color != b->board[i][j]->color){
+
 			moves[curr_move] = malloc(sizeof(MOVE));
 			moves[curr_move]->r0 = r;
 			moves[curr_move]->f0 = f;
 			moves[curr_move]->r1 = j;
 			moves[curr_move]->f1 = i;
+			b->board[i][j]->hl = 1;
+
+			if (b->board[i][j]->piece != EMPTY){
+				break;
+			}
 
 		}else break;
 		
@@ -384,12 +393,18 @@ MOVE** getValidMovesBishop(int f, int r, Board *b){
 	//check diagonal bottom left
 	for (int i = f-1, j= r-1; i >= 0 && j >= 0; i--, j--){
 		if (b->board[f][r]->color != b->board[i][j]->color){
+
 			moves[curr_move] = malloc(sizeof(MOVE));
 			moves[curr_move]->r0 = r;
 			moves[curr_move]->f0 = f;
 			moves[curr_move]->r1 = j;
 			moves[curr_move]->f1 = i;
+			b->board[i][j]->hl = 1;
 
+			if (b->board[i][j]->piece != EMPTY){
+				break;
+			}
+			
 		}else break;
 
 		curr_move++;
@@ -397,17 +412,22 @@ MOVE** getValidMovesBishop(int f, int r, Board *b){
 	//check diagonal top left
 	for (int i = f-1, j= r+1; i>=0 && j < 8; i--, j++){
 		if (b->board[f][r]->color != b->board[i][j]->color){
+
 			moves[curr_move] = malloc(sizeof(MOVE));
 			moves[curr_move]->r0 = r;
 			moves[curr_move]->f0 = f;
 			moves[curr_move]->r1 = j;
 			moves[curr_move]->f1 = i;
+			b->board[i][j]->hl = 1;
+
+			if (b->board[i][j]->piece != EMPTY){
+				break;
+			}
 
 		}else break;
 
 		curr_move++;
 	}
-	return moves;
 }
 
 void getValidMovesKing(int f,int r, Board *b, MOVE *moves[63]){

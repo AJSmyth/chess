@@ -24,7 +24,7 @@ void Promote(int f0, int r0, Board *b);
 void getValidMovesQueen(int, int, Board *, MOVE **);
 MOVE **getValidMovesRook(int, int, Board *);
 MOVE **getValidMovesKnight(int, int, Board *);
-MOVE **getValidMovesBishop(int, int, Board *);
+void getValidMovesBishop(int, int, Board *, MOVE **);
 MOVE **getValidMovesPawn(int, int, Board *);
 MOVE **getValidMovesKing(int, int, Board *);
 
