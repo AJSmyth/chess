@@ -410,60 +410,69 @@ MOVE** getValidMovesBishop(int f, int r, Board *b){
 	return moves;
 }
 
-MOVE** getValidMovesKing(int f,int r, Board *b){
-	MOVE *moves[63];
+void getValidMovesKing(int f,int r, Board *b, MOVE *moves[63]){
+	//MOVE *moves[63];
 	int current_move = 0;
 	
 	//Check 1 space above
 	moves[current_move] = malloc(sizeof(MOVE));
 	moves[current_move]->f0 = f;
 	moves[current_move]->r0 = r;
-	moves[current_move]->f1 = f + 1;
-	moves[current_move]->r1 = r;
-	b->board[f+1][r]->hl = 1;
-	
-	if (b->board[f+1][r]->piece == EMPTY && f+1 <= 8)
-	{ 
-		current_move ++;
-	}
-	
-	//Check 1 space below
-	moves[current_move] = malloc(sizeof(MOVE));
-	moves[current_move]->f0 = f;
-	moves[current_move]->r0 = r;
-	moves[current_move]->f1 = f - 1;
-	moves[current_move]->r1 = r;
-	b->board[f-1][r]->hl = 1;
-	
-	if (b->board[f-1][r]->piece == EMPTY && f-1 >= 0)
-	{ 
-		current_move ++;
-	}
-	
-	//Check 1 space to the right
-	moves[current_move] = malloc(sizeof(MOVE));
-	moves[current_move]->f0 = f;
-	moves[current_move]->r0 = r;
 	moves[current_move]->f1 = f;
-	moves[current_move]->r1 = r + 1;
-	b->board[f][r+1]->hl = 1;
+	moves[current_move]->r1 = r+1;
 	
 	if (b->board[f][r+1]->piece == EMPTY && r+1 <= 8)
 	{ 
 		current_move ++;
+		b->board[f][r+1]->hl = 1;
+	}
+
+	//Check 1 space below
+	moves[current_move] = malloc(sizeof(MOVE));
+	moves[current_move]->f0 = f;
+	moves[current_move]->r0 = r;
+	moves[current_move]->f1 = f;
+	moves[current_move]->r1 = r-1;
+		
+	if (r-1 >= 0)
+	{
+		if (b->board[f][r-1]->piece == EMPTY)
+		{ 
+			current_move ++;
+			b->board[f][r-1]->hl = 1;
+		}
 	}
 	
 	//Check 1 space to the left
 	moves[current_move] = malloc(sizeof(MOVE));
 	moves[current_move]->f0 = f;
 	moves[current_move]->r0 = r;
-	moves[current_move]->f1 = f;
-	moves[current_move]->r1 = r - 1;
-	b->board[f][r-1]->hl = 1;
+	moves[current_move]->f1 = f-1;
+	moves[current_move]->r1 = r;
+
+	if (f-1 >= 0)
+	{
+		if (b->board[f-1][r]->piece == EMPTY)
+		{ 
+			current_move ++;
+			b->board[f-1][r]->hl = 1;
+		}
+	}
 	
-	if (b->board[f][r-1]->piece == EMPTY && r-1 >= 0)
-	{ 
-		current_move ++;
+	//Check 1 space to the right
+	moves[current_move] = malloc(sizeof(MOVE));
+	moves[current_move]->f0 = f;
+	moves[current_move]->r0 = r;
+	moves[current_move]->f1 = f+1;
+	moves[current_move]->r1 = r;
+	
+	if (f+1 <= 8)
+	{
+		if (b->board[f+1][r]->piece == EMPTY)
+		{ 
+			current_move ++;
+			b->board[f+1][r]->hl = 1;
+		}
 	}
 	
 	//Check 1 space to the Upper Right
@@ -472,37 +481,46 @@ MOVE** getValidMovesKing(int f,int r, Board *b){
 	moves[current_move]->r0 = r;
 	moves[current_move]->f1 = f + 1;
 	moves[current_move]->r1 = r + 1;
-	b->board[f+1][r+1]->hl = 1;
-	
-	if (b->board[f+1][r+1]->piece == EMPTY && r+1 <= 8 && f+1 <= 8)
-	{ 
-		current_move ++;
+
+	if (r+1 <= 8 && f+1 <= 8)
+	{
+		if (b->board[f+1][r+1]->piece == EMPTY)
+		{ 
+			current_move ++;
+			b->board[f+1][r+1]->hl = 1;
+		}
 	}
-	
+
 	//Check 1 space to the Upper Left
 	moves[current_move] = malloc(sizeof(MOVE));
 	moves[current_move]->f0 = f;
 	moves[current_move]->r0 = r;
 	moves[current_move]->f1 = f - 1;
 	moves[current_move]->r1 = r + 1;
-	b->board[f-1][r+1]->hl = 1;
 	
-	if (b->board[f-1][r+1]->piece == EMPTY && r+1 <= 8 && f-1 >=0)
-	{ 
-		current_move ++;
+	if (r+1 <= 8 && f-1 >=0)
+	{
+		if (b->board[f-1][r+1]->piece == EMPTY)
+		{ 
+			current_move ++;
+			b->board[f-1][r+1]->hl = 1;
+		}
 	}
-	
+
 	//Check 1 space to the Lower Right
 	moves[current_move] = malloc(sizeof(MOVE));
 	moves[current_move]->f0 = f;
 	moves[current_move]->r0 = r;
 	moves[current_move]->f1 = f + 1;
 	moves[current_move]->r1 = r - 1;
-	b->board[f+1][r-1]->hl = 1;
 	
-	if (b->board[f+1][r-1]->piece == EMPTY && r-1 >= 0 && f+1 <= 8)
-	{ 
-		current_move ++;
+	if (r-1 >= 0 && f+1 <= 8)
+	{
+		if (b->board[f+1][r-1]->piece == EMPTY)
+		{ 
+			current_move ++;
+			b->board[f+1][r-1]->hl = 1;
+		}
 	}
 	
 	//Check 1 space to the Lower Left
@@ -511,15 +529,18 @@ MOVE** getValidMovesKing(int f,int r, Board *b){
 	moves[current_move]->r0 = r;
 	moves[current_move]->f1 = f - 1;
 	moves[current_move]->r1 = r - 1;
-	b->board[f-1][r-1]->hl = 1;
 	
-	if (b->board[f-1][r-1]->piece == EMPTY && r-1 >= 0 && f-1 >= 0)
-	{ 
-		current_move ++;
+	if (r-1 >= 0 && f-1 >= 0)
+	{
+		if (b->board[f-1][r-1]->piece == EMPTY)
+		{ 
+			current_move ++;
+			b->board[f-1][r-1]->hl = 1;
+		}
 	}
-	
- return moves;
+
 }
+
 MOVE **getValidMovesPawn(int f0, int r0, Board *b){
 	MOVE *moves[VALID_MOVE_SIZE];
 	//FOR WHITE PAWN
