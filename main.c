@@ -16,8 +16,9 @@ int main(int argc, char *argv[]) {
 		printf("Select a piece to move in the form \"FR FR\" (e.g. A2 A3): ");
 		char s0[3], s1[3];
 		scanf("%2s %2s", s0, s1);
-		Move(s0[0] - 65, s0[1] - 49, s1[0] - 65, s1[1] - 49, chessBoard);
-		//getValidMovesRook(s1[0] - 65, s1[1] - 49, chessBoard);
+		MOVE *moves[63];
+		//Move(s0[0] - 65, s0[1] - 49, s1[0] - 65, s1[1] - 49, chessBoard);
+		getValidMovesQueen(s1[0] - 65, s1[1] - 49, chessBoard, moves);
 		PrintBoard(chessBoard);
 	}	
 	return 0;

@@ -118,8 +118,8 @@ MOVE** getValidMovesKnight(int f0, int r0, Board *b) {
 	return moves;
 }
 
-MOVE** getValidMovesQueen(int f, int r, Board *b){
-	MOVE *moves[63];
+void getValidMovesQueen(int f, int r, Board *b, MOVE *moves[]){
+	//MOVE *moves[63];
 	int curr_move = 0;
 	//check vertical line up
 	for(int i = r+1; i < 8; i++){

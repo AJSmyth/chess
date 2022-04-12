@@ -21,7 +21,7 @@ bool IsMated(EColor color, Board *b);
 void Capture(int f0, int r0, Board *b);
 void Promote(int f0, int r0, Board *b);
 
-MOVE **getValidMovesQueen(int, int, Board *);
+void getValidMovesQueen(int, int, Board *, MOVE **);
 MOVE **getValidMovesRook(int, int, Board *);
 MOVE **getValidMovesKnight(int, int, Board *);
 MOVE **getValidMovesBishop(int, int, Board *);
