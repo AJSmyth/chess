@@ -17,7 +17,7 @@ typedef struct {
 char *Move(int f0, int r0, int f1, int r1, Board *b);
 bool IsValid(int f0, int r0, int f1, int r1, Board *b);
 bool IsInCheck(int f0, int r0, int f1, int r1, Board *b);
-bool IsMated(EColor color, Board *b);
+bool IsMated(int f0, int r0, int f1, int r1, Board *b);
 void Capture(int f0, int r0, Board *b);
 void Promote(int f0, int r0, Board *b);
 
@@ -26,6 +26,6 @@ MOVE **getValidMovesRook(int, int, Board *);
 MOVE **getValidMovesKnight(int, int, Board *);
 void getValidMovesBishop(int, int, Board *, MOVE **);
 MOVE **getValidMovesPawn(int, int, Board *);
-MOVE **getValidMovesKing(int, int, Board *);
+void getValidMovesKing(int, int, Board *, MOVE **);
 
 #endif
