@@ -26,7 +26,7 @@ char *Move(int f0, int r0, int f1, int r1, Board *b) {
 		else {
 			Capture(f1, r1, b);
 			b->board[f1][r1] = p;
-		    b->board[f0][r0] = malloc(sizeof(Piece));
+			b->board[f0][r0] = malloc(sizeof(Piece));
 			b->board[f0][r0]->piece = EMPTY;
 			b->board[f0][r0]->color = NO_COLOR;
 		}
@@ -50,6 +50,9 @@ bool IsValid(int f0, int r0, int f1, int r1, Board *b) {
 	//(since this array will be dynamically allocated)
 	MOVE * valid[VALID_MOVE_SIZE];
 
+	for (int i = 0; i < VALID_MOVE_SIZE; ++i) valid[i] = NULL;
+	
+	
 	//get the valid moves array for the corresponding piece
 	switch (b->board[f0][r0]->piece) {
 		case QUEEN:
@@ -83,16 +86,6 @@ bool IsValid(int f0, int r0, int f1, int r1, Board *b) {
 			return false;
 		}
 	}
-
-/*
-	//check the valid moves array for the current move
-	for (int i = 0; i < VALID_MOVE_SIZE; ++i) {
-	        if (r0 == (*valid)[i]->r0 &&  f0 == (*valid)[i]->f0 && r1 == (*valid[i])->r1 && f1 == (*valid)[i]->f1) {
-			return true;
-		}
-		
-	}
-	*/
 
 	//if the given move is not found in the valid moves
 	return false;
@@ -683,7 +676,7 @@ void getValidMovesPawn(int f0, int r0, Board *b, MOVE *moves[]){
 			moves[moveCount] -> f1 = f;
 			moves[moveCount] -> r1 = r;
 			//b->board[f][r]->hl = 1;
-			
+			moveCount++;	
 			//}
 		}
 		//check to see if white pawn can move forward a space
@@ -696,6 +689,7 @@ void getValidMovesPawn(int f0, int r0, Board *b, MOVE *moves[]){
 			moves[moveCount] -> f1 = f;
 			moves[moveCount] -> r1 = r;
 			//b->board[f][r]->hl = 1;
+			moveCount++;	
 			//}
 		
 		}
@@ -709,6 +703,7 @@ void getValidMovesPawn(int f0, int r0, Board *b, MOVE *moves[]){
 			moves[moveCount] -> f1 = f;
 			moves[moveCount] -> r1 = r;
 			//b->board[f][r]->hl = 1; //highlight space for user to see as valid move
+			moveCount++;	
 		}
 		//}
 		//check to see if white pawn can capture left diagonally
@@ -721,6 +716,7 @@ void getValidMovesPawn(int f0, int r0, Board *b, MOVE *moves[]){
 			moves[moveCount] -> f1 = f;
 			moves[moveCount] -> r1 = r;
 			//b->board[f][r]->hl = 1; //highlight space for user to see valid move
+			moveCount++;	
 		}
 		//}
 	}
@@ -737,6 +733,7 @@ void getValidMovesPawn(int f0, int r0, Board *b, MOVE *moves[]){
 			moves[moveCount] -> f1 = f;
 			moves[moveCount] -> r1 = r;
 			//b->board[f][r]->hl = 1;
+			moveCount++;	
 			
 			//}
 		}
@@ -750,6 +747,7 @@ void getValidMovesPawn(int f0, int r0, Board *b, MOVE *moves[]){
 			moves[moveCount] -> f1 = f;
 			moves[moveCount] -> r1 = r;
 			//b->board[f][r]->hl = 1;
+			moveCount++;	
 		
 			//}
 		}
@@ -763,6 +761,7 @@ void getValidMovesPawn(int f0, int r0, Board *b, MOVE *moves[]){
 			moves[moveCount] -> f1 = f;
 			moves[moveCount] -> r1 = r;
 			//b->board[f][r]->hl = 1; //highlight space for user to see as valid move
+			moveCount++;	
 				
 			//}
 		}
@@ -776,6 +775,7 @@ void getValidMovesPawn(int f0, int r0, Board *b, MOVE *moves[]){
 			moves[moveCount] -> f1 = f;
 			moves[moveCount] -> r1 = r;
 			//b->board[f][r]->hl = 1; //highlight space for user to see valid move
+			moveCount++;	
 		}
 		//}
 	}
