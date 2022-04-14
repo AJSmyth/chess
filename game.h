@@ -23,10 +23,10 @@ void Promote(int f0, int r0, Board *b);
 void Castling(int f0, int r0, int f1, int r1, Board *b);
 
 void getValidMovesQueen(int, int, Board *, MOVE **);
-MOVE **getValidMovesRook(int, int, Board *);
-MOVE **getValidMovesKnight(int, int, Board *);
+void getValidMovesRook(int, int, Board *, MOVE **);
+void getValidMovesKnight(int, int, Board *, MOVE **);
 void getValidMovesBishop(int, int, Board *, MOVE **);
-MOVE **getValidMovesPawn(int, int, Board *);
+void getValidMovesPawn(int, int, Board *, MOVE **);
 void getValidMovesKing(int, int, Board *, MOVE **);
 
 #endif
