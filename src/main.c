@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <ncurses.h>
 #include <string.h>
 #include "board.h"
 #include "game.h"
@@ -9,16 +8,15 @@
 
 
 int main(int argc, char *argv[]) {
-	setlocale(LC_CTYPE,"");	
+	setlocale(LC_ALL, "");	
+
 	Board *chessBoard = malloc(sizeof(Board));
 	//Board *chessBoardCopy = malloc(sizeof(Board));
 	int a;
 	printf("Select 1 for White and 2 for Black and 3 for Free Play: ");
 	scanf("%d",&a);
 	FillBoard(chessBoard);
-	EGUIState gui = MENU;
-
-	//PrintBoard(chessBoard);
+	GUI *gui = malloc(sizeof(MENU));
 
 <<<<<<< HEAD
 	//If side chosen is White
@@ -145,8 +143,15 @@ int main(int argc, char *argv[]) {
 
 
 	return 0;
-	*/
+	*/	
 
+	InitGUI(gui);
 
+	while (!done) {
+		DoGUI(gui);
+	}
+
+	free(chessBoard);
+	free(gui);
 	return 0;
 }
