@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <ncurses.h>
 #include <string.h>
 #include "board.h"
 #include "game.h"
@@ -9,13 +8,12 @@
 
 
 int main(int argc, char *argv[]) {
-	setlocale(LC_CTYPE,"");	
+	setlocale(LC_ALL, "");	
+
 	Board *chessBoard = malloc(sizeof(Board));
 	//Board *chessBoardCopy = malloc(sizeof(Board));
 	FillBoard(chessBoard);
-	EGUIState gui = MENU;
-
-	//PrintBoard(chessBoard);
+	GUI *gui = malloc(sizeof(MENU));
 
 	bool done = false;
 	/*
@@ -34,8 +32,15 @@ int main(int argc, char *argv[]) {
 		PrintBoard(chessBoard);
 	}	
 	return 0;
-	*/
+	*/	
 
+	InitGUI(gui);
 
+	while (!done) {
+		DoGUI(gui);
+	}
+
+	free(chessBoard);
+	free(gui);
 	return 0;
 }

@@ -1,7 +1,13 @@
-build:
-	gcc -std=c11 -c main.c
-	gcc -std=c11 -c -Wno-return-local-addr game.c
-	gcc -std=c11 -c board.c
-	gcc -std=c11 -c gui.c
-	#link
-	gcc -std=c11 main.o board.o game.o gui.o -o a -lncurses
+CFLAGS = -std=c11 -Wno-return-local-addr 
+LIBS = $(shell ncursesw5-config --libs) 
+OBJS = main.o game.o gui.o board.o
+OUT = a
+
+$(OUT): $(OBJS)
+	gcc $(OBJS)  $(CFLAGS) $(LIBS) $(shell ncursesw5-config --cflags) --enable-widec -o $(OUT)
+
+%.o: %.c
+	gcc -c $(CFLAGS) $<
+
+clean:
+	rm *.o a
