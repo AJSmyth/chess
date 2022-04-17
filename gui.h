@@ -6,13 +6,16 @@
 #include <ncurses.h>
 #include <string.h>
 #include <stdlib.h>
+#include <signal.h>
+#include "board.h"
+#include "game.h"
 
 extern const int MIN_X, MIN_Y;
 
 typedef enum {
 	MENU,
-	SETTINGS,
 	GAME,
+	EXITING
 } EGUIState;
 
 typedef struct {
@@ -39,13 +42,22 @@ typedef struct {
 	MenuSetting *gamemode;
 	MenuSetting *difficulty;
 
-	size_t nSet;
+	size_t size;
 	MenuSetting **settings;
+	Box start;
 	Box exit;
 } Menu;
 
 typedef struct {
+	//board window
+	WINDOW *bWin;
+	Board *board;
+	EGameState state;
+} Game;
+
+typedef struct {
 	Menu *menu;
+	Game *game;
 	EGUIState state;
 	int y, x;
 } GUI;
@@ -55,8 +67,9 @@ void SetBox(MenuSetting *, int, int, int);
 bool InitGUI(GUI *g);
 void DoGUI(GUI *g);
 void DrawMenu(GUI *g);
+void DrawGame(GUI *g);
 void HandleMouse(GUI *g, MEVENT e);
-
+void Cleanup(GUI *g);
 
 void mvhwall(int, int, wchar_t, wchar_t, wchar_t, int);
 void mvvwall(int, int, wchar_t, int);
