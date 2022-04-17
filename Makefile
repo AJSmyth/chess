@@ -10,4 +10,4 @@ $(OUT): $(OBJS)
 	gcc -c $(CFLAGS) $<
 
 clean:
-	rm *.o a
+	rm *.o $(OUT)

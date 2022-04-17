@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
 	printf("Select 1 for White and 2 for Black and 3 for Free Play: ");
 	scanf("%d",&a);
 	FillBoard(chessBoard);
-	GUI *gui = malloc(sizeof(MENU));
+	GUI *gui = malloc(sizeof(GUI));
 
 <<<<<<< HEAD
 	//If side chosen is White
@@ -146,11 +146,13 @@ int main(int argc, char *argv[]) {
 	*/	
 
 	InitGUI(gui);
+	DrawMenu(gui);
 
 	while (!done) {
 		DoGUI(gui);
 	}
 
+	printf("\033[?1003l\n");
 	free(chessBoard);
 	free(gui);
 	return 0;
