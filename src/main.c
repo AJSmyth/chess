@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
 	Board *chessBoard = malloc(sizeof(Board));
 	//Board *chessBoardCopy = malloc(sizeof(Board));
 	FillBoard(chessBoard);
-	GUI *gui = malloc(sizeof(MENU));
+	GUI *gui = malloc(sizeof(GUI));
 
 	bool done = false;
 	/*
@@ -35,11 +35,13 @@ int main(int argc, char *argv[]) {
 	*/	
 
 	InitGUI(gui);
+	DrawMenu(gui);
 
 	while (!done) {
 		DoGUI(gui);
 	}
 
+	printf("\033[?1003l\n");
 	free(chessBoard);
 	free(gui);
 	return 0;
