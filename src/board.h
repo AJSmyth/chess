@@ -14,6 +14,7 @@ typedef enum {
 } EPieceType;   
 
 typedef enum {
+	PROGRESS,
 	WHITE_WIN,
 	BLACK_WIN,
 	STALEMATE

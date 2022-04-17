@@ -150,10 +150,11 @@ int main(int argc, char *argv[]) {
 
 	while (!done) {
 		DoGUI(gui);
+		if (gui->state == EXITING) done = true;
 	}
-
-	printf("\033[?1003l\n");
+		
+	Cleanup(gui);
 	free(chessBoard);
-	free(gui);
+
 	return 0;
 }
