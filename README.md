@@ -4,7 +4,7 @@
 **Date**: 4/17/22 
 
 **General instructions**: Please look at install file to learn how to install. 
-#### compile the source files and create our executable
+#### go to source and compile the source files/create our executable
 ```
 make
 ```
