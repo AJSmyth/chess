@@ -6,6 +6,7 @@
 **General instructions**: Please look at install file to learn how to install. 
 #### go to src and compile the source files/create our executable
 ```
+cd src
 make
 ```
 
