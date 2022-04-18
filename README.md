@@ -4,13 +4,13 @@
 **Date**: 4/17/22 
 
 **General instructions**: Please look at install file to learn how to install. 
-#### go to src and compile the source files/create our executable
+#### in the src directory, compile the source files/create our executable
 ```
 cd src
 make
 ```
 
-#### run the executable
+#### run the executable in the bin directory
 ```
 cd bin
 ./chess
