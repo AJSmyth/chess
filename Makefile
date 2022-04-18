@@ -10,3 +10,6 @@ $(OUT): $(OBJS)
 
 clean:
     rm *.o $(OUT)
+
+test: $(OBJS)
+		gcc $(OBJS)  -DTEST $(CFLAGS) -o $(OUT)

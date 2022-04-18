@@ -17,7 +17,12 @@ int main(int argc, char *argv[]) {
 		char s0[3], s1[3];
 		scanf("%2s %2s", s0, s1);
 		//MOVE *moves[63];
+		#ifdef TEST
+		printf("Valid: %d | Move: %s %s", IsValid(s0[0] - 65, s0[1] - 49, s1[0] - 65, s1[1] - 49, chessBoard), s0, s1);
+		#else
 		Move(s0[0] - 65, s0[1] - 49, s1[0] - 65, s1[1] - 49, chessBoard);
+		#endif
+
 		PrintBoard(chessBoard);
 	}	
 	return 0;
