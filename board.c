@@ -6,7 +6,9 @@
 
 
 void PrintBoard(Board *b) {
+	#ifndef TEST	
 	system("clear");
+	#endif
 	printf("\n  ╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗\n");
 	for (int rank = 7; rank >= 0; --rank) {
 		printf("%d ║", rank + 1);
