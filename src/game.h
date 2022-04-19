@@ -29,4 +29,6 @@ void getValidMovesBishop(int, int, Board *, MOVE **);
 void getValidMovesPawn(int, int, Board *, MOVE **);
 void getValidMovesKing(int, int, Board *, MOVE **);
 
+void SimulateMove(Board *b1, Board *b2, Move *m);
+
 #endif

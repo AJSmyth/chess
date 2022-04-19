@@ -21,6 +21,7 @@ int main(int argc, char *argv[]) {
 		printf("Valid: %d | Move: %s %s", IsValid(s0[0] - 65, s0[1] - 49, s1[0] - 65, s1[1] - 49, chessBoard), s0, s1);
 		#else
 		Move(s0[0] - 65, s0[1] - 49, s1[0] - 65, s1[1] - 49, chessBoard);
+		//CopyBoard(chessBoard, chessBoardCopy);
 		#endif
 
 		PrintBoard(chessBoard);

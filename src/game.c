@@ -135,190 +135,123 @@ void getValidMovesKnight(int f0, int r0, Board *b, MOVE *moves[]) {
 
 void getValidMovesQueen(int f, int r, Board *b, MOVE *moves[]){
 	//MOVE *moves[63];
-	int curr_move = 0;
+		int curr_move = 0;
 	//check vertical line up
 	for(int i = r+1; i < 8; i++){
-		if(b->board[f][i]->color != NO_COLOR && b->board[f][i]->color == b->board[f][r]->color){
-			break;
-		}
+		
 		moves[curr_move] = malloc(sizeof(MOVE));
 		moves[curr_move]->r0 = r;
 		moves[curr_move]->f0 = f;
 		moves[curr_move]->r1 = i;
 		moves[curr_move]->f1 = f;
 		//b->board[f][i]->hl = 1;
-		if(!(b->board[f][i]->piece == EMPTY)){
-			break;
+		
+		if(b->board[f][i]->piece == EMPTY || b->board[f][i]->color != b->board[f][r]->color){
+			curr_move++;
 		}
-		curr_move++;
+		
 	}
 	//check vertical line down
 	for(int i = r-1; i >= 0; i--){
-		if(b->board[f][i]->color != NO_COLOR && b->board[f][i]->color == b->board[f][r]->color){
-			break;
-		}
+		
 		moves[curr_move] = malloc(sizeof(MOVE));
 		moves[curr_move]->r0 = r;
 		moves[curr_move]->f0 = f;
 		moves[curr_move]->r1 = i;
 		moves[curr_move]->f1 = f;
 		//b->board[f][i]->hl = 1;
-		if(!(b->board[f][i]->piece == EMPTY)){
-			break;
+
+		if(b->board[f][i]->piece == EMPTY || b->board[f][i]->color != b->board[f][r]->color){
+			curr_move++;
 		}
-		curr_move++;
 	}
 	//check horizontal line right
 	for(int i = f+1; i < 8; i++){
-		if(b->board[i][r]->color != NO_COLOR && b->board[i][r]->color == b->board[f][r]->color){
-			break;
-		}
+
 		moves[curr_move] = malloc(sizeof(MOVE));
 		moves[curr_move]->r0 = r;
 		moves[curr_move]->f0 = f;
 		moves[curr_move]->r1 = r;
 		moves[curr_move]->f1 = i;
 		//b->board[i][r]->hl = 1;
-		if(!(b->board[i][r]->piece == EMPTY)){
-			break;
+		if(b->board[i][r]->piece == EMPTY || b->board[i][r]->color != b->board[f][r]->color){
+			curr_move++;
 		}
-		curr_move++;
 	}
 	//check horizontal line left
 	for(int i = f-1; i >= 0; i--){
-		if(b->board[i][r]->color != NO_COLOR && b->board[i][r]->color == b->board[f][r]->color){
-			break;
-		}
+		
 		moves[curr_move] = malloc(sizeof(MOVE));
 		moves[curr_move]->r0 = r;
 		moves[curr_move]->f0 = f;
 		moves[curr_move]->r1 = r;
 		moves[curr_move]->f1 = i;
 		//b->board[i][r]->hl = 1;
-		if(!(b->board[i][r]->piece == EMPTY)){
-			break;
+
+		if(b->board[i][r]->piece == EMPTY || b->board[i][r]->color != b->board[f][r]->color){
+			curr_move++;
 		}
-		curr_move++;
 	}
 	//check diagonal top right
 	for(int i = f+1, j=r+1; i<8 && j<8; i++,j++){
-		if(b->board[i][j]->color != NO_COLOR && b->board[i][j]->color == b->board[f][r]->color){
-			break;
-		}
+	
 		moves[curr_move] = malloc(sizeof(MOVE));
 		moves[curr_move]->r0 = r;
 		moves[curr_move]->f0 = f;
 		moves[curr_move]->r1 = j;
 		moves[curr_move]->f1 = i;
 		//b->board[i][j]->hl = 1;
-		if(!(b->board[i][j]->piece == EMPTY)){
-			break;
+		if(b->board[i][j]->piece == EMPTY || b->board[i][j]->color != b->board[f][r]->color){
+			curr_move++;
 		}
-		curr_move++;
 	}
 	//check diagonal bottom right
 	for(int i = f+1, j=r-1; i<8 && j>=0; i++,j--){
-		if(b->board[i][j]->color != NO_COLOR && b->board[i][j]->color == b->board[f][r]->color){
-			break;
-		}
+		
 		moves[curr_move] = malloc(sizeof(MOVE));
 		moves[curr_move]->r0 = r;
 		moves[curr_move]->f0 = f;
 		moves[curr_move]->r1 = j;
 		moves[curr_move]->f1 = i;
 		//b->board[i][j]->hl = 1;
-		if(!(b->board[i][j]->piece == EMPTY)){
-			break;
+		if(b->board[i][j]->piece == EMPTY || b->board[i][j]->color != b->board[f][r]->color){
+			curr_move++;
 		}
-		curr_move++;
 	}
 	//check diagonal bottom left
 	for(int i = f-1, j=r-1; i>=0 && j>=0; i--,j--){
-		if(b->board[i][j]->color != NO_COLOR && b->board[i][j]->color == b->board[f][r]->color){
-			break;
-		}
+		
 		moves[curr_move] = malloc(sizeof(MOVE));
 		moves[curr_move]->r0 = r;
 		moves[curr_move]->f0 = f;
 		moves[curr_move]->r1 = j;
 		moves[curr_move]->f1 = i;
 		//b->board[i][j]->hl = 1;
-		if(!(b->board[i][j]->piece == EMPTY)){
-			break;
+		if(b->board[i][j]->piece == EMPTY || b->board[i][j]->color != b->board[f][r]->color){
+			curr_move++;
 		}
-		curr_move++;
 	}
 	//check diagonal top left
 	for(int i = f-1, j=r+1; i>=0 && j<8; i--,j++){
-		if(b->board[i][j]->color != NO_COLOR && b->board[i][j]->color == b->board[f][r]->color){
-			break;
-		}
+		
 		moves[curr_move] = malloc(sizeof(MOVE));
 		moves[curr_move]->r0 = r;
 		moves[curr_move]->f0 = f;
 		moves[curr_move]->r1 = j;
 		moves[curr_move]->f1 = i;
 		//b->board[i][j]->hl = 1;
-		if(!(b->board[i][j]->piece == EMPTY)){
-			break;
+		if(b->board[i][j]->piece == EMPTY || b->board[i][j]->color != b->board[f][r]->color){
+			curr_move++;
 		}
-		curr_move++;
 	}
 }
+
 
 void getValidMovesRook(int f0, int r0, Board *b, MOVE *moves[]) {
 	//MOVE *moves[VALID_MOVE_SIZE];
 	
 	int f = f0, r = r0 + 1, moveCount = 0;
 	
-	//Castling First White Rook
-	if (f0 == 7 && r0 == 0 && b->board[f0][r0]->color == WHITE && b->board[f0-1][r0]->piece == EMPTY && b->board[f0-2][r0]->piece == EMPTY)
-    	{
-        moves[moveCount] = malloc(sizeof(MOVE));
-        moves[moveCount]->f0 = f0;
-        moves[moveCount]->r0 = r0;
-        moves[moveCount]->f1 = 5;
-        moves[moveCount]->r1 = 1;
-        //b->board[5][0]->hl = 1;
-        moveCount++;
-    	}
-
-	//Castling Second White Rook
-	if (f0 == 0 && r0 == 0 && b->board[f0][r0]->color == WHITE && b->board[f0+1][r0]->piece == EMPTY && b->board[f0+2][r0]->piece == EMPTY && b->board[f0+3][r0]->piece == EMPTY)
-    	{
-        moves[moveCount] = malloc(sizeof(MOVE));
-        moves[moveCount]->f0 = f0;
-        moves[moveCount]->r0 = r0;
-        moves[moveCount]->f1 = 3;
-        moves[moveCount]->r1 = 0;
-        //b->board[3][0]->hl = 1;
-        moveCount++;
-    	}
-	
-	//Castling First Black Rook
-        if (f0 == 7 && r0 == 7 && b->board[f0][r0]->color == BLACK && b->board[f0-1][r0]->piece == EMPTY && b->board[f0-2][r0]->piece == EMPTY)
-    	{
-        moves[moveCount] = malloc(sizeof(MOVE));
-        moves[moveCount]->f0 = f0;
-        moves[moveCount]->r0 = r0;
-        moves[moveCount]->f1 = 5;
-        moves[moveCount]->r1 = 7;
-        //b->board[5][7]->hl = 1;
-        moveCount++;
-    	}
- 
-	//Castling Second Black Rook
-        if (f0 == 0 && r0 == 7 && b->board[f0][r0]->color == BLACK && b->board[f0+1][r0]->piece == EMPTY && b->board[f0+2][r0]->piece == EMPTY && b->board[f0+3][r0]->piece == EMPTY)
-    	{
-        moves[moveCount] = malloc(sizeof(MOVE));
-        moves[moveCount]->f0 = f0;
-        moves[moveCount]->r0 = r0;
-        moves[moveCount]->f1 = 3;
-        moves[moveCount]->r1 = 7;
-        //b->board[3][7]->hl = 1;
-        moveCount++;
-    	} 
-
 	//check above
 	for (; r < 8; ++r) {
 		//if (!IsInCheck(f0, r0, f, r, b)) {
@@ -330,14 +263,11 @@ void getValidMovesRook(int f0, int r0, Board *b, MOVE *moves[]) {
 			moves[moveCount]->r1 = r;
 
 			//b->board[f][r]->hl = 1;
-			if (b->board[f][r]->piece != EMPTY)
-				break;
 		}
 		else { 
 			break;
 		}
-		moveCount++;
-		//}				
+		moveCount++;			
 	}
 
 	//check below
@@ -352,15 +282,12 @@ void getValidMovesRook(int f0, int r0, Board *b, MOVE *moves[]) {
 			moves[moveCount]->r1 = r;
 
 			//b->board[f][r]->hl = 1;
-			if (b->board[f][r]->piece != EMPTY)
-				break;
 		}
 		else {
 			break;
 		}
 
 		moveCount++;
-		//}				
 	}
 
 	//check right
@@ -375,13 +302,10 @@ void getValidMovesRook(int f0, int r0, Board *b, MOVE *moves[]) {
 			moves[moveCount]->r1 = r;
 
 			//b->board[f][r]->hl = 1;
-			if (b->board[f][r]->piece != EMPTY)
-				break;
 		}
 		else break;
 
-		moveCount++;
-		//}				
+		moveCount++;			
 	}
 
 	//check left
@@ -396,13 +320,10 @@ void getValidMovesRook(int f0, int r0, Board *b, MOVE *moves[]) {
 			moves[moveCount]->r1 = r;
 
 			//b->board[f][r]->hl = 1;
-			if (b->board[f][r]->piece != EMPTY)
-				break;
 		}
 		else break;
 
-		moveCount++;
-		//}				
+		moveCount++;			
 	}
 	
 	//return moves;
@@ -410,84 +331,70 @@ void getValidMovesRook(int f0, int r0, Board *b, MOVE *moves[]) {
 
 //SEGMENTATION FAULT NEEDS MORE DEBUGGING
 void getValidMovesBishop(int f, int r, Board *b, MOVE * moves[]){
-	int curr_move = 0;
+	int moveCount = 0;
 
 	//check diagonal top right
 	for (int i = f+1, j= r+1; i < 8 && j < 8; i++, j++){
 		if (b->board[f][r]->color != b->board[i][j]->color){
 
-			moves[curr_move] = malloc(sizeof(MOVE));
-			moves[curr_move]->r0 = r; 
-			moves[curr_move]->f0 = f;
-			moves[curr_move]->r1 = j;
-			moves[curr_move]->f1 = i;
+			moves[moveCount] = malloc(sizeof(MOVE));
+			moves[moveCount]->r0 = r; 
+			moves[moveCount]->f0 = f;
+			moves[moveCount]->r1 = j;
+			moves[moveCount]->f1 = i;
 			//b->board[i][j]->hl = 1;
+		}
 
-			if (b->board[i][j]->piece != EMPTY){
-				break;
-			}
-
-		}else break;
-
-		curr_move++;
+		else break;
+		
+		moveCount++;
 
 	}
 	//check diagonal bottom right
 	for (int i = f+1, j= r-1; i < 8 && j>=0; i++, j--){
 		if (b->board[f][r]->color != b->board[i][j]->color){
 
-			moves[curr_move] = malloc(sizeof(MOVE));
-			moves[curr_move]->r0 = r;
-			moves[curr_move]->f0 = f;
-			moves[curr_move]->r1 = j;
-			moves[curr_move]->f1 = i;
+			moves[moveCount] = malloc(sizeof(MOVE));
+			moves[moveCount]->r0 = r;
+			moves[moveCount]->f0 = f;
+			moves[moveCount]->r1 = j;
+			moves[moveCount]->f1 = i;
 			//b->board[i][j]->hl = 1;
+		}
 
-			if (b->board[i][j]->piece != EMPTY){
-				break;
-			}
-
-		}else break;
+		else break;
 		
-		curr_move++;
+		moveCount++;
 	}
 	//check diagonal bottom left
 	for (int i = f-1, j= r-1; i >= 0 && j >= 0; i--, j--){
 		if (b->board[f][r]->color != b->board[i][j]->color){
 
-			moves[curr_move] = malloc(sizeof(MOVE));
-			moves[curr_move]->r0 = r;
-			moves[curr_move]->f0 = f;
-			moves[curr_move]->r1 = j;
-			moves[curr_move]->f1 = i;
+			moves[moveCount] = malloc(sizeof(MOVE));
+			moves[moveCount]->r0 = r;
+			moves[moveCount]->f0 = f;
+			moves[moveCount]->r1 = j;
+			moves[moveCount]->f1 = i;
 			//b->board[i][j]->hl = 1;
+		}
+		else break;
 
-			if (b->board[i][j]->piece != EMPTY){
-				break;
-			}
-			
-		}else break;
-
-		curr_move++;
+		moveCount++;
 	}
 	//check diagonal top left
 	for (int i = f-1, j= r+1; i>=0 && j < 8; i--, j++){
 		if (b->board[f][r]->color != b->board[i][j]->color){
 
-			moves[curr_move] = malloc(sizeof(MOVE));
-			moves[curr_move]->r0 = r;
-			moves[curr_move]->f0 = f;
-			moves[curr_move]->r1 = j;
-			moves[curr_move]->f1 = i;
+			moves[moveCount] = malloc(sizeof(MOVE));
+			moves[moveCount]->r0 = r;
+			moves[moveCount]->f0 = f;
+			moves[moveCount]->r1 = j;
+			moves[moveCount]->f1 = i;
 			//b->board[i][j]->hl = 1;
+		}
+		else break;
 
-			if (b->board[i][j]->piece != EMPTY){
-				break;
-			}
-
-		}else break;
-
-		curr_move++;
+		moveCount++;
 	}
 }
 
@@ -845,12 +752,17 @@ void getValidMovesPawn(int f0, int r0, Board *b, MOVE *moves[]){
 }
 
 bool IsInCheck(int f0, int r0, int f1, int r1, Board *b) {
-	/*
-	MOVE *valid[63];
+	Board *b2 = malloc(sizeof(Board));
+	MOVE *m = malloc(sizeof(MOVE));
+	m->f0 = f0;
+	m->r0 = r0;
+	m->f1 = f1;
+	m->r1 = r1;
+	SimulateMove(b, b2, m);
 	for(int f = 0; f < 8; f++){
 		for(int r = 0; r < 8; r++){
-			if(b[f][r]->Piece != EMPTY){
-				switch (b->board[f0][r0]->piece) {
+			if(b2[f][r]->Piece != EMPTY){
+				switch (b2->board[f0][r0]->piece) {
 				case QUEEN:
 					getValidMovesQueen(f0, r0, b, valid);
 				case ROOK:
@@ -864,12 +776,14 @@ bool IsInCheck(int f0, int r0, int f1, int r1, Board *b) {
 				case KING:
 					getValidMovesKing(f0, r0, b, valid);
 				default:
-					return false;
+					continue;
 				}
 
 				for(int i = 0; i < VALID_MOVE_SIZE; i++){
 					if(valid[i]){
-						if(b->board[valid[i]->f1][valid[i]->r1]->Piece == KING){
+						if(b2->board[valid[i]->f1][valid[i]->r1]->Piece == KING){
+							printf("There is a check!!!!!!");
+							DeleteBoard(b2);
 							return true;
 						}
 					}
@@ -877,7 +791,7 @@ bool IsInCheck(int f0, int r0, int f1, int r1, Board *b) {
 			}
 		}
 	}
-	*/
+	DeleteBoard(b2);
 	return false;
 }
 
@@ -950,3 +864,10 @@ void Castling (int f0, int r0, int f1, int r1, Board *b)
 
 
 }
+
+void SimulateMove(Board *b1, Board *b2, MOVE *m){
+	CopyBoard(b1, b2);
+	Move(m->f0, m->r0, m->f1, m->r1, b2);
+}
+
+
