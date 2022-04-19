@@ -703,7 +703,7 @@ void getValidMovesPawn(int f0, int r0, Board *b, MOVE *moves[]){
 			//b->board[f][r]->hl = 1;
 			moveCount++;	
 			//}
-		
+		    
 		}
 		//check to see if white pawn can capture right diagonally
 		f = f0+1, r = r0 +1; //right diagonal
@@ -731,13 +731,38 @@ void getValidMovesPawn(int f0, int r0, Board *b, MOVE *moves[]){
 			moveCount++;	
 		}
 		//}
+		//PROMOTION FOR WHITE PAWN
+		if(r == 7){ //IF WHITE PAWN REACHES RANK 8 (7 in the array) THEN PROMOTE PIECE 
+		 char promoteTo;
+		 scanf("%c", &promoteTo);
+		 switch(promoteTo){
+			 case 'Q':
+			 b->board[f][r]->piece = QUEEN;
+			 break;
+
+			  case 'B':
+			 b->board[f][r]->piece = BISHOP;
+			 break;
+
+			  case 'N':
+			 b->board[f][r]->piece = KNIGHT;
+			 break;
+
+			  case 'R':
+			 b->board[f][r]->piece = ROOK;
+			 break;
+			 default: 
+			 b->board[f][r]->piece = QUEEN;
+            }
+
+		}
+
 	}
 	//FOR BLACK PAWN
 	if(b-> board[f0][r0]->color == BLACK){
 		//check to see if black pawn can move forward two spaces 
 		int f = f0, r = r0 - 2, moveCount = 0;
 		if(r0 == 6 && b->board[f0][r0-2]->piece == EMPTY){
-			int f = f0, r = r0 - 2, moveCount = 0;
 			//if(!IsInCheck(f0, r0, f, r, b)){
 			moves[moveCount] = malloc(sizeof(MOVE));
 			moves[moveCount] -> f0 = f0;
@@ -790,6 +815,32 @@ void getValidMovesPawn(int f0, int r0, Board *b, MOVE *moves[]){
 			moveCount++;	
 		}
 		//}
+		//PROMOTION FOR BLACK PAWN
+		if(r == 0){ //IF BLACK PAWN REACHES RANK 1 (0 in the array) THEN PROMOTE PIECE 
+		 char promoteTo;
+		 scanf("%c", &promoteTo);
+		 switch(promoteTo){
+			 case 'Q':
+			 b->board[f][r]->piece = QUEEN;
+			 break;
+
+			  case 'B':
+			 b->board[f][r]->piece = BISHOP;
+			 break;
+
+			  case 'N':
+			 b->board[f][r]->piece = KNIGHT;
+			 break;
+
+			  case 'R':
+			 b->board[f][r]->piece = ROOK;
+			 break;
+			 default: 
+			 b->board[f][r]->piece = QUEEN;
+            }
+
+		}
+		
 	}
 }
 

@@ -30,6 +30,7 @@ typedef struct {
 	EColor color;
 	EPieceType piece;	
 	bool hl;
+	int counter;
 } Piece;
 
 typedef struct {
