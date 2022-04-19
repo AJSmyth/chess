@@ -41,5 +41,7 @@ typedef struct {
 void PrintBoard(Board *board);
 void FillBoard(Board *board);
 void FillBoardTest(Board *board);
+void CopyBoard(Board *b1, Board *b2);
+void DeleteBoard(Board *b);
 wchar_t GetUnicode(EPieceType, EColor);
 #endif

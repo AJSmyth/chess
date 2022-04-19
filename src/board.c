@@ -141,3 +141,25 @@ wchar_t GetUnicode(EPieceType piece, EColor color) {
 		}
 	}
 }
+
+void CopyBoard(Board *b1, Board *b2){
+	for(int i = 0; i<8; i++){
+		for(int j = 0; j<8; j++){
+			Piece *clone = malloc(sizeof(Piece));
+			clone->piece = b1->board[i][j]->piece;
+			clone->color = b1->board[i][j]->color;
+			free(b2->board[i][j]);
+			b2->board[i][j] = clone;
+		}
+	}
+}
+
+void DeleteBoard(Board *b){
+	for(int i = 0; i<8; i++){
+		for(int j = 0; j<8; j++){
+			free(b->board[i][j]);
+		}
+	}
+	free(b);
+	b= NULL;
+}

@@ -74,7 +74,7 @@ bool IsValid(int f0, int r0, int f1, int r1, Board *b) {
 			getValidMovesKing(f0, r0, b, valid);
 			break;
 		default:
-			return true;
+			return false;
 	}
 
 	for(int i = 0; i < VALID_MOVE_SIZE; i++){
@@ -782,12 +782,17 @@ void getValidMovesPawn(int f0, int r0, Board *b, MOVE *moves[]){
 }
 
 bool IsInCheck(int f0, int r0, int f1, int r1, Board *b) {
-	/*
-	MOVE *valid[63];
+	Board *b2 = malloc(sizeof(Board));
+	MOVE *m = malloc(sizeof(MOVE));
+	m->f0 = f0;
+	m->r0 = r0;
+	m->f1 = f1;
+	m->r1 = r1;
+	SimulateMove(b, b2, m);
 	for(int f = 0; f < 8; f++){
 		for(int r = 0; r < 8; r++){
-			if(b[f][r]->Piece != EMPTY){
-				switch (b->board[f0][r0]->piece) {
+			if(b2[f][r]->Piece != EMPTY){
+				switch (b2->board[f0][r0]->piece) {
 				case QUEEN:
 					getValidMovesQueen(f0, r0, b, valid);
 				case ROOK:
@@ -801,12 +806,14 @@ bool IsInCheck(int f0, int r0, int f1, int r1, Board *b) {
 				case KING:
 					getValidMovesKing(f0, r0, b, valid);
 				default:
-					return false;
+					continue;
 				}
 
 				for(int i = 0; i < VALID_MOVE_SIZE; i++){
 					if(valid[i]){
-						if(b->board[valid[i]->f1][valid[i]->r1]->Piece == KING){
+						if(b2->board[valid[i]->f1][valid[i]->r1]->Piece == KING){
+							printf("There is a check!!!!!!");
+							DeleteBoard(b2);
 							return true;
 						}
 					}
@@ -814,7 +821,7 @@ bool IsInCheck(int f0, int r0, int f1, int r1, Board *b) {
 			}
 		}
 	}
-	*/
+	DeleteBoard(b2);
 	return false;
 }
 
@@ -887,3 +894,10 @@ void Castling (int f0, int r0, int f1, int r1, Board *b)
 
 
 }
+
+void SimulateMove(Board *b1, Board *b2, MOVE *m){
+	CopyBoard(b1, b2);
+	Move(m->f0, m->r0, m->f1, m->r1, b2);
+}
+
+
