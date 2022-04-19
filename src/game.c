@@ -551,10 +551,13 @@ void getValidMovesKing(int f,int r, Board *b, MOVE *moves[]){
 	moves[current_move]->f1 = f;
 	moves[current_move]->r1 = r+1;
 	
-	if (b->board[f][r+1]->piece == EMPTY && r+1 <= 7)
-	{ 
-		current_move ++;
-		//b->board[f][r+1]->hl = 1;
+	if (r+1 <= 7)
+	{
+		if (b->board[f][r+1]->piece || b->board[f][r]->color != b->board[f][r+1]->color)
+		{ 
+			current_move ++;
+			//b->board[f][r+1]->hl = 1;
+		}
 	}
 
 	//Check 1 space below
@@ -566,7 +569,7 @@ void getValidMovesKing(int f,int r, Board *b, MOVE *moves[]){
 		
 	if (r-1 >= 0)
 	{
-		if (b->board[f][r-1]->piece == EMPTY)
+		if (b->board[f][r-1]->piece == EMPTY || b->board[f][r]->color != b->board[f][r-1]->color)
 		{ 
 			current_move ++;
 			//b->board[f][r-1]->hl = 1;
@@ -582,7 +585,7 @@ void getValidMovesKing(int f,int r, Board *b, MOVE *moves[]){
 
 	if (f-1 >= 0)
 	{
-		if (b->board[f-1][r]->piece == EMPTY)
+		if (b->board[f-1][r]->piece == EMPTY || b->board[f][r]->color != b->board[f-1][r]->color)
 		{ 
 			current_move ++;
 			//b->board[f-1][r]->hl = 1;
@@ -598,7 +601,7 @@ void getValidMovesKing(int f,int r, Board *b, MOVE *moves[]){
 	
 	if (f+1 <= 7)
 	{
-		if (b->board[f+1][r]->piece == EMPTY)
+		if (b->board[f+1][r]->piece == EMPTY || b->board[f][r]->color != b->board[f+1][r]->color)
 		{ 
 			current_move ++;
 			//b->board[f+1][r]->hl = 1;
@@ -614,7 +617,7 @@ void getValidMovesKing(int f,int r, Board *b, MOVE *moves[]){
 
 	if (r+1 <= 7 && f+1 <= 7)
 	{
-		if (b->board[f+1][r+1]->piece == EMPTY)
+		if (b->board[f+1][r+1]->piece == EMPTY || b->board[f][r]->color != b->board[f+1][r+1]->color)
 		{ 
 			current_move ++;
 			//b->board[f+1][r+1]->hl = 1;
@@ -630,7 +633,7 @@ void getValidMovesKing(int f,int r, Board *b, MOVE *moves[]){
 	
 	if (r+1 <= 7 && f-1 >=0)
 	{
-		if (b->board[f-1][r+1]->piece == EMPTY)
+		if (b->board[f-1][r+1]->piece == EMPTY || b->board[f][r]->color != b->board[f-1][r+1]->color)
 		{ 
 			current_move ++;
 			//b->board[f-1][r+1]->hl = 1;
@@ -646,7 +649,7 @@ void getValidMovesKing(int f,int r, Board *b, MOVE *moves[]){
 	
 	if (r-1 >= 0 && f+1 <= 7)
 	{
-		if (b->board[f+1][r-1]->piece == EMPTY)
+		if (b->board[f+1][r-1]->piece == EMPTY || b->board[f][r]->color != b->board[f+1][r-1]->color)
 		{ 
 			current_move ++;
 			//b->board[f+1][r-1]->hl = 1;
@@ -662,7 +665,7 @@ void getValidMovesKing(int f,int r, Board *b, MOVE *moves[]){
 	
 	if (r-1 >= 0 && f-1 >= 0)
 	{
-		if (b->board[f-1][r-1]->piece == EMPTY)
+		if (b->board[f-1][r-1]->piece == EMPTY || b->board[f][r]->color != b->board[f-1][r-1]->color)
 		{ 
 			current_move ++;
 			//b->board[f-1][r-1]->hl = 1;
