@@ -12,6 +12,14 @@ char *Move(int f0, int r0, int f1, int r1, Board *b) {
 		//store the moving piece temporarily
 		Piece *p = b->board[f0][r0];
 		
+		if(b->board[f0][r0]->color == BLACK){
+			b->currentPlayerTurn = WHITE;
+			//printf("changing to white");
+		}else{
+			b->currentPlayerTurn = BLACK;
+			//printf("changing to black");
+		}
+
 		//normal move
 		if (b->board[f1][r1]->piece == EMPTY) {
 			b->board[f0][r0] = b->board[f1][r1];
@@ -30,6 +38,7 @@ char *Move(int f0, int r0, int f1, int r1, Board *b) {
 			b->board[f0][r0]->piece = EMPTY;
 			b->board[f0][r0]->color = NO_COLOR;
 		}
+
 	}else{
 		printf("Invalid move!\n");
 	}
@@ -74,7 +83,7 @@ bool IsValid(int f0, int r0, int f1, int r1, Board *b) {
 			getValidMovesKing(f0, r0, b, valid);
 			break;
 		default:
-			return true;
+			return false;
 	}
 
 	for(int i = 0; i < VALID_MOVE_SIZE; i++){

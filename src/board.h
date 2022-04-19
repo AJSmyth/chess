@@ -35,6 +35,8 @@ typedef struct {
 typedef struct {
 	//board[file][rank], [0][0] corresponds to A1, [7][7] to H8  
 	Piece *board[8][8];
+	EColor currentPlayerTurn;
+	EGameState gameState;
 } Board;
 
 //Test functions
