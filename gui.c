@@ -25,6 +25,7 @@ bool InitGUI(GUI *g) {
 
 	//setup menu and options
 	g->menu = malloc(sizeof(Menu));
+	g->game = malloc(sizeof(Game));
 	g->menu->size = 2;
 	g->menu->settings = calloc(2, sizeof(MenuSetting *));
 
@@ -177,7 +178,7 @@ void DrawMenu(GUI *g) {
 	}
 		
 	//print the start button
-	//mvprintw(g->menu->start.y0, g->menu->start.x0, "START GAME");
+	mvprintw(g->menu->start.y0, g->menu->start.x0, "START GAME");
 	
 	//print the quit button
 	mvprintw(g->menu->exit.y0, g->menu->exit.x0, "QUIT");
@@ -209,9 +210,16 @@ void DrawGame(GUI *g) {
 	
 	//setup chess board window
 	//35w 17h
-	int bh = 17, bw = 35;
-	g->game->bWin = newwin(bh, bw, (g->y - bh)/2, (g->x - bw)/2);
-	box(g->game->bWin, 0, 0);
+	g->game->boardBound.y0 = (g->y - 17)/2;
+	g->game->boardBound.x0 = (g->x - 35)/2;
+	g->game->boardBound.y1 = g->game->boardBound.y0 + 1;
+	g->game->boardBound.x1 = g->game->boardBound.x0 + 35;
+	
+	g->game->bWin = newwin(g->game->boardBound.y0, g->game->boardBound.x0, g->game->boardBound.y1, g->game->boardBound.x1);
+	
+	mvvwall(g->game->boardBound.y0, g->game->boardBound.x0, 0x2502, 17);
+	mvvwall(g->game->boardBound.y0, g->game->boardBound.x1, 0x2502, 17);
+
 
 	wrefresh(g->game->bWin);
 	refresh();
@@ -232,7 +240,11 @@ void HandleMouse(GUI *g, MEVENT e) {
 				}
 			}
 
-			//if (IsInBox(e.y, e.x, g->menu->start)) g->state = GAME;
+			if (IsInBox(e.y, e.x, g->menu->start)) {
+				clear();
+			       	g->state = GAME;
+			}
+
 			if (IsInBox(e.y, e.x, g->menu->exit)) g->state = EXITING;
 		break;
 	}
@@ -264,6 +276,7 @@ void mvvwall(int y, int x, wchar_t w, int n) {
 	cchar_t *c = malloc(sizeof(cchar_t));
 	c->chars[0] = w;
 	c->chars[1] = L'\0';
+	c->attr = A_NORMAL;
 	
 	for (int i = 0; i < n; ++i) mvadd_wch(y + i, x, c);
 	free(c);

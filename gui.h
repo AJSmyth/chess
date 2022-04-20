@@ -51,6 +51,8 @@ typedef struct {
 typedef struct {
 	//board window
 	WINDOW *bWin;
+	Box boardBound;
+
 	Board *board;
 	EGameState state;
 } Game;
