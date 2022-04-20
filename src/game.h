@@ -15,6 +15,7 @@ typedef struct {
 } MOVE;
 
 char *Move(int f0, int r0, int f1, int r1, Board *b);
+void RawMove(int f0, int r0, int f1, int r1, Board *b);
 bool IsValid(int f0, int r0, int f1, int r1, Board *b);
 bool IsInCheck(int f0, int r0, int f1, int r1, Board *b);
 bool IsMated(int f0, int r0, int f1, int r1, Board *b);
@@ -29,6 +30,6 @@ void getValidMovesBishop(int, int, Board *, MOVE **);
 void getValidMovesPawn(int, int, Board *, MOVE **);
 void getValidMovesKing(int, int, Board *, MOVE **);
 
-void SimulateMove(Board *b1, Board *b2, Move *m);
+void SimulateMove(Board *b1, Board *b2, MOVE *m);
 
 #endif

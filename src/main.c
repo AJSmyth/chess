@@ -8,6 +8,7 @@
 int main(int argc, char *argv[]) {
 	setlocale(LC_CTYPE,"");	
 	Board *chessBoard = malloc(sizeof(Board));
+	//Board *chessBoardCopy = malloc(sizeof(Board));
 	FillBoard(chessBoard);
 	PrintBoard(chessBoard);
 

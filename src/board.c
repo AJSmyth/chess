@@ -157,7 +157,9 @@ void CopyBoard(Board *b1, Board *b2){
 void DeleteBoard(Board *b){
 	for(int i = 0; i<8; i++){
 		for(int j = 0; j<8; j++){
-			free(b->board[i][j]);
+			if(b->board[i][j]){
+				free(b->board[i][j]);
+			}
 		}
 	}
 	free(b);
