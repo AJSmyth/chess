@@ -45,6 +45,7 @@ void FillBoard(Board *chessBoard) {
 		for (int rank = 0; rank < 8; ++rank) {
 			chessBoard->board[file][rank] = malloc(sizeof(Piece));
 			chessBoard->board[file][rank]->hl = 0;
+			chessBoard->board[file][rank]->counter = 0;
 		}
 		//fill empty tiles from A3 to H6
 		for (int rank = 1; rank <= 5; ++rank) {
