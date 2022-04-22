@@ -126,7 +126,7 @@ wchar_t GetUnicode(EPieceType piece, EColor color) {
 	else {
 		switch (piece) {
 			case PAWN:
-				return 0x265F;
+				return 0x2659; //0x265F;
 			case ROOK:
 			       return 0x265C;
 			case KNIGHT:
@@ -164,5 +164,5 @@ void DeleteBoard(Board *b){
 		}
 	}
 	free(b);
-	b= NULL;
+	b = NULL;
 }

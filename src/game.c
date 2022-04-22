@@ -98,10 +98,14 @@ bool IsValid(int f0, int r0, int f1, int r1, Board *b) {
 	}
 
 	for(int i = 0; i < VALID_MOVE_SIZE; i++){
-		if(valid[i]){
+		if(valid[i] != NULL){
 			if(valid[i]->r1 == r1 && valid[i]->f1 == f1 && !IsInCheck(f0,r0,f1,r1,b)){
+				free(valid[i]);
+				valid[i] = NULL;
 				return true;
 			}
+			free(valid[i]);
+			valid[i] = NULL;
 		}else{
 			return false;
 		}
@@ -222,6 +226,9 @@ void getValidMovesQueen(int f, int r, Board *b, MOVE *moves[]){
 			moves[curr_move]->r1 = i;
 			moves[curr_move]->f1 = f;
 			curr_move++;
+			if(b->board[f][i]->piece != EMPTY){
+				break;
+			}
 		}else{
 			break;
 		}
@@ -236,6 +243,9 @@ void getValidMovesQueen(int f, int r, Board *b, MOVE *moves[]){
 			moves[curr_move]->r1 = i;
 			moves[curr_move]->f1 = f;
 			curr_move++;
+			if(b->board[f][i]->piece != EMPTY){
+				break;
+			}
 		}else{
 			break;
 		}
@@ -250,6 +260,9 @@ void getValidMovesQueen(int f, int r, Board *b, MOVE *moves[]){
 			moves[curr_move]->r1 = r;
 			moves[curr_move]->f1 = i;
 			curr_move++;
+			if(b->board[i][r]->piece != EMPTY){
+				break;
+			}
 		}else{
 			break;
 		}
@@ -264,6 +277,9 @@ void getValidMovesQueen(int f, int r, Board *b, MOVE *moves[]){
 			moves[curr_move]->r1 = r;
 			moves[curr_move]->f1 = i;
 			curr_move++;
+			if(b->board[i][r]->piece != EMPTY){
+				break;
+			}
 		}else{
 			break;
 		}
@@ -278,6 +294,9 @@ void getValidMovesQueen(int f, int r, Board *b, MOVE *moves[]){
 			moves[curr_move]->r1 = j;
 			moves[curr_move]->f1 = i;
 			curr_move++;
+			if(b->board[i][j]->piece != EMPTY){
+				break;
+			}
 		}else{
 			break;
 		}
@@ -292,6 +311,9 @@ void getValidMovesQueen(int f, int r, Board *b, MOVE *moves[]){
 			moves[curr_move]->r1 = j;
 			moves[curr_move]->f1 = i;
 			curr_move++;
+			if(b->board[i][j]->color != EMPTY){
+				break;
+			}
 		}else{
 			break;
 		}
@@ -306,6 +328,9 @@ void getValidMovesQueen(int f, int r, Board *b, MOVE *moves[]){
 			moves[curr_move]->r1 = j;
 			moves[curr_move]->f1 = i;
 			curr_move++;
+			if(b->board[i][j]->piece != EMPTY){
+				break;
+			}
 		}else{
 			break;
 		}
@@ -320,6 +345,9 @@ void getValidMovesQueen(int f, int r, Board *b, MOVE *moves[]){
 			moves[curr_move]->r1 = j;
 			moves[curr_move]->f1 = i;
 			curr_move++;
+			if(b->board[i][j]->piece != EMPTY){
+				break;
+			}
 		}else{
 			break;
 		}
@@ -343,6 +371,9 @@ void getValidMovesRook(int f0, int r0, Board *b, MOVE *moves[]) {
 			moves[moveCount]->r1 = r;
 			moveCount++;
 			//b->board[f][r]->hl = 1;
+			if (b->board[f][r]->piece != EMPTY) {
+				break;
+			}
 		}
 		else { 
 			break;
@@ -361,6 +392,9 @@ void getValidMovesRook(int f0, int r0, Board *b, MOVE *moves[]) {
 			moves[moveCount]->r1 = r;
 			moveCount++;
 			//b->board[f][r]->hl = 1;
+			if (b->board[f][r]->piece != EMPTY) {
+				break;
+			}
 		}
 		else {
 			break;
@@ -379,6 +413,9 @@ void getValidMovesRook(int f0, int r0, Board *b, MOVE *moves[]) {
 			moves[moveCount]->r1 = r;
 			moveCount++;
 			//b->board[f][r]->hl = 1;
+			if (b->board[f][r]->piece != EMPTY) {
+				break;
+			}
 		}
 		else break;			
 	}
@@ -395,6 +432,9 @@ void getValidMovesRook(int f0, int r0, Board *b, MOVE *moves[]) {
 			moves[moveCount]->r1 = r;
 			moveCount++;
 			//b->board[f][r]->hl = 1;
+			if (b->board[f][r]->piece != EMPTY) {
+				break;
+			}
 		}
 		else break;			
 	}
@@ -417,6 +457,9 @@ void getValidMovesBishop(int f, int r, Board *b, MOVE * moves[]){
 			moves[moveCount]->f1 = i;
 			moveCount++;
 			//b->board[i][j]->hl = 1;
+			if (b->board[i][j]->piece != EMPTY){
+				break;
+			}
 		}
 
 		else break;
@@ -433,6 +476,9 @@ void getValidMovesBishop(int f, int r, Board *b, MOVE * moves[]){
 			moves[moveCount]->f1 = i;
 			moveCount++;
 			//b->board[i][j]->hl = 1;
+			if (b->board[i][j]->piece != EMPTY){
+				break;
+			}
 		}
 
 		else break;
@@ -448,6 +494,9 @@ void getValidMovesBishop(int f, int r, Board *b, MOVE * moves[]){
 			moves[moveCount]->f1 = i;
 			moveCount++;
 			//b->board[i][j]->hl = 1;
+			if (b->board[i][j]->piece != EMPTY){
+				break;
+			}
 		}
 		else break;
 	}
@@ -462,6 +511,9 @@ void getValidMovesBishop(int f, int r, Board *b, MOVE * moves[]){
 			moves[moveCount]->f1 = i;
 			moveCount++;
 			//b->board[i][j]->hl = 1;
+			if (b->board[i][j]->piece != EMPTY){
+				break;
+			}
 		}
 		else break;
 	}
@@ -859,15 +911,24 @@ bool IsInCheck(int f0, int r0, int f1, int r1, Board *b) {
 
 				for(int j = 0; j < VALID_MOVE_SIZE; j++){
 					if(valid[j]){
-						printf("%d. %d %d -> %d %d\n", count++, valid[j]->f0, valid[j]->r0, valid[j]->f1, valid[j]->r1);
+						//printf("%d. %d %d -> %d %d\n", count++, valid[j]->f0, valid[j]->r0, valid[j]->f1, valid[j]->r1);
 						if(b2->board[valid[j]->f1][valid[j]->r1]->piece == KING){
+							printf("There is a check!");
+							//DeleteBoard(b2);
+							free(valid[j]);
+							valid[j] = NULL;
 							return true;
 						}
+						free(valid[j]);
+						valid[j] = NULL;
 					}
 				}
+
+				
 			}
 		}
 	}
+	//DeleteBoard(b2);
 	return false;
 }
 
