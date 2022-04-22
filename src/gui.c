@@ -82,6 +82,7 @@ bool InitGUI(GUI *g) {
 	//Setup game
 	g->game->board = malloc(sizeof(Board));
 	FillBoard(g->game->board);	
+	g->game->InitMove = false;
 
 	if (g->y < MIN_Y || g->x < MIN_X) return false;
 	else return true;
@@ -268,7 +269,28 @@ void HandleMouse(GUI *g, MEVENT e) {
 
 			if (IsInBox(e.y, e.x, g->menu->exit)) g->state = EXITING;
 		break;
+		case GAME:
+			//check if chess board interacted with
+			if (IsInBox(e.y, e.x, g->game->boardBound)) {
+				int x, y;
+				WinToBoard(g, e.y, e.x, &y, &x);
+
+				mvprintw(3,3,"(%d,%d)", x, y);
+				if (x != -1 && y != -1) {
+					if (!g->game->InitMove) {
+						g->game->InitMove = true;
+						g->game->iY = y;
+						g->game->iX = x;
+					}
+					else {
+						Move(g->game->iX, g->game->iY, x, y, g->game->board); 
+						g->game->InitMove = false;
+					}
+				}
+			}
+		break;
 	}
+			
 }
 
 
@@ -333,3 +355,17 @@ void SetBox(MenuSetting *s, int height, int width, int y) {
 		s->options[i]->bound.y1 = y;
 	}
 }
+
+
+//convert main window space to board
+void WinToBoard(GUI *g, int yw, int xw, int *yt, int *xt) {
+	//neeed to handle alternate board orientation
+	int x = xw, y = yw;
+
+	y -= g->game->boardBound.y0 + 1;
+	x -= g->game->boardBound.x0 + 4;
+
+	*yt = (y / 2 <= 7) ? y / 2 : -1;
+	*xt = (x % 4 < 3) ? x / 4 : -1;
+}
+	
