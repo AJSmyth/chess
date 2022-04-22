@@ -30,6 +30,9 @@ void getValidMovesBishop(int, int, Board *, MOVE **);
 void getValidMovesPawn(int, int, Board *, MOVE **);
 void getValidMovesKing(int, int, Board *, MOVE **);
 
+void MoveRandomBlack(Board *b);
+void MoveRandomWhite(Board *b);
+
 void SimulateMove(Board *b1, Board *b2, MOVE *m);
 
 #endif
