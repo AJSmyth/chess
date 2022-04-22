@@ -1,7 +1,8 @@
 #include "game.h"
 #include "board.h"
 #include <stdio.h>
-
+#include <time.h>
+#include <stdlib.h>
 
 const int VALID_MOVE_SIZE = 63;
 
@@ -108,6 +109,70 @@ bool IsValid(int f0, int r0, int f1, int r1, Board *b) {
 
 	//if the given move is not found in the valid moves
 	return false;
+}
+
+void MoveRandomBlack(Board *b)
+{
+	srand(time(NULL)); 
+	int a = rand() % 8; 
+	int e = rand() % 8; 
+	int c = rand() % 8; 
+	int d = rand() % 8; 
+	int count = 0;
+	while (1)
+	{	
+		a = rand() % 8; //Select a Random file for initial move
+		e = rand() % 8; //Select a Random rank for initial move
+
+		if(b->board[a][e]->color == BLACK)
+		{
+			for(count = 0; count <= 200; count++) 
+			//Repeat the loop 200 times to find a valid move
+			//200 is chosen randomly in order to avoid pieces which do not have any valid moves
+			//If there are no valid moves in 200 tries, the loop breaks
+			{
+				c = rand() % 8; //Select a Random file for final move
+				d = rand() % 8; //Select a Random rank for final move
+				if (IsValid(a,e,c,d,b))
+				{
+					Move(a,e,c,d,b);
+					return;
+				}
+			}
+		}
+	}
+}
+
+void MoveRandomWhite(Board *b)
+{
+	srand(time(NULL)); 
+	int a = rand() % 8; 
+	int e = rand() % 8; 
+	int c = rand() % 8; 
+	int d = rand() % 8; 
+	int count = 0;
+	while (1)
+	{	
+		a = rand() % 8; //Select a Random file for initial move
+		e = rand() % 8; //Select a Random rank for initial move
+
+		if(b->board[a][e]->color == WHITE)
+		{
+			for(count = 0; count <= 200; count++) 
+			//Repeat the loop 200 times to find a valid move
+			//200 is chosen randomly in order to avoid pieces which do not have any valid moves
+			//If there are no valid moves in 200 tries, the loop breaks
+			{
+				c = rand() % 8; //Select a Random file for final move
+				d = rand() % 8; //Select a Random rank for final move
+				if (IsValid(a,e,c,d,b))
+				{
+					Move(a,e,c,d,b);
+					return;
+				}
+			}
+		}
+	}
 }
 
 void getValidMovesKnight(int f0, int r0, Board *b, MOVE *moves[]) {
