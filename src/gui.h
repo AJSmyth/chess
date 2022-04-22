@@ -52,6 +52,8 @@ typedef struct {
 	//board window
 	WINDOW *bWin;
 	Box boardBound;
+	bool InitMove;
+	int iX, iY;
 
 	Board *board;
 	EGameState state;
@@ -72,6 +74,7 @@ void DrawMenu(GUI *g);
 void DrawGame(GUI *g);
 void HandleMouse(GUI *g, MEVENT e);
 void Cleanup(GUI *g);
+void WinToBoard(GUI *g, int yw, int xw, int *yt, int *xt);
 
 void mvhwall(int, int, wchar_t, wchar_t, wchar_t, int);
 void mvvwall(int, int, wchar_t, int);
