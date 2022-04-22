@@ -1092,7 +1092,10 @@ void CAN(int f0, int r0, int f1, int r1, Board *b){
 			if(IsInCheck(f0,r0,f1,r1,b)){
 				printf("+");
 			}
+
+			printf(" ");
 			break;
+		
 		case ROOK:
 			if (b->board[f0][r0]->isPromoted == true){
 
@@ -1113,7 +1116,11 @@ void CAN(int f0, int r0, int f1, int r1, Board *b){
 			if(IsInCheck(f0,r0,f1,r1,b)){
 				printf("+");
 			}
+
+			printf(" ");
+
 			break;
+		
 		case KNIGHT:
 			if (b->board[f0][r0]->isPromoted == true){
 
@@ -1135,6 +1142,10 @@ void CAN(int f0, int r0, int f1, int r1, Board *b){
 			if(IsInCheck(f0,r0,f1,r1,b)){
 				printf("+");
 			}
+
+
+			printf(" ");
+
 			break;
 		case BISHOP:
 			if (b->board[f0][r0]->isPromoted == true){
@@ -1164,6 +1175,9 @@ void CAN(int f0, int r0, int f1, int r1, Board *b){
 			}
 			break;
 
+
+			printf(" ");
+
 		case PAWN:
 
 			if (b->board[f0][r0]->isCapturing ==  true){
@@ -1175,12 +1189,11 @@ void CAN(int f0, int r0, int f1, int r1, Board *b){
 				printf("%c%d", 65+f1, r1+1);
 			}
 
-			/*
 			if(IsInCheck(f0,r0,f1,r1,b)){
 				printf("+");
 			}
-			*/
 
+			printf(" ");
 			break;
 		case KING:
 		
@@ -1194,6 +1207,9 @@ void CAN(int f0, int r0, int f1, int r1, Board *b){
 			if(IsInCheck(f0,r0,f1,r1,b)){
 				printf("+");
 			}
+
+			printf(" ");
+
 			break;
 		default:
 			printf("");
