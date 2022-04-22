@@ -83,6 +83,10 @@ bool InitGUI(GUI *g) {
 	g->game->board = malloc(sizeof(Board));
 	FillBoard(g->game->board);	
 	g->game->InitMove = false;
+	//EXIT BUTTON
+	g->game->exit.x0 = (g->x - 4)/2;
+	g->game->exit.x1 = g->game->exit.x0 + 3;
+	g->game->exit.y1 = g->game->exit.y0 = g->y - 3;	
 
 	if (g->y < MIN_Y || g->x < MIN_X) return false;
 	else return true;
@@ -242,6 +246,9 @@ void DrawGame(GUI *g) {
 	}
 	mvwaddstr(g->game->bWin, 16, 3, "╚═══╧═══╧═══╧═══╧═══╧═══╧═══╧═══╝");
 	mvwaddstr(g->game->bWin, 17, 3, "  H   G   F   E   D   C   B   A");
+	
+	//print the quit button
+	mvprintw(g->game->exit.y0, g->game->exit.x0, "QUIT");
 
 	refresh();
 	wrefresh(g->game->bWin);
@@ -275,7 +282,6 @@ void HandleMouse(GUI *g, MEVENT e) {
 				int x, y;
 				WinToBoard(g, e.y, e.x, &y, &x);
 
-				mvprintw(3,3,"(%d,%d)", x, y);
 				if (x != -1 && y != -1) {
 					if (!g->game->InitMove) {
 						g->game->InitMove = true;
@@ -287,6 +293,10 @@ void HandleMouse(GUI *g, MEVENT e) {
 						g->game->InitMove = false;
 					}
 				}
+			}
+			if (IsInBox(e.y, e.x, g->game->exit)) {
+			       erase();
+		       	       g->state = MENU;
 			}
 		break;
 	}

@@ -56,6 +56,7 @@ typedef struct {
 	int iX, iY;
 
 	Board *board;
+	Box exit;
 	EGameState state;
 } Game;
 
