@@ -34,5 +34,6 @@ void MoveRandomBlack(Board *b);
 void MoveRandomWhite(Board *b);
 
 void SimulateMove(Board *b1, Board *b2, MOVE *m);
+void CAN(int, int, int, int, Board *);
 
 #endif

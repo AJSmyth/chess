@@ -26,6 +26,7 @@ char *Move(int f0, int r0, int f1, int r1, Board *b) {
 
 		//normal move
 		if (b->board[f1][r1]->piece == EMPTY) {
+			CAN(f0, r0, f1, r1, b);
 			b->board[f0][r0] = b->board[f1][r1];
 			b->board[f1][r1] = p;
 			Castling (f0, r0, f1, r1, b);
@@ -36,6 +37,9 @@ char *Move(int f0, int r0, int f1, int r1, Board *b) {
 		
 		//capturing move
 		else {
+			b->board[f0][r0]->isCapturing = true; //so that CAN know that it is capturing
+			printf("%d\n", b->board[f0][r0]->isCapturing);
+			CAN(f0, r0, f1, r1, b);
 			Capture(f1, r1, b);
 			b->board[f1][r1] = p;
 			b->board[f0][r0] = malloc(sizeof(Piece));
@@ -765,21 +769,26 @@ void getValidMovesPawn(int f0, int r0, Board *b, MOVE *moves[]){
 		 scanf("%c", &promoteTo);
 		 switch(promoteTo){
 			 case 'Q':
+			 b->board[f][r]->isPromoted = true;
 			 b->board[f][r]->piece = QUEEN;
 			 break;
 
 			  case 'B':
+			 b->board[f][r]->isPromoted = true;
 			 b->board[f][r]->piece = BISHOP;
 			 break;
 
 			  case 'N':
+			 b->board[f][r]->isPromoted = true;
 			 b->board[f][r]->piece = KNIGHT;
 			 break;
 
 			  case 'R':
+			 b->board[f][r]->isPromoted = true;
 			 b->board[f][r]->piece = ROOK;
 			 break;
 			 default: 
+			 b->board[f][r]->isPromoted = true;
 			 b->board[f][r]->piece = QUEEN;
             }
 
@@ -849,21 +858,26 @@ void getValidMovesPawn(int f0, int r0, Board *b, MOVE *moves[]){
 		 scanf("%c", &promoteTo);
 		 switch(promoteTo){
 			 case 'Q':
+			 b->board[f][r]->isPromoted = true;
 			 b->board[f][r]->piece = QUEEN;
 			 break;
 
 			  case 'B':
+			 b->board[f][r]->isPromoted = true;
 			 b->board[f][r]->piece = BISHOP;
 			 break;
 
 			  case 'N':
+			 b->board[f][r]->isPromoted = true;
 			 b->board[f][r]->piece = KNIGHT;
 			 break;
 
 			  case 'R':
+			 b->board[f][r]->isPromoted = true;
 			 b->board[f][r]->piece = ROOK;
 			 break;
 			 default: 
+			 b->board[f][r]->isPromoted = true;
 			 b->board[f][r]->piece = QUEEN;
             }
 
@@ -993,3 +1007,134 @@ void RawMove(int f0, int r0, int f1, int r1, Board *b){
 	}
 }
 
+
+void CAN(int f0, int r0, int f1, int r1, Board *b){
+
+	printf("HI IM CAN\n");
+	switch(b->board[f0][r0]->piece){
+		case QUEEN:
+			if (b->board[f0][r0]->isPromoted == true){
+
+				if (b->board[f0][r0]->isCapturing ==  true){
+					printf("x%c%d=Q", 65+f1, r1);
+				}else {
+					printf("%c%d=Q", 65+f1, r1);
+					b->board[f0][r0]->isCapturing =  false;
+				}
+			} else if (b->board[f0][r0]->isCapturing ==  true){
+				printf("Qx%c%d", 65+f1, r1);
+				b->board[f0][r0]->isCapturing =  false;
+
+			} else {
+				printf("Q%c%d", 65+f1, r1);
+			}
+
+			if(IsInCheck(f0,r0,f1,r1,b)){
+				printf("+");
+			}
+			break;
+		case ROOK:
+			if (b->board[f0][r0]->isPromoted == true){
+
+				if (b->board[f0][r0]->isCapturing ==  true){
+					printf("x%c%d=R", 65+f1, r1);
+				}else {
+					printf("%c%d=R", 65+f1, r1);
+					b->board[f0][r0]->isCapturing =  false;
+				}
+			} else if (b->board[f0][r0]->isCapturing ==  true){
+				printf("Rx%c%d", 65+f1, r1);
+				b->board[f0][r0]->isCapturing =  false;
+
+			}else{
+				printf("R%c%d", 65+f1, r1);
+			}
+
+			if(IsInCheck(f0,r0,f1,r1,b)){
+				printf("+");
+			}
+			break;
+		case KNIGHT:
+			if (b->board[f0][r0]->isPromoted == true){
+
+				if (b->board[f0][r0]->isCapturing ==  true){
+					printf("x%c%d=N", 65+f1, r1);
+				}else {
+					printf("%c%d=N", 65+f1, r1);
+					b->board[f0][r0]->isCapturing =  false;
+				}
+
+			} else if (b->board[f0][r0]->isCapturing ==  true){
+				printf("Nx%c%d", 65+f1, r1);
+				b->board[f0][r0]->isCapturing =  false;
+
+			} else{
+				printf("N%c%d", 65+f1, r1);
+			}
+
+			if(IsInCheck(f0,r0,f1,r1,b)){
+				printf("+");
+			}
+			break;
+		case BISHOP:
+			if (b->board[f0][r0]->isPromoted == true){
+
+				if (b->board[f0][r0]->isCapturing ==  true){
+					printf("x%c%d=B", 65+f1, r1);
+				}else {
+					printf("%c%d=B", 65+f1, r1);
+					b->board[f0][r0]->isCapturing =  false;
+				}
+
+			} else if (b->board[f0][r0]->isCapturing ==  true){
+
+				if(IsInCheck(f0,r0,f1,r1,b)){
+					printf("Bx%c%d+", 65+f1, r1);	
+				}else {
+					printf("Bx%c%d", 65+f1, r1);
+					b->board[f0][r0]->isCapturing =  false;
+				}
+
+			} else{
+				printf("B%c%d", 65+f1, r1);	
+			}
+
+			if(IsInCheck(f0,r0,f1,r1,b)){
+				printf("+");
+			}
+			break;
+
+		case PAWN:
+
+			printf("Hi Im Pawn!");
+			if (b->board[f1][r1]->isCapturing ==  true){
+				printf("ex%c%d", 65+f1, r1);
+				b->board[f1][r1]->isCapturing =  false;
+
+			} else{
+				printf("f1: %c, r1: %d", 65+f1, r1);
+				printf("%c%d", 65+f1, r1);
+			}
+
+			if(IsInCheck(f0,r0,f1,r1,b)){
+				printf("+");
+			}
+
+			break;
+		case KING:
+		
+			if (b->board[f0][r0]->isCapturing ==  true){
+				printf("Kx%c%d", 65+f1, r1);
+				b->board[f0][r0]->isCapturing =  false;
+			} else {
+				printf("K%c%d", 65+f1, r1);
+			}
+
+			if(IsInCheck(f0,r0,f1,r1,b)){
+				printf("+");
+			}
+			break;
+		default:
+			printf("");
+	}
+}

@@ -31,6 +31,8 @@ typedef struct {
 	EPieceType piece;	
 	bool hl;
 	int counter;
+	bool isPromoted;
+	bool isCapturing;
 } Piece;
 
 typedef struct {
