@@ -14,9 +14,9 @@ void PrintBoard(Board *b) {
 		printf("%d ║", rank + 1);
 		for (int file = 0; file < 8; ++file) {
 			if(!b->board[file][rank]->hl){
-				printf(" %lc ", GetUnicode(b->board[file][rank]->piece, b->board[file][rank]->color));
+				printf(" %lc ", GetUnicode(b->board[file][rank], false));
 			}else{
-				printf("<%lc>", GetUnicode(b->board[file][rank]->piece, b->board[file][rank]->color));
+				printf("<%lc>", GetUnicode(b->board[file][rank], false));
 			}
 			if (file != 7) printf("│");
 		}
@@ -104,9 +104,9 @@ void FillBoardTest(Board *chessBoard) {
 
 //return the corresponding chess piece character (e.g. white pawn ♙ = 0x2659) given the color and piece type
 //note: unicode characters must be stored in the wchar_t type due to their larger size
-wchar_t GetUnicode(EPieceType piece, EColor color) {
-	if (color == WHITE) {
-		switch (piece) {
+wchar_t GetUnicode(Piece *p, bool whiteTile) {
+	if ((p->color == WHITE && whiteTile) || (p->color == BLACK && !whiteTile)) {
+		switch (p->piece) {
 			case PAWN:
 				return 0x2659;
 			case ROOK:
@@ -124,7 +124,7 @@ wchar_t GetUnicode(EPieceType piece, EColor color) {
 		}
 	}
 	else {
-		switch (piece) {
+		switch (p->piece) {
 			case PAWN:
 				return 0x265F;
 			case ROOK:
