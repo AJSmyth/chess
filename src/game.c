@@ -41,6 +41,7 @@ char *Move(int f0, int r0, int f1, int r1, Board *b) {
 			printf("%d\n", b->board[f0][r0]->isCapturing);
 			CAN(f0, r0, f1, r1, b);
 			Capture(f1, r1, b);
+			printf("captured!");
 			b->board[f1][r1] = p;
 			b->board[f0][r0] = malloc(sizeof(Piece));
 			b->board[f0][r0]->piece = EMPTY;
@@ -1010,23 +1011,22 @@ void RawMove(int f0, int r0, int f1, int r1, Board *b){
 
 void CAN(int f0, int r0, int f1, int r1, Board *b){
 
-	printf("HI IM CAN\n");
 	switch(b->board[f0][r0]->piece){
 		case QUEEN:
 			if (b->board[f0][r0]->isPromoted == true){
 
 				if (b->board[f0][r0]->isCapturing ==  true){
-					printf("x%c%d=Q", 65+f1, r1);
+					printf("x%c%d=Q", 65+f1, r1+1);
 				}else {
-					printf("%c%d=Q", 65+f1, r1);
+					printf("%c%d=Q", 65+f1, r1+1);
 					b->board[f0][r0]->isCapturing =  false;
 				}
 			} else if (b->board[f0][r0]->isCapturing ==  true){
-				printf("Qx%c%d", 65+f1, r1);
+				printf("Qx%c%d", 65+f1, r1+1);
 				b->board[f0][r0]->isCapturing =  false;
 
 			} else {
-				printf("Q%c%d", 65+f1, r1);
+				printf("Q%c%d", 65+f1, r1+1);
 			}
 
 			if(IsInCheck(f0,r0,f1,r1,b)){
@@ -1037,17 +1037,17 @@ void CAN(int f0, int r0, int f1, int r1, Board *b){
 			if (b->board[f0][r0]->isPromoted == true){
 
 				if (b->board[f0][r0]->isCapturing ==  true){
-					printf("x%c%d=R", 65+f1, r1);
+					printf("x%c%d=R", 65+f1, r1+1);
 				}else {
-					printf("%c%d=R", 65+f1, r1);
+					printf("%c%d=R", 65+f1, r1+1);
 					b->board[f0][r0]->isCapturing =  false;
 				}
 			} else if (b->board[f0][r0]->isCapturing ==  true){
-				printf("Rx%c%d", 65+f1, r1);
+				printf("Rx%c%d", 65+f1, r1+1);
 				b->board[f0][r0]->isCapturing =  false;
 
 			}else{
-				printf("R%c%d", 65+f1, r1);
+				printf("R%c%d", 65+f1, r1+1);
 			}
 
 			if(IsInCheck(f0,r0,f1,r1,b)){
@@ -1058,18 +1058,18 @@ void CAN(int f0, int r0, int f1, int r1, Board *b){
 			if (b->board[f0][r0]->isPromoted == true){
 
 				if (b->board[f0][r0]->isCapturing ==  true){
-					printf("x%c%d=N", 65+f1, r1);
+					printf("x%c%d=N", 65+f1, r1+1);
 				}else {
-					printf("%c%d=N", 65+f1, r1);
+					printf("%c%d=N", 65+f1, r1+1);
 					b->board[f0][r0]->isCapturing =  false;
 				}
 
 			} else if (b->board[f0][r0]->isCapturing ==  true){
-				printf("Nx%c%d", 65+f1, r1);
+				printf("Nx%c%d", 65+f1, r1+1);
 				b->board[f0][r0]->isCapturing =  false;
 
 			} else{
-				printf("N%c%d", 65+f1, r1);
+				printf("N%c%d", 65+f1, r1+1);
 			}
 
 			if(IsInCheck(f0,r0,f1,r1,b)){
@@ -1080,23 +1080,23 @@ void CAN(int f0, int r0, int f1, int r1, Board *b){
 			if (b->board[f0][r0]->isPromoted == true){
 
 				if (b->board[f0][r0]->isCapturing ==  true){
-					printf("x%c%d=B", 65+f1, r1);
+					printf("x%c%d=B", 65+f1, r1+1);
 				}else {
-					printf("%c%d=B", 65+f1, r1);
+					printf("%c%d=B", 65+f1, r1+1);
 					b->board[f0][r0]->isCapturing =  false;
 				}
 
 			} else if (b->board[f0][r0]->isCapturing ==  true){
 
 				if(IsInCheck(f0,r0,f1,r1,b)){
-					printf("Bx%c%d+", 65+f1, r1);	
+					printf("Bx%c%d+", 65+f1, r1+1);	
 				}else {
-					printf("Bx%c%d", 65+f1, r1);
+					printf("Bx%c%d", 65+f1, r1+1);
 					b->board[f0][r0]->isCapturing =  false;
 				}
 
 			} else{
-				printf("B%c%d", 65+f1, r1);	
+				printf("B%c%d", 65+f1, r1+1);	
 			}
 
 			if(IsInCheck(f0,r0,f1,r1,b)){
@@ -1106,28 +1106,29 @@ void CAN(int f0, int r0, int f1, int r1, Board *b){
 
 		case PAWN:
 
-			printf("Hi Im Pawn!");
-			if (b->board[f1][r1]->isCapturing ==  true){
-				printf("ex%c%d", 65+f1, r1);
-				b->board[f1][r1]->isCapturing =  false;
+			if (b->board[f0][r0]->isCapturing ==  true){
+				printf("ex%c%d", 65+f1, r1+1);
+				b->board[f0][r0]->isCapturing =  false;
 
 			} else{
-				printf("f1: %c, r1: %d", 65+f1, r1);
-				printf("%c%d", 65+f1, r1);
+				//printf("f1: %c, r1: %d", 65+f1, r1+1);
+				printf("%c%d", 65+f1, r1+1);
 			}
 
+			/*
 			if(IsInCheck(f0,r0,f1,r1,b)){
 				printf("+");
 			}
+			*/
 
 			break;
 		case KING:
 		
 			if (b->board[f0][r0]->isCapturing ==  true){
-				printf("Kx%c%d", 65+f1, r1);
+				printf("Kx%c%d", 65+f1, r1+1);
 				b->board[f0][r0]->isCapturing =  false;
 			} else {
-				printf("K%c%d", 65+f1, r1);
+				printf("K%c%d", 65+f1, r1+1);
 			}
 
 			if(IsInCheck(f0,r0,f1,r1,b)){
