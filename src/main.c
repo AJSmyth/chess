@@ -35,10 +35,10 @@ int main(int argc, char *argv[]) {
 
 		//Implement a Move check function which checks if the 
 		//previous move by the player was valid (To Be Done)
-		if (MoveCheck == 0)
-		{
-			continue;
-		}
+		//if (MoveCheck == 0)
+		//{
+		//	continue;
+		//}
 
 		MoveRandomBlack(chessBoard);
 		PrintBoard(chessBoard);
@@ -66,10 +66,10 @@ int main(int argc, char *argv[]) {
 
 		//Implement a Move check function which checks if the 
 		//previous move by the player was valid (To Be Done)
-		if (MoveCheck == 0)
-		{
-			continue;
-		}
+		//if (MoveCheck == 0)
+		//{
+		//	continue;
+		//}
 
 		MoveRandomWhite(chessBoard);
 		PrintBoard(chessBoard);
