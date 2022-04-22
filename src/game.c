@@ -912,9 +912,10 @@ bool IsInCheck(int f0, int r0, int f1, int r1, Board *b) {
 				for(int j = 0; j < VALID_MOVE_SIZE; j++){
 					if(valid[j]){
 						//printf("%d. %d %d -> %d %d\n", count++, valid[j]->f0, valid[j]->r0, valid[j]->f1, valid[j]->r1);
-						if(b2->board[valid[j]->f1][valid[j]->r1]->piece == KING){
+						if(b2->board[valid[j]->f1][valid[j]->r1]->piece == KING && b2->board[valid[j]->f1][valid[j]->r1]->color == b2->board[f1][r1]->color){
 							printf("There is a check!");
-							//DeleteBoard(b2);
+							DeleteBoard(b2);
+							//free(b2);
 							free(valid[j]);
 							valid[j] = NULL;
 							return true;
@@ -928,7 +929,8 @@ bool IsInCheck(int f0, int r0, int f1, int r1, Board *b) {
 			}
 		}
 	}
-	//DeleteBoard(b2);
+	DeleteBoard(b2);
+	//free(b2);
 	return false;
 }
 

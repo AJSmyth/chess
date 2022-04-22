@@ -163,6 +163,6 @@ void DeleteBoard(Board *b){
 			}
 		}
 	}
-	free(b);
-	b = NULL;
+	//free(b);
+	//b = NULL;
 }
