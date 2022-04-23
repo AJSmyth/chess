@@ -188,94 +188,104 @@ void getValidMovesKnight(int f0, int r0, Board *b, MOVE *moves[]) {
 	//TODO: WE NEED TO TEST THIS
 	//MOVE *moves[63];
 	int curr_move = 0;
-	int f = f0, r = r0;
+	int f, r;
 	//Check leftmost moves are in the board
-	f = f0 - 2; //Check one space up and two spaces left
-	if(f >= 0 && r + 1 < 8){
-		if(b->board[f0][r0]->color != b->board[f][r+1]->color){ //if the spot the piece is moving to is not the color moving to
+	f = f0 - 2;
+	r = r0 - 1;
+	if(f >= 0 && f < 8 && r >=0 && r < 8){
+		if(b->board[f0][r0]->color != b->board[f][r]->color){ //if the spot the piece is moving to is not the color moving to
+		 moves[curr_move] = malloc(sizeof(MOVE));
 		 moves[curr_move] -> f0 = f0;
 		 moves[curr_move] -> r0 = r0;
 		 moves[curr_move] -> f1 = f;
-		 moves[curr_move] -> r1 = r + 1;
+		 moves[curr_move] -> r1 = r;
 		 curr_move++;
 	   }
 	}
-	if(f >= 0 && r - 1 >= 0 ){
-		if(b->board[f0][r0]->color != b->board[f][r-1]->color){ //if the spot the piece is moving to is not the color moving to
+	f = f0 - 1;
+	r = r0 - 2;
+	if(f >= 0 && f < 8 && r >=0 && r < 8){
+		if(b->board[f0][r0]->color != b->board[f][r]->color){ //if the spot the piece is moving to is not the color moving to
+		 moves[curr_move] = malloc(sizeof(MOVE));
 		 moves[curr_move] -> f0 = f0;
 		 moves[curr_move] -> r0 = r0;
 		 moves[curr_move] -> f1 = f;
-		 moves[curr_move] -> r1 = r - 1;
+		 moves[curr_move] -> r1 = r;
 		 curr_move++;
 	   }
 	}
-	//check left moves are in the board
-	f = f0 - 1; //Check two spaces up and one space left
-	if(f >= 0 && r + 2 < 8){
-		if(b->board[f0][r0]->color != b->board[f][r+2]->color){ //if the spot the piece is moving to is not the color moving to
+	f = f0 + 1;
+	r = r0 + 2;
+	if(f >= 0 && f < 8 && r >=0 && r < 8){
+		if(b->board[f0][r0]->color != b->board[f][r]->color){ //if the spot the piece is moving to is not the color moving to
+		 moves[curr_move] = malloc(sizeof(MOVE));
 		 moves[curr_move] -> f0 = f0;
 		 moves[curr_move] -> r0 = r0;
 		 moves[curr_move] -> f1 = f;
-		 moves[curr_move] -> r1 = r + 2;
+		 moves[curr_move] -> r1 = r;
 		 curr_move++;
 	   }
-
 	}
-	if(f >= 0 && r - 2 >= 0){
-		if(b->board[f0][r0]->color != b->board[f][r-2]->color){ //if the spot the piece is moving to is not the color moving to
+	f = f0 + 2;
+	r = r0 + 1;
+	if(f >= 0 && f < 8 && r >=0 && r < 8){
+		if(b->board[f0][r0]->color != b->board[f][r]->color){ //if the spot the piece is moving to is not the color moving to
+		 moves[curr_move] = malloc(sizeof(MOVE));
 		 moves[curr_move] -> f0 = f0;
 		 moves[curr_move] -> r0 = r0;
 		 moves[curr_move] -> f1 = f;
-		 moves[curr_move] -> r1 = r - 2;
+		 moves[curr_move] -> r1 = r;
 		 curr_move++;
 	   }
-
 	}
-	//check right moves are in the board
-	f = f0 + 1; //Check two spaces up and one space right
-	if(f < 8 && r + 2 < 8){
-		if(b->board[f0][r0]->color != b->board[f][r+2]->color){//if the spot the piece is moving to is not the color moving to
+	f = f0 - 2;
+	r = r0 + 1;
+	if(f >= 0 && f < 8 && r >=0 && r < 8){
+		if(b->board[f0][r0]->color != b->board[f][r]->color){ //if the spot the piece is moving to is not the color moving to
+		 moves[curr_move] = malloc(sizeof(MOVE));
 		 moves[curr_move] -> f0 = f0;
 		 moves[curr_move] -> r0 = r0;
 		 moves[curr_move] -> f1 = f;
-		 moves[curr_move] -> r1 = r + 2;
+		 moves[curr_move] -> r1 = r;
 		 curr_move++;
 	   }
-
 	}
-	if(f < 8 && r - 2 >= 0 ){
-		if(b->board[f0][r0]->color != b->board[f][r-2]->color){ //if the spot the piece is moving to is not the color moving to
+	f = f0 - 1;
+	r = r0 + 2;
+	if(f >= 0 && f < 8 && r >=0 && r < 8){
+		if(b->board[f0][r0]->color != b->board[f][r]->color){ //if the spot the piece is moving to is not the color moving to
+		 moves[curr_move] = malloc(sizeof(MOVE));
 		 moves[curr_move] -> f0 = f0;
 		 moves[curr_move] -> r0 = r0;
 		 moves[curr_move] -> f1 = f;
-		 moves[curr_move] -> r1 = r - 2;
+		 moves[curr_move] -> r1 = r;
 		 curr_move++;
 	   }
-
 	}
-	//check if rightmost moves are in the board
-	f = f0 + 2; //Check one space up and two spaces right
-	if(f < 8 && r + 1 < 8){
-		if(b->board[f0][r0]->color != b->board[f][r+1]->color){ //if the spot the piece is moving to is empty add move to valid moves
+	f = f0 + 1;
+	r = r0 - 2;
+	if(f >= 0 && f < 8 && r >=0 && r < 8){
+		if(b->board[f0][r0]->color != b->board[f][r]->color){ //if the spot the piece is moving to is not the color moving to
+		 moves[curr_move] = malloc(sizeof(MOVE));
 		 moves[curr_move] -> f0 = f0;
 		 moves[curr_move] -> r0 = r0;
 		 moves[curr_move] -> f1 = f;
-		 moves[curr_move] -> r1 = r + 1;
+		 moves[curr_move] -> r1 = r;
 		 curr_move++;
 	   }
-
 	}
-	if(f < 8 && r - 1 >= 0){
-		if(b->board[f0][r0]->color != b->board[f][r-1]->color){ //if the spot the piece is moving to is empty add move to valid moves
+	f = f0 + 2;
+	r = r0 - 1;
+	if(f >= 0 && f < 8 && r >=0 && r < 8){
+		if(b->board[f0][r0]->color != b->board[f][r]->color){ //if the spot the piece is moving to is not the color moving to
+		 moves[curr_move] = malloc(sizeof(MOVE));
 		 moves[curr_move] -> f0 = f0;
 		 moves[curr_move] -> r0 = r0;
 		 moves[curr_move] -> f1 = f;
-		 moves[curr_move] -> r1 = r - 1;
+		 moves[curr_move] -> r1 = r;
 		 curr_move++;
 	   }
 	}
-	
-	//return moves;
 }
 
 void getValidMovesQueen(int f, int r, Board *b, MOVE *moves[]){
