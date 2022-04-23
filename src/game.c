@@ -609,7 +609,7 @@ void getValidMovesKing(int f,int r, Board *b, MOVE *moves[]){
 	//MOVE *moves[63];
 	int current_move = 0;
 	int Castling;
-	/*
+	
 	//Castling using White Rook on the Right Side
 	if (b->board[7][0]->piece == ROOK && b->board[7][0]->color == WHITE && b->board[f][r]->counter == 0 && f == 4 && r == 0 && b->board[f][r]->color == WHITE && b->board[f+1][r]->piece == EMPTY && b->board[f+2][r]->piece == EMPTY)
 	{
@@ -657,130 +657,130 @@ void getValidMovesKing(int f,int r, Board *b, MOVE *moves[]){
 		//b->board[2][7]->hl = 1;
 		current_move++;
 	}
-	*/
+	
 	//Check 1 space above
-	moves[current_move] = malloc(sizeof(MOVE));
-	moves[current_move]->f0 = f;
-	moves[current_move]->r0 = r;
-	moves[current_move]->f1 = f;
-	moves[current_move]->r1 = r+1;
 	
 	if (r+1 <= 7)
 	{
 		if (b->board[f][r+1]->piece || b->board[f][r]->color != b->board[f][r+1]->color)
 		{ 
+			moves[current_move] = malloc(sizeof(MOVE));
+			moves[current_move]->f0 = f;
+			moves[current_move]->r0 = r;
+			moves[current_move]->f1 = f;
+			moves[current_move]->r1 = r+1;
 			current_move ++;
 			//b->board[f][r+1]->hl = 1;
 		}
 	}
 
 	//Check 1 space below
-	moves[current_move] = malloc(sizeof(MOVE));
-	moves[current_move]->f0 = f;
-	moves[current_move]->r0 = r;
-	moves[current_move]->f1 = f;
-	moves[current_move]->r1 = r-1;
 		
 	if (r-1 >= 0)
 	{
 		if (b->board[f][r-1]->piece == EMPTY || b->board[f][r]->color != b->board[f][r-1]->color)
 		{ 
+			moves[current_move] = malloc(sizeof(MOVE));
+			moves[current_move]->f0 = f;
+			moves[current_move]->r0 = r;
+			moves[current_move]->f1 = f;
+			moves[current_move]->r1 = r-1;
 			current_move ++;
 			//b->board[f][r-1]->hl = 1;
 		}
 	}
 	
 	//Check 1 space to the left
-	moves[current_move] = malloc(sizeof(MOVE));
-	moves[current_move]->f0 = f;
-	moves[current_move]->r0 = r;
-	moves[current_move]->f1 = f-1;
-	moves[current_move]->r1 = r;
 
 	if (f-1 >= 0)
 	{
 		if (b->board[f-1][r]->piece == EMPTY || b->board[f][r]->color != b->board[f-1][r]->color)
 		{ 
+			moves[current_move] = malloc(sizeof(MOVE));
+			moves[current_move]->f0 = f;
+			moves[current_move]->r0 = r;
+			moves[current_move]->f1 = f-1;
+			moves[current_move]->r1 = r;
 			current_move ++;
 			//b->board[f-1][r]->hl = 1;
 		}
 	}
 	
 	//Check 1 space to the right
-	moves[current_move] = malloc(sizeof(MOVE));
-	moves[current_move]->f0 = f;
-	moves[current_move]->r0 = r;
-	moves[current_move]->f1 = f+1;
-	moves[current_move]->r1 = r;
 	
 	if (f+1 <= 7)
 	{
 		if (b->board[f+1][r]->piece == EMPTY || b->board[f][r]->color != b->board[f+1][r]->color)
 		{ 
+			moves[current_move] = malloc(sizeof(MOVE));
+			moves[current_move]->f0 = f;
+			moves[current_move]->r0 = r;
+			moves[current_move]->f1 = f+1;
+			moves[current_move]->r1 = r;
 			current_move ++;
 			//b->board[f+1][r]->hl = 1;
 		}
 	}
 	
 	//Check 1 space to the Upper Right
-	moves[current_move] = malloc(sizeof(MOVE));
-	moves[current_move]->f0 = f;
-	moves[current_move]->r0 = r;
-	moves[current_move]->f1 = f + 1;
-	moves[current_move]->r1 = r + 1;
-
+	
 	if (r+1 <= 7 && f+1 <= 7)
 	{
 		if (b->board[f+1][r+1]->piece == EMPTY || b->board[f][r]->color != b->board[f+1][r+1]->color)
 		{ 
+			moves[current_move] = malloc(sizeof(MOVE));
+			moves[current_move]->f0 = f;
+			moves[current_move]->r0 = r;
+			moves[current_move]->f1 = f + 1;
+			moves[current_move]->r1 = r + 1;
 			current_move ++;
 			//b->board[f+1][r+1]->hl = 1;
 		}
 	}
 
 	//Check 1 space to the Upper Left
-	moves[current_move] = malloc(sizeof(MOVE));
-	moves[current_move]->f0 = f;
-	moves[current_move]->r0 = r;
-	moves[current_move]->f1 = f - 1;
-	moves[current_move]->r1 = r + 1;
 	
 	if (r+1 <= 7 && f-1 >=0)
 	{
 		if (b->board[f-1][r+1]->piece == EMPTY || b->board[f][r]->color != b->board[f-1][r+1]->color)
 		{ 
+			moves[current_move] = malloc(sizeof(MOVE));
+			moves[current_move]->f0 = f;
+			moves[current_move]->r0 = r;
+			moves[current_move]->f1 = f - 1;
+			moves[current_move]->r1 = r + 1;
 			current_move ++;
 			//b->board[f-1][r+1]->hl = 1;
 		}
 	}
 
 	//Check 1 space to the Lower Right
-	moves[current_move] = malloc(sizeof(MOVE));
-	moves[current_move]->f0 = f;
-	moves[current_move]->r0 = r;
-	moves[current_move]->f1 = f + 1;
-	moves[current_move]->r1 = r - 1;
 	
 	if (r-1 >= 0 && f+1 <= 7)
 	{
 		if (b->board[f+1][r-1]->piece == EMPTY || b->board[f][r]->color != b->board[f+1][r-1]->color)
 		{ 
+			moves[current_move] = malloc(sizeof(MOVE));
+			moves[current_move]->f0 = f;
+			moves[current_move]->r0 = r;
+			moves[current_move]->f1 = f + 1;
+			moves[current_move]->r1 = r - 1;
 			current_move ++;
 			//b->board[f+1][r-1]->hl = 1;
 		}
 	}
 	
 	//Check 1 space to the Lower Left
-	moves[current_move] = malloc(sizeof(MOVE));
-	moves[current_move]->f0 = f;
-	moves[current_move]->r0 = r;
-	moves[current_move]->f1 = f - 1;
-	moves[current_move]->r1 = r - 1;
 	
 	if (r-1 >= 0 && f-1 >= 0)
 	{
 		if (b->board[f-1][r-1]->piece == EMPTY || b->board[f][r]->color != b->board[f-1][r-1]->color)
 		{ 
+			moves[current_move] = malloc(sizeof(MOVE));
+			moves[current_move]->f0 = f;
+			moves[current_move]->r0 = r;
+			moves[current_move]->f1 = f - 1;
+			moves[current_move]->r1 = r - 1;
 			current_move ++;
 			//b->board[f-1][r-1]->hl = 1;
 		}
@@ -999,7 +999,7 @@ bool IsInCheck(int f0, int r0, int f1, int r1, Board *b) {
 					getValidMovesPawn(f, r, b2, valid);
 					break;
 				case KING:
-					//getValidMovesKing(f, r, b2, valid);
+					getValidMovesKing(f, r, b2, valid);
 					break;
 				default:
 					break;
@@ -1170,7 +1170,7 @@ MOVE *IdealMove(Board *b, EColor player){
 						getValidMovesPawn(f, r, b, valid);
 						break;
 					case KING:
-						//getValidMovesKing(f, r, b, valid);
+						getValidMovesKing(f, r, b, valid);
 						break;
 					default:
 						break;
@@ -1241,7 +1241,7 @@ void GenerateTree(Board *source, TREE *out, int depth){
 					getValidMovesPawn(i, j, source, valid);
 					break;
 				case KING:
-					//getValidMovesKing(f, r, b2, valid);
+					getValidMovesKing(f, r, b2, valid);
 					break;
 				default:
 					break;
