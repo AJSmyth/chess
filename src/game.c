@@ -26,6 +26,7 @@ char *Move(int f0, int r0, int f1, int r1, Board *b) {
 
 		//normal move
 		if (b->board[f1][r1]->piece == EMPTY) {
+			CAN(f0, r0, f1, r1, b);
 			b->board[f0][r0] = b->board[f1][r1];
 			b->board[f1][r1] = p;
 			Castling (f0, r0, f1, r1, b);
@@ -36,7 +37,11 @@ char *Move(int f0, int r0, int f1, int r1, Board *b) {
 		
 		//capturing move
 		else {
+			b->board[f0][r0]->isCapturing = true; //so that CAN know that it is capturing
+			printf("%d\n", b->board[f0][r0]->isCapturing);
+			CAN(f0, r0, f1, r1, b);
 			Capture(f1, r1, b);
+			printf("captured!");
 			b->board[f1][r1] = p;
 			b->board[f0][r0] = malloc(sizeof(Piece));
 			b->board[f0][r0]->piece = EMPTY;
@@ -182,34 +187,94 @@ void MoveRandomWhite(Board *b)
 void getValidMovesKnight(int f0, int r0, Board *b, MOVE *moves[]) {
 	//TODO: WE NEED TO TEST THIS
 	//MOVE *moves[63];
-	
-	int knights_move[8];
 	int curr_move = 0;
-	knights_move[0] = f0 + 2;
-	knights_move[1] = r0 - 1;
-
-	knights_move[2] = f0 + 1;
-	knights_move[3] = r0 - 2;
-
-	knights_move[4] = f0 - 2;
-	knights_move[5] = r0 + 1;
-
-	knights_move[6] = f0 - 1;
-	knights_move[7] = r0 + 2;
-
-	for (int i=0; i < 7; i+=2) {
-		if (knights_move[i]>=0 && knights_move[i]<=7 && knights_move[i+1]>=0 && knights_move[i+1]<=7) {
-			if (b->board[knights_move[i]][knights_move[i+1]]->piece == EMPTY 
-			|| b->board[knights_move[i]][knights_move[i+1]]->color != b->board[f0][r0]->color) {
-				moves[curr_move] = malloc(sizeof(MOVE));
-				moves[curr_move]->r0 = r0;
-				moves[curr_move]->f0 = f0;
-				moves[curr_move]->f1= knights_move[i];
-				moves[curr_move]->r1 = knights_move[i+1];
-				curr_move++;
-			}
-		}
+	int f = f0, r = r0;
+	//Check leftmost moves are in the board
+	f = f0 - 2; //Check one space up and two spaces left
+	if(f >= 0 && r + 1 < 8){
+		if(b->board[f0][r0]->color != b->board[f][r+1]->color){ //if the spot the piece is moving to is not the color moving to
+		 moves[curr_move] -> f0 = f0;
+		 moves[curr_move] -> r0 = r0;
+		 moves[curr_move] -> f1 = f;
+		 moves[curr_move] -> r1 = r + 1;
+		 curr_move++;
+	   }
 	}
+	if(f >= 0 && r - 1 >= 0 ){
+		if(b->board[f0][r0]->color != b->board[f][r-1]->color){ //if the spot the piece is moving to is not the color moving to
+		 moves[curr_move] -> f0 = f0;
+		 moves[curr_move] -> r0 = r0;
+		 moves[curr_move] -> f1 = f;
+		 moves[curr_move] -> r1 = r - 1;
+		 curr_move++;
+	   }
+	}
+	//check left moves are in the board
+	f = f0 - 1; //Check two spaces up and one space left
+	if(f >= 0 && r + 2 < 8){
+		if(b->board[f0][r0]->color != b->board[f][r+2]->color){ //if the spot the piece is moving to is not the color moving to
+		 moves[curr_move] -> f0 = f0;
+		 moves[curr_move] -> r0 = r0;
+		 moves[curr_move] -> f1 = f;
+		 moves[curr_move] -> r1 = r + 2;
+		 curr_move++;
+	   }
+
+	}
+	if(f >= 0 && r - 2 >= 0){
+		if(b->board[f0][r0]->color != b->board[f][r-2]->color){ //if the spot the piece is moving to is not the color moving to
+		 moves[curr_move] -> f0 = f0;
+		 moves[curr_move] -> r0 = r0;
+		 moves[curr_move] -> f1 = f;
+		 moves[curr_move] -> r1 = r - 2;
+		 curr_move++;
+	   }
+
+	}
+	//check right moves are in the board
+	f = f0 + 1; //Check two spaces up and one space right
+	if(f < 8 && r + 2 < 8){
+		if(b->board[f0][r0]->color != b->board[f][r+2]->color){//if the spot the piece is moving to is not the color moving to
+		 moves[curr_move] -> f0 = f0;
+		 moves[curr_move] -> r0 = r0;
+		 moves[curr_move] -> f1 = f;
+		 moves[curr_move] -> r1 = r + 2;
+		 curr_move++;
+	   }
+
+	}
+	if(f < 8 && r - 2 >= 0 ){
+		if(b->board[f0][r0]->color != b->board[f][r-2]->color){ //if the spot the piece is moving to is not the color moving to
+		 moves[curr_move] -> f0 = f0;
+		 moves[curr_move] -> r0 = r0;
+		 moves[curr_move] -> f1 = f;
+		 moves[curr_move] -> r1 = r - 2;
+		 curr_move++;
+	   }
+
+	}
+	//check if rightmost moves are in the board
+	f = f0 + 2; //Check one space up and two spaces right
+	if(f < 8 && r + 1 < 8){
+		if(b->board[f0][r0]->color != b->board[f][r+1]->color){ //if the spot the piece is moving to is empty add move to valid moves
+		 moves[curr_move] -> f0 = f0;
+		 moves[curr_move] -> r0 = r0;
+		 moves[curr_move] -> f1 = f;
+		 moves[curr_move] -> r1 = r + 1;
+		 curr_move++;
+	   }
+
+	}
+	if(f < 8 && r - 1 >= 0){
+		if(b->board[f0][r0]->color != b->board[f][r-1]->color){ //if the spot the piece is moving to is empty add move to valid moves
+		 moves[curr_move] -> f0 = f0;
+		 moves[curr_move] -> r0 = r0;
+		 moves[curr_move] -> f1 = f;
+		 moves[curr_move] -> r1 = r - 1;
+		 curr_move++;
+	   }
+	}
+	
 	//return moves;
 }
 
@@ -765,21 +830,26 @@ void getValidMovesPawn(int f0, int r0, Board *b, MOVE *moves[]){
 		 scanf("%c", &promoteTo);
 		 switch(promoteTo){
 			 case 'Q':
+			 b->board[f][r]->isPromoted = true;
 			 b->board[f][r]->piece = QUEEN;
 			 break;
 
 			  case 'B':
+			 b->board[f][r]->isPromoted = true;
 			 b->board[f][r]->piece = BISHOP;
 			 break;
 
 			  case 'N':
+			 b->board[f][r]->isPromoted = true;
 			 b->board[f][r]->piece = KNIGHT;
 			 break;
 
 			  case 'R':
+			 b->board[f][r]->isPromoted = true;
 			 b->board[f][r]->piece = ROOK;
 			 break;
 			 default: 
+			 b->board[f][r]->isPromoted = true;
 			 b->board[f][r]->piece = QUEEN;
             }
 
@@ -849,21 +919,26 @@ void getValidMovesPawn(int f0, int r0, Board *b, MOVE *moves[]){
 		 scanf("%c", &promoteTo);
 		 switch(promoteTo){
 			 case 'Q':
+			 b->board[f][r]->isPromoted = true;
 			 b->board[f][r]->piece = QUEEN;
 			 break;
 
 			  case 'B':
+			 b->board[f][r]->isPromoted = true;
 			 b->board[f][r]->piece = BISHOP;
 			 break;
 
 			  case 'N':
+			 b->board[f][r]->isPromoted = true;
 			 b->board[f][r]->piece = KNIGHT;
 			 break;
 
 			  case 'R':
+			 b->board[f][r]->isPromoted = true;
 			 b->board[f][r]->piece = ROOK;
 			 break;
 			 default: 
+			 b->board[f][r]->isPromoted = true;
 			 b->board[f][r]->piece = QUEEN;
             }
 
@@ -1158,3 +1233,150 @@ void GenerateTree(Board *source, TREE *out, int depth){
 
 
 
+
+void CAN(int f0, int r0, int f1, int r1, Board *b){
+
+	switch(b->board[f0][r0]->piece){
+		case QUEEN:
+			if (b->board[f0][r0]->isPromoted == true){
+
+				if (b->board[f0][r0]->isCapturing ==  true){
+					printf("x%c%d=Q", 65+f1, r1+1);
+				}else {
+					printf("%c%d=Q", 65+f1, r1+1);
+					b->board[f0][r0]->isCapturing =  false;
+				}
+			} else if (b->board[f0][r0]->isCapturing ==  true){
+				printf("Qx%c%d", 65+f1, r1+1);
+				b->board[f0][r0]->isCapturing =  false;
+
+			} else {
+				printf("Q%c%d", 65+f1, r1+1);
+			}
+
+			if(IsInCheck(f0,r0,f1,r1,b)){
+				printf("+");
+			}
+
+			printf(" ");
+			break;
+		
+		case ROOK:
+			if (b->board[f0][r0]->isPromoted == true){
+
+				if (b->board[f0][r0]->isCapturing ==  true){
+					printf("x%c%d=R", 65+f1, r1+1);
+				}else {
+					printf("%c%d=R", 65+f1, r1+1);
+					b->board[f0][r0]->isCapturing =  false;
+				}
+			} else if (b->board[f0][r0]->isCapturing ==  true){
+				printf("Rx%c%d", 65+f1, r1+1);
+				b->board[f0][r0]->isCapturing =  false;
+
+			}else{
+				printf("R%c%d", 65+f1, r1+1);
+			}
+
+			if(IsInCheck(f0,r0,f1,r1,b)){
+				printf("+");
+			}
+
+			printf(" ");
+
+			break;
+		
+		case KNIGHT:
+			if (b->board[f0][r0]->isPromoted == true){
+
+				if (b->board[f0][r0]->isCapturing ==  true){
+					printf("x%c%d=N", 65+f1, r1+1);
+				}else {
+					printf("%c%d=N", 65+f1, r1+1);
+					b->board[f0][r0]->isCapturing =  false;
+				}
+
+			} else if (b->board[f0][r0]->isCapturing ==  true){
+				printf("Nx%c%d", 65+f1, r1+1);
+				b->board[f0][r0]->isCapturing =  false;
+
+			} else{
+				printf("N%c%d", 65+f1, r1+1);
+			}
+
+			if(IsInCheck(f0,r0,f1,r1,b)){
+				printf("+");
+			}
+
+
+			printf(" ");
+
+			break;
+		case BISHOP:
+			if (b->board[f0][r0]->isPromoted == true){
+
+				if (b->board[f0][r0]->isCapturing ==  true){
+					printf("x%c%d=B", 65+f1, r1+1);
+				}else {
+					printf("%c%d=B", 65+f1, r1+1);
+					b->board[f0][r0]->isCapturing =  false;
+				}
+
+			} else if (b->board[f0][r0]->isCapturing ==  true){
+
+				if(IsInCheck(f0,r0,f1,r1,b)){
+					printf("Bx%c%d+", 65+f1, r1+1);	
+				}else {
+					printf("Bx%c%d", 65+f1, r1+1);
+					b->board[f0][r0]->isCapturing =  false;
+				}
+
+			} else{
+				printf("B%c%d", 65+f1, r1+1);	
+			}
+
+			if(IsInCheck(f0,r0,f1,r1,b)){
+				printf("+");
+			}
+			break;
+
+
+			printf(" ");
+
+		case PAWN:
+
+			if (b->board[f0][r0]->isCapturing ==  true){
+				printf("ex%c%d", 65+f1, r1+1);
+				b->board[f0][r0]->isCapturing =  false;
+
+			} else{
+				//printf("f1: %c, r1: %d", 65+f1, r1+1);
+				printf("%c%d", 65+f1, r1+1);
+			}
+
+			if(IsInCheck(f0,r0,f1,r1,b)){
+				printf("+");
+			}
+
+			printf(" ");
+			break;
+		case KING:
+		
+			if (b->board[f0][r0]->isCapturing ==  true){
+				printf("Kx%c%d", 65+f1, r1+1);
+				b->board[f0][r0]->isCapturing =  false;
+			} else {
+				printf("K%c%d", 65+f1, r1+1);
+			}
+
+			if(IsInCheck(f0,r0,f1,r1,b)){
+				printf("+");
+			}
+
+			printf(" ");
+
+			break;
+		default:
+			printf("");
+	}
+}
