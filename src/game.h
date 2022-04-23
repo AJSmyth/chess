@@ -38,7 +38,7 @@ void RawMove(int f0, int r0, int f1, int r1, Board *b);
 bool IsValid(int f0, int r0, int f1, int r1, Board *b);
 bool IsInCheck(int f0, int r0, int f1, int r1, Board *b);
 bool IsMated(int f0, int r0, int f1, int r1, Board *b);
-void MoveToCapture(int f, int r, Board *b);
+void Capture(int f, int r, Board *b);
 void Promote(int f0, int r0, Board *b);
 void Castling(int f0, int r0, int f1, int r1, Board *b);
 

@@ -31,7 +31,7 @@ char *Move(int f0, int r0, int f1, int r1, Board *b) {
 			CAN(f0, r0, f1, r1, b);
 			b->board[f0][r0] = b->board[f1][r1];
 			b->board[f1][r1] = p;
-			Castling (f0, r0, f1, r1, b);
+			//Castling (f0, r0, f1, r1, b);
 		}
 		
 		//capturing move
@@ -40,6 +40,7 @@ char *Move(int f0, int r0, int f1, int r1, Board *b) {
 			printf("%d\n", b->board[f0][r0]->isCapturing);
 			CAN(f0, r0, f1, r1, b);
 
+			printf("CAPTURING");
 			Capture(f1, r1, b);
 			b->board[f1][r1] = p;
 			b->board[f0][r0] = malloc(sizeof(Piece));
@@ -55,11 +56,11 @@ char *Move(int f0, int r0, int f1, int r1, Board *b) {
 
 
 //move the specified piece to the captured array
-void MoveToCapture(int f, int r, Board *b) {
+void Capture(int f, int r, Board *b) {
 	int offset = (b->board[f][r]->color == WHITE) ? 0 : 2;
 
 	b->cap[offset][b->nCapW] = b->board[f][r];
-	b->board[f][r] = null;
+	b->board[f][r] = NULL;
 }
 
 
