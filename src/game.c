@@ -10,9 +10,7 @@ const int VALID_MOVE_SIZE = 63;
 //returns chess algebraic notation of the move if valid
 char *Move(int f0, int r0, int f1, int r1, Board *b) {
 	if (IsValid(f0, r0, f1, r1, b)) {
-		//store the moving piece temporarily
-		Piece *p = b->board[f0][r0];
-		
+		//-------- Update Misc. Board Data --------	
 		//To count the total number of moves of each piece
 		b->board[f0][r0]->counter ++;
 		
@@ -24,6 +22,10 @@ char *Move(int f0, int r0, int f1, int r1, Board *b) {
 			//printf("changing to black");
 		}
 
+		//---------- Move the Piece ----------------
+		//store the moving piece temporarily
+		Piece *p = b->board[f0][r0];
+		
 		//normal move
 		if (b->board[f1][r1]->piece == EMPTY) {
 			CAN(f0, r0, f1, r1, b);
@@ -31,17 +33,14 @@ char *Move(int f0, int r0, int f1, int r1, Board *b) {
 			b->board[f1][r1] = p;
 			Castling (f0, r0, f1, r1, b);
 		}
-
-		//implement promotion
-		//implement en passant
 		
 		//capturing move
 		else {
 			b->board[f0][r0]->isCapturing = true; //so that CAN know that it is capturing
 			printf("%d\n", b->board[f0][r0]->isCapturing);
 			CAN(f0, r0, f1, r1, b);
+
 			Capture(f1, r1, b);
-			printf("captured!");
 			b->board[f1][r1] = p;
 			b->board[f0][r0] = malloc(sizeof(Piece));
 			b->board[f0][r0]->piece = EMPTY;
@@ -55,9 +54,12 @@ char *Move(int f0, int r0, int f1, int r1, Board *b) {
 }
 
 
+//move the specified piece to the captured array
+void MoveToCapture(int f, int r, Board *b) {
+	int offset = (b->board[f][r]->color == WHITE) ? 0 : 2;
 
-void Capture(int f0, int r0, Board *b) {
-	free(b->board[f0][r0]);
+	b->cap[offset][b->nCapW] = b->board[f][r];
+	b->board[f][r] = null;
 }
 
 
@@ -183,6 +185,8 @@ void MoveRandomWhite(Board *b)
 		}
 	}
 }
+
+
 
 void getValidMovesKnight(int f0, int r0, Board *b, MOVE *moves[]) {
 	//TODO: WE NEED TO TEST THIS
