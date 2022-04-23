@@ -44,6 +44,7 @@ typedef struct {
 	int nCapW, nCapB;
 	EColor p1;
 	EColor currentPlayerTurn;
+	EColor p1;
 	EGameState gameState;
 } Board;
 

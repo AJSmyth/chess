@@ -2,7 +2,7 @@ SOURCEDIR = src
 DESTDIR = bin
 
 CFLAGS = -std=c11 -Wno-return-local-addr 
-LIBS := $(shell ncursesw5-config --libs) 
+LIBS := $(shell ncursesw5-config --libs) -ltinfo
 OBJS := $(patsubst %.c, %.o, $(wildcard $(SOURCEDIR)/*.c))
 OUT = chess
 
