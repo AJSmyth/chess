@@ -105,7 +105,7 @@ void FillBoardTest(Board *chessBoard) {
 //return the corresponding chess piece character (e.g. white pawn ♙ = 0x2659) given the color and piece type
 //note: unicode characters must be stored in the wchar_t type due to their larger size
 wchar_t GetUnicode(EPieceType piece, EColor color) {
-	if (color == WHITE) {
+	if (color == BLACK) {
 		switch (piece) {
 			case PAWN:
 				return 0x2659;

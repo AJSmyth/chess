@@ -8,7 +8,7 @@ OBJS := $(patsubst %.c, %.o, $(SRCS))
 OUT = chess
 
 $(OUT): $(OBJS)
-	gcc $(OBJS) $(CFLAGS) -o $(OUT)
+	gcc $(OBJS) $(CFLAGS) -o $(DESTDIR)/$(OUT)
 	#NCURSES build
 	#gcc $(OBJS) $(CFLAGS) $(LIBS) $(shell ncursesw5-config --cflags) --enable-widec -o $(DESTDIR)/$(OUT)
 
