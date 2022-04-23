@@ -790,7 +790,7 @@ void getValidMovesPawn(int f0, int r0, Board *b, MOVE *moves[]){
 	//check to see if white pawn can move forward 2 spaces
 	if(b-> board[f0][r0]->color == WHITE){
 		int f = f0, r = r0 + 2, moveCount = 0;
-		if(r0 == 1 && b->board[f0][r0+1]-> == EMPTY && b->board[f0][r0+2]->piece == EMPTY){
+		if(r0 == 1 && b->board[f0][r0+1]->piece == EMPTY && b->board[f0][r0+2]->piece == EMPTY){
 			//if(!IsInCheck(f0, r0, f, r, b)){
 			moves[moveCount] = malloc(sizeof(MOVE));
 			moves[moveCount] -> f0 = f0;
