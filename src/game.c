@@ -1,6 +1,7 @@
 #include "game.h"
 #include "board.h"
 #include <stdio.h>
+#include <ncurses.h>
 
 
 const int VALID_MOVE_SIZE = 63;
@@ -41,9 +42,11 @@ char *Move(int f0, int r0, int f1, int r1, Board *b) {
 			b->board[f0][r0]->piece = EMPTY;
 			b->board[f0][r0]->color = NO_COLOR;
 		}
+		mvprintw(1,1, "             ");
 
 	}else{
-		printf("Invalid move!\n");
+		mvprintw(1,1,"INVALID MOVE!");
+		//printf("Invalid move!\n");
 	}
 	return "";
 }
@@ -793,7 +796,7 @@ bool IsInCheck(int f0, int r0, int f1, int r1, Board *b) {
 
 				for(int j = 0; j < VALID_MOVE_SIZE; j++){
 					if(valid[j]){
-						printf("%d %d\n", valid[j]->f1, valid[j]->r1);
+						//printf("%d %d\n", valid[j]->f1, valid[j]->r1);
 						/*
 						if(b2->board[valid[j]->f1][valid[j]->r1]->piece == KING){
 							return true;

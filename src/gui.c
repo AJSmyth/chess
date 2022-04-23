@@ -77,16 +77,17 @@ bool InitGUI(GUI *g) {
 	g->menu->exit.x0 = (g->x - 4)/2;
 	g->menu->exit.x1 = g->menu->exit.x0 + 3;
 	g->menu->exit.y1 = g->menu->exit.y0 = g->y - 3;	
-	
 
 	//Setup game
 	g->game->board = malloc(sizeof(Board));
 	FillBoard(g->game->board);	
 	g->game->InitMove = false;
+	
 	//EXIT BUTTON
 	g->game->exit.x0 = (g->x - 4)/2;
 	g->game->exit.x1 = g->game->exit.x0 + 3;
 	g->game->exit.y1 = g->game->exit.y0 = g->y - 3;	
+	g->game->board->p1 == WHITE;
 
 	if (g->y < MIN_Y || g->x < MIN_X) return false;
 	else return true;
@@ -231,7 +232,9 @@ void DrawGame(GUI *g) {
 	bool whiteTile;
 	mvwaddstr(g->game->bWin, 0, 3, "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗");
 	
-	for (int rank = 7; rank >= 0; --rank) {
+	int dir = (g->game->board->p1 == WHITE) ? -1 : 1;	
+
+	for (int rank = (dir == 1) ? 0 : 7; (dir == 1) ? (rank <= 7) : (rank >= 0); rank += dir) {
 		if (rank % 2 == 1)
 			mvwprintw(g->game->bWin, 1 + rank * 2, 0, " %d ║█ █│   │█ █│   │█ █│   │█ █│   ║", rank + 1);
 		else
@@ -282,11 +285,13 @@ void HandleMouse(GUI *g, MEVENT e) {
 				int x, y;
 				WinToBoard(g, e.y, e.x, &y, &x);
 
-				if (x != -1 && y != -1) {
+				if (x != -1 && y != -1 ) {
 					if (!g->game->InitMove) {
-						g->game->InitMove = true;
-						g->game->iY = y;
-						g->game->iX = x;
+						if (g->game->board->board[x][y]->piece != EMPTY) {
+							g->game->InitMove = true;
+							g->game->iY = y;
+							g->game->iX = x;
+						}
 					}
 					else {
 						Move(g->game->iX, g->game->iY, x, y, g->game->board); 
