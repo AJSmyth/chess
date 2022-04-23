@@ -189,7 +189,7 @@ void getValidMovesKnight(int f0, int r0, Board *b, MOVE *moves[]) {
 	//MOVE *moves[63];
 	int curr_move = 0;
 	int f, r;
-	//Check leftmost moves are in the board
+	//check two spaces left and one space down
 	f = f0 - 2;
 	r = r0 - 1;
 	if(f >= 0 && f < 8 && r >=0 && r < 8){
@@ -202,6 +202,7 @@ void getValidMovesKnight(int f0, int r0, Board *b, MOVE *moves[]) {
 		 curr_move++;
 	   }
 	}
+	//check one space left and two spaces down
 	f = f0 - 1;
 	r = r0 - 2;
 	if(f >= 0 && f < 8 && r >=0 && r < 8){
@@ -214,6 +215,7 @@ void getValidMovesKnight(int f0, int r0, Board *b, MOVE *moves[]) {
 		 curr_move++;
 	   }
 	}
+	//check one space right and two spaces up
 	f = f0 + 1;
 	r = r0 + 2;
 	if(f >= 0 && f < 8 && r >=0 && r < 8){
@@ -226,6 +228,7 @@ void getValidMovesKnight(int f0, int r0, Board *b, MOVE *moves[]) {
 		 curr_move++;
 	   }
 	}
+	//check two spaces right and one space up
 	f = f0 + 2;
 	r = r0 + 1;
 	if(f >= 0 && f < 8 && r >=0 && r < 8){
@@ -238,6 +241,7 @@ void getValidMovesKnight(int f0, int r0, Board *b, MOVE *moves[]) {
 		 curr_move++;
 	   }
 	}
+	//check two spaces left and one space up
 	f = f0 - 2;
 	r = r0 + 1;
 	if(f >= 0 && f < 8 && r >=0 && r < 8){
@@ -250,6 +254,7 @@ void getValidMovesKnight(int f0, int r0, Board *b, MOVE *moves[]) {
 		 curr_move++;
 	   }
 	}
+	//check one space left and two spaces up
 	f = f0 - 1;
 	r = r0 + 2;
 	if(f >= 0 && f < 8 && r >=0 && r < 8){
@@ -262,6 +267,7 @@ void getValidMovesKnight(int f0, int r0, Board *b, MOVE *moves[]) {
 		 curr_move++;
 	   }
 	}
+	//check one space right and two spaces down
 	f = f0 + 1;
 	r = r0 - 2;
 	if(f >= 0 && f < 8 && r >=0 && r < 8){
@@ -274,6 +280,7 @@ void getValidMovesKnight(int f0, int r0, Board *b, MOVE *moves[]) {
 		 curr_move++;
 	   }
 	}
+	//check two spaces right and one space down
 	f = f0 + 2;
 	r = r0 - 1;
 	if(f >= 0 && f < 8 && r >=0 && r < 8){
@@ -783,7 +790,7 @@ void getValidMovesPawn(int f0, int r0, Board *b, MOVE *moves[]){
 	//check to see if white pawn can move forward 2 spaces
 	if(b-> board[f0][r0]->color == WHITE){
 		int f = f0, r = r0 + 2, moveCount = 0;
-		if(r0 == 1 && b->board[f0][r0+2]->piece == EMPTY){
+		if(r0 == 1 && b->board[f0][r0+1]-> == EMPTY && b->board[f0][r0+2]->piece == EMPTY){
 			//if(!IsInCheck(f0, r0, f, r, b)){
 			moves[moveCount] = malloc(sizeof(MOVE));
 			moves[moveCount] -> f0 = f0;
@@ -870,7 +877,7 @@ void getValidMovesPawn(int f0, int r0, Board *b, MOVE *moves[]){
 	if(b-> board[f0][r0]->color == BLACK){
 		//check to see if black pawn can move forward two spaces 
 		int f = f0, r = r0 - 2, moveCount = 0;
-		if(r0 == 6 && b->board[f0][r0-2]->piece == EMPTY){
+		if(r0 == 6 &&  b->board[f0][r0-1]->piece == EMPTY && b->board[f0][r0-2]->piece == EMPTY){
 			//if(!IsInCheck(f0, r0, f, r, b)){
 			moves[moveCount] = malloc(sizeof(MOVE));
 			moves[moveCount] -> f0 = f0;
