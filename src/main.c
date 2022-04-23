@@ -91,6 +91,8 @@ int main(int argc, char *argv[]) {
 			#else
 			Move(s0[0] - 65, s0[1] - 49, s1[0] - 65, s1[1] - 49, chessBoard);
 			//CopyBoard(chessBoard, chessBoardCopy);
+			MOVE *best = IdealMove(chessBoard, WHITE);
+			printf("IdealMove: %d%d %d%d", best->f0, best->r0, best->f1, best->r1);
 			#endif
 
 			PrintBoard(chessBoard);

@@ -913,7 +913,7 @@ bool IsInCheck(int f0, int r0, int f1, int r1, Board *b) {
 					if(valid[j]){
 						//printf("%d. %d %d -> %d %d\n", count++, valid[j]->f0, valid[j]->r0, valid[j]->f1, valid[j]->r1);
 						if(b2->board[valid[j]->f1][valid[j]->r1]->piece == KING && b2->board[valid[j]->f1][valid[j]->r1]->color == b2->board[f1][r1]->color){
-							printf("There is a check!");
+							//printf("There is a check!");
 							DeleteBoard(b2);
 							//free(b2);
 							free(valid[j]);
@@ -992,4 +992,169 @@ void RawMove(int f0, int r0, int f1, int r1, Board *b){
 		}
 	}
 }
+
+int EvaluateBoard(Board *b){
+	int value = 0;
+	for(int i = 0; i < 8; i++){
+		for(int j = 0; j < 8; j++){
+			if(b->board[i][j]->piece != EMPTY){
+				switch (b->board[i][j]->piece) {
+				case QUEEN:
+					if(b->board[i][j]->color == WHITE){
+						value+=9;
+					}else{
+						value-=9;
+					}
+					break;
+				case ROOK:
+					if(b->board[i][j]->color == WHITE){
+						value+=5;
+					}else{
+						value-=5;
+					}
+					break;
+				case KNIGHT:
+					if(b->board[i][j]->color == WHITE){
+						value+=3;
+					}else{
+						value-=3;
+					}
+					break;
+				case BISHOP:
+					if(b->board[i][j]->color == WHITE){
+						value+=3;
+					}else{
+						value-=3;
+					}
+					break;
+				case PAWN:
+					if(b->board[i][j]->color == WHITE){
+						value+=1;
+					}else{
+						value-=1;
+					}
+					break;
+				default:
+					break;
+				}
+			}
+		}
+	}
+	return value;
+}
+
+MOVE *IdealMove(Board *b, EColor player){
+	int score = EvaluateBoard(b);
+
+	MOVE * valid[VALID_MOVE_SIZE];
+
+	MOVE * best = malloc(sizeof(MOVE));
+
+	Board * b2 = malloc(sizeof(Board));
+
+	for(int f = 0; f < 8; f++){
+		for(int r = 0; r < 8; r++){
+			//get the valid moves array for the corresponding piece
+			if(b->board[f][r]->color == player){
+				for (int i = 0; i < VALID_MOVE_SIZE; ++i) valid[i] = NULL;
+				switch (b->board[f][r]->piece) {
+					case QUEEN:
+						getValidMovesQueen(f, r, b, valid);
+						break;
+					case ROOK:
+						getValidMovesRook(f, r, b, valid);
+						break;
+					case KNIGHT:
+						getValidMovesKnight(f, r, b, valid);
+						break;
+					case BISHOP:
+						getValidMovesBishop(f, r, b, valid);
+						break;
+					case PAWN:
+						getValidMovesPawn(f, r, b, valid);
+						break;
+					case KING:
+						//getValidMovesKing(f, r, b, valid);
+						break;
+					default:
+						break;
+				}
+
+				for(int i = 0; i < VALID_MOVE_SIZE; i++){
+					if(valid[i] != NULL && !IsInCheck(valid[i]->f0, valid[i]->r0, valid[i]->f1, valid[i]->r1, b)){
+						SimulateMove(b, b2, valid[i]);
+						int newscore = EvaluateBoard(b2);
+						if(player == WHITE){
+							if(newscore>=score){
+								score = newscore;
+								best->f0 = valid[i]->f0;
+								best->r0 = valid[i]->r0;
+								best->f1 = valid[i]->f1;
+								best->r1 = valid[i]->r1;
+							}
+						}else{
+							if(newscore<=score){
+								score = newscore;
+								best->f0 = valid[i]->f0;
+								best->r0 = valid[i]->r0;
+								best->f1 = valid[i]->f1;
+								best->r1 = valid[i]->r1;
+							}
+						}
+					}
+					if(valid[i]!=NULL){
+						free(valid[i]);
+						valid[i] = NULL;
+					}else{
+						break;
+					}
+				}
+			}
+		}
+	}
+	DeleteBoard(b2);
+	return best;
+}
+/*
+void GenerateTree(Board *source, TREE *out, int depth){
+	MOVE * valid[VALID_MOVE_SIZE];
+
+	TREE_EL *rootelement = malloc(sizeof(TREE_EL));
+	TREE->root = rootelement;
+	rootelement->parent = NULL;
+	rootelement->value = source;
+
+	
+	for(int i = 0; i < 8; i++){
+		for(int j = 0; j < 8; j++){
+			if(source->board[i][j]->piece != EMPTY){
+				switch (source->board[i][j]->piece) {
+				case QUEEN:
+					getValidMovesQueen(i, j, source, valid);
+					break;
+				case ROOK:
+					getValidMovesRook(i, j, source, valid);
+					break;
+				case KNIGHT:
+					getValidMovesKnight(i, j, source, valid);
+					break;
+				case BISHOP:
+					getValidMovesBishop(i, j, source, valid);
+					break;
+				case PAWN:
+					getValidMovesPawn(i, j, source, valid);
+					break;
+				case KING:
+					//getValidMovesKing(f, r, b2, valid);
+					break;
+				default:
+					break;
+				}
+			}
+		}
+	}
+}
+*/
+
+
 
