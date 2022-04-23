@@ -18,6 +18,6 @@ $(OUT): $(OBJS)
 clean:
 	rm $(OBJS) $(DESTDIR)/$(OUT)
 
-test: %.c 
-	gcc -c $< -DTEST $(CFLAGS)
+test: 
+	$(foreach src, $(SRCS), gcc -c $(src) -DTEST $(CFLAGS) -o $(basename $(src)).o;)
 	gcc $(OBJS) $(CFLAGS) -o $(DESTDIR)/$(OUT)
