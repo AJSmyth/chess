@@ -816,7 +816,7 @@ LL *getValidMovesPawn(int f0, int r0, Board *b){
 		//check to see if white pawn can capture right diagonally
 		f = f0+1, r = r0 +1; //right diagonal
 		//if(!IsInCheck(f0, r0, f, r, b)){//check to see if move to be made will put King in check
-		if(f < 8 && r < 8 && b->board[f][r]->piece == BLACK){//piece should not be white and not empty to capture
+		if(f < 8 && r < 8 && b->board[f][r]->color == BLACK){//piece should not be white and not empty to capture
 			MOVE *curr = malloc(sizeof(MOVE));
 			curr -> f0 = f0;
 			curr -> r0 = r0;
@@ -828,7 +828,7 @@ LL *getValidMovesPawn(int f0, int r0, Board *b){
 		//check to see if white pawn can capture left diagonally
 		f = f0 - 1, r = r0 + 1; //left diagonal
 		//if(!IsInCheck(f0, r0, f, r, b)){ //check to see if move to be made will put King in check
-		if(f >= 0 && r < 8 && b->board[f][r]->piece == BLACK){ //piece should not be white and not empty to capture
+		if(f >= 0 && r < 8 && b->board[f][r]->color == BLACK){ //piece should not be white and not empty to capture
 			MOVE *curr = malloc(sizeof(MOVE));
 			curr -> f0 = f0;
 			curr -> r0 = r0;
@@ -893,7 +893,7 @@ LL *getValidMovesPawn(int f0, int r0, Board *b){
 		}
 		//check to see if black pawn can capture right diagonally
 		f = f0 - 1, r = r0 - 1; //right diagonal
-		if(f >= 0 && r >= 0 && b->board[f][r]->piece == WHITE){//piece should not be white and not empty to capture
+		if(f >= 0 && r >= 0 && b->board[f][r]->color == WHITE){//piece should not be white and not empty to capture
 			MOVE *curr = malloc(sizeof(MOVE));
 			curr -> f0 = f0;
 			curr -> r0 = r0;
@@ -904,7 +904,7 @@ LL *getValidMovesPawn(int f0, int r0, Board *b){
 		//check to see if black pawn can capture left diagonally
 		f = f0 + 1, r = r0 - 1; //left diagonal
 		//check to see if move to be made will put King in check
-		if(f < 8 && r >= 0 && b->board[f][r]->piece == WHITE){ //piece should not be white and not empty to capture
+		if(f < 8 && r >= 0 && b->board[f][r]->color == WHITE){ //piece should not be white and not empty to capture
 			MOVE *curr = malloc(sizeof(MOVE));
 			curr -> f0 = f0;
 			curr -> r0 = r0;
