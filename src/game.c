@@ -838,8 +838,9 @@ LL *getValidMovesPawn(int f0, int r0, Board *b){
 		}
 		//}
 		//PROMOTION FOR WHITE PAWN
-		if(r == 7){ //IF WHITE PAWN REACHES RANK 8 (7 in the array) THEN PROMOTE PIECE 
+		if(b->board[f][7]->color == BLACK){ //IF WHITE PAWN REACHES RANK 8 (7 in the array) THEN PROMOTE PIECE 
 		 char promoteTo;
+		 printf("Please choose a piece to promote your pawn to: /nQ:Queen/nN:Knight/nB:Bishop/nR:Rook/nPiece:");
 		 scanf("%c", &promoteTo);
 		 switch(promoteTo){
 			 case 'Q':
@@ -914,8 +915,9 @@ LL *getValidMovesPawn(int f0, int r0, Board *b){
 		}
 		//}
 		//PROMOTION FOR BLACK PAWN
-		if(r == 0){ //IF BLACK PAWN REACHES RANK 1 (0 in the array) THEN PROMOTE PIECE 
+		if(b->board[f][0]->color == WHITE){ //IF BLACK PAWN REACHES RANK 1 (0 in the array) THEN PROMOTE PIECE 
 		 char promoteTo;
+		 printf("Please choose a piece to promote your pawn to: /nQ:Queen/nN:Knight/nB:Bishop/nR:Rook/nPiece:");
 		 scanf("%c", &promoteTo);
 		 switch(promoteTo){
 			 case 'Q':
