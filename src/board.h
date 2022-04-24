@@ -39,7 +39,7 @@ typedef struct {
 	//board[file][rank], [0][0] corresponds to A1, [7][7] to H8  
 	Piece *board[8][8];
 	//captured board, black starts at 2*8=16
-	Piece *cap[4][8]
+	Piece *cap[4][8];
 	int nCapW, nCapB;
 	EColor p1;
 	EColor currentPlayerTurn;

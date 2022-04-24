@@ -91,14 +91,45 @@ int main(int argc, char *argv[]) {
 			#else
 			Move(s0[0] - 65, s0[1] - 49, s1[0] - 65, s1[1] - 49, chessBoard);
 			//CopyBoard(chessBoard, chessBoardCopy);
-			MOVE *best = IdealMove(chessBoard, WHITE);
-			printf("IdealMove: %d%d %d%d", best->f0, best->r0, best->f1, best->r1);
+			//MOVE *best = IdealMove(chessBoard, WHITE);
+			//printf("IdealMove: %d%d %d%d", best->f0, best->r0, best->f1, best->r1);
+
 			#endif
 
 			PrintBoard(chessBoard);
 		}	
 	}
 
+	if(a == 4){
+		while (true) 
+		{
+			printf("Select a piece to move in the form \"FR FR\" (e.g. A2 A3): ");
+			char s0[3], s1[3];
+			scanf("%2s %2s", s0, s1);
+			/*
+			LL *list = malloc(sizeof(LL));
+			list->first = NULL;
+			list->last = NULL;
+			MOVE *m = malloc(sizeof(MOVE));
+			m->f1 = 1;
+			m->r1 = 1;
+			m->f0 = 1;
+			m->r0 = 1;
+			Append(list, m);
+			printf("LIST ELEMENT: %d", ((MOVE *)(list->first->data))->f1);
+			*/
+			Move(s0[0] - 65, s0[1] - 49, s1[0] - 65, s1[1] - 49, chessBoard);
+			LL *validlist = getValidMoves(chessBoard, WHITE);
+			LLElem *curr = validlist->first;
+			int count = 0;
+			while(curr){
+				MOVE *currmove = (MOVE *)(curr->data);
+				printf("MOVE#%d: %c%c->%c%c\n", ++count, currmove->f0 + 65, currmove->r0 + 49, currmove->f1 + 65, currmove->r1 + 49);
+				curr = curr->next;
+			}
+			PrintBoard(chessBoard);
+		}	
+	}
 
 
 

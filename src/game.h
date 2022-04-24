@@ -33,21 +33,37 @@ typedef struct{
 	TREE_EL_LIST_MEM *next;
 }TREE_EL_LIST_MEM;
 */
+
+typedef struct LLElem LLElem;
+
+struct LLElem{
+	void *data;
+	LLElem *next;
+};
+
+typedef struct{
+	LLElem *first;
+	LLElem *last;
+}LL;
+
+
 char *Move(int f0, int r0, int f1, int r1, Board *b);
 void RawMove(int f0, int r0, int f1, int r1, Board *b);
 bool IsValid(int f0, int r0, int f1, int r1, Board *b);
 bool IsInCheck(int f0, int r0, int f1, int r1, Board *b);
 bool IsMated(int f0, int r0, int f1, int r1, Board *b);
-void MoveToCapture(int f, int r, Board *b);
+void Capture(int f, int r, Board *b);
 void Promote(int f0, int r0, Board *b);
 void Castling(int f0, int r0, int f1, int r1, Board *b);
 
-void getValidMovesQueen(int, int, Board *, MOVE **);
-void getValidMovesRook(int, int, Board *, MOVE **);
-void getValidMovesKnight(int, int, Board *, MOVE **);
-void getValidMovesBishop(int, int, Board *, MOVE **);
-void getValidMovesPawn(int, int, Board *, MOVE **);
-void getValidMovesKing(int, int, Board *, MOVE **);
+LL *getValidMovesQueen(int, int, Board *);
+LL *getValidMovesRook(int, int, Board *);
+LL *getValidMovesKnight(int, int, Board *);
+LL *getValidMovesBishop(int, int, Board *);
+LL *getValidMovesPawn(int, int, Board *);
+LL *getValidMovesKing(int, int, Board *);
+
+LL *getValidMoves(Board *, EColor);
 
 void MoveRandomBlack(Board *b);
 void MoveRandomWhite(Board *b);
@@ -59,4 +75,7 @@ void CAN(int, int, int, int, Board *);
 int EvaluateBoard(Board *b);
 
 MOVE *IdealMove(Board *b, EColor player);
+
+void Append(LL *list, void *data);
+void DeleteList(LL *list);
 #endif

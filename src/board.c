@@ -160,9 +160,10 @@ void DeleteBoard(Board *b){
 		for(int j = 0; j<8; j++){
 			if(b->board[i][j]){
 				free(b->board[i][j]);
+				b->board[i][j]= NULL;
 			}
 		}
 	}
-	//free(b);
-	//b = NULL;
+	free(b);
+	b = NULL;
 }
