@@ -1,14 +1,14 @@
 SOURCEDIR = src
 DESTDIR = bin
 
-CFLAGS = -std=c11 -Wno-return-local-addr 
+CFLAGS = -std=c11 -Wno-return-local-addr
 LIBS := $(shell ncursesw5-config --libs) -ltinfo
 SRCS := $(wildcard $(SOURCEDIR)/*.c)
 OBJS := $(patsubst %.c, %.o, $(SRCS))
 OUT = chess
 
 $(OUT): $(OBJS)
-	gcc $(OBJS) $(CFLAGS) -o $(DESTDIR)/$(OUT)
+	gcc -g $(OBJS) $(CFLAGS) -o $(DESTDIR)/$(OUT)
 	#NCURSES build
 	#gcc $(OBJS) $(CFLAGS) $(LIBS) $(shell ncursesw5-config --cflags) --enable-widec -o $(DESTDIR)/$(OUT)
 
@@ -18,6 +18,6 @@ $(OUT): $(OBJS)
 clean:
 	rm $(OBJS) $(DESTDIR)/$(OUT)
 
-test: 
+test:
 	$(foreach src, $(SRCS), gcc -c $(src) -DTEST $(CFLAGS) -o $(basename $(src)).o;)
 	gcc $(OBJS) $(CFLAGS) -o $(DESTDIR)/$(OUT)

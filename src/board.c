@@ -149,7 +149,7 @@ void CopyBoard(Board *b1, Board *b2){
 			Piece *clone = malloc(sizeof(Piece));
 			clone->piece = b1->board[i][j]->piece;
 			clone->color = b1->board[i][j]->color;
-			free(b2->board[i][j]);
+			//free(b2->board[i][j]);
 			b2->board[i][j] = clone;
 		}
 	}

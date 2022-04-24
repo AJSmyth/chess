@@ -99,7 +99,7 @@ int main(int argc, char *argv[]) {
 			PrintBoard(chessBoard);
 		}	
 	}
-
+	//dev only
 	if(a == 4){
 		while (true) 
 		{

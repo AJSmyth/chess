@@ -976,7 +976,7 @@ bool IsInCheck(int f0, int r0, int f1, int r1, Board *b) {
 					moves = getValidMovesPawn(f, r, b2);
 					break;
 				case KING:
-					getValidMovesKing(f, r, b2, valid);
+					//getValidMovesKing(f, r, b2, valid);
 					break;
 				default:
 					break;
