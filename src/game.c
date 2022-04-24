@@ -16,10 +16,8 @@ char *Move(int f0, int r0, int f1, int r1, Board *b) {
 		
 		if(b->board[f0][r0]->color == BLACK){
 			b->currentPlayerTurn = WHITE;
-			//printf("changing to white");
 		}else{
 			b->currentPlayerTurn = BLACK;
-			//printf("changing to black");
 		}
 
 		//---------- Move the Piece ----------------
@@ -28,17 +26,17 @@ char *Move(int f0, int r0, int f1, int r1, Board *b) {
 		
 		//normal move
 		if (b->board[f1][r1]->piece == EMPTY) {
-			//CAN(f0, r0, f1, r1, b);
+			CAN(f0, r0, f1, r1, b);
 			b->board[f0][r0] = b->board[f1][r1];
 			b->board[f1][r1] = p;
-			//Castling (f0, r0, f1, r1, b);
+			Castling (f0, r0, f1, r1, b);
 		}
 		
 		//capturing move (prevent capturing king)
 		else if (b->board[f1][r1]->piece != KING) {
 			b->board[f0][r0]->isCapturing = true; //so that CAN know that it is capturing
 			printf("%d\n", b->board[f0][r0]->isCapturing);
-			//CAN(f0, r0, f1, r1, b);
+			CAN(f0, r0, f1, r1, b);
 
 			printf("CAPTURING");
 			Capture(f1, r1, b);
@@ -631,64 +629,55 @@ LL *getValidMovesBishop(int f, int r, Board *b){
 }
 
 LL *getValidMovesKing(int f,int r, Board *b){
-	//MOVE *moves[63];
-	//int current_move = 0;
-	//int Castling;
-	/*
-	//Castling using White Rook on the Right Side
-	if (b->board[7][0]->piece == ROOK && b->board[7][0]->color == WHITE && b->board[f][r]->counter == 0 && f == 4 && r == 0 && b->board[f][r]->color == WHITE && b->board[f+1][r]->piece == EMPTY && b->board[f+2][r]->piece == EMPTY)
-	{
-		moves[current_move] = malloc(sizeof(MOVE));
-		moves[current_move]->f0 = f;
-		moves[current_move]->r0 = r;
-		moves[current_move]->f1 = 6;
-		moves[current_move]->r1 = 0;
-		//b->board[6][0]->hl = 1;
-		current_move++;
-	} 
-
-	//Castling using White Rook on the Left Side
-	if (b->board[0][0]->piece == ROOK && b->board[0][0]->color == WHITE && b->board[f][r]->counter == 0 && f == 4 && r == 0 && b->board[f][r]->color == WHITE && b->board[f-1][r]->piece == EMPTY && b->board[f-2][r]->piece == EMPTY && b->board[f-3][r]->piece == EMPTY)
-	{
-		moves[current_move] = malloc(sizeof(MOVE));
-		moves[current_move]->f0 = f;
-		moves[current_move]->r0 = r;
-		moves[current_move]->f1 = 2;
-		moves[current_move]->r1 = 0;
-		//b->board[2][0]->hl = 1;
-		current_move++;
-	}
-	
-	//Castling using Black Rook on the Right Side
-	if (b->board[7][7]->piece == ROOK && b->board[7][7]->color == BLACK && b->board[f][r]->counter == 0 && f == 4 && r == 7 && b->board[f][r]->color == BLACK && b->board[f+1][r]->piece == EMPTY && b->board[f+2][r]->piece == EMPTY)
-	{
-		moves[current_move] = malloc(sizeof(MOVE));
-		moves[current_move]->f0 = f;
-		moves[current_move]->r0 = r;
-		moves[current_move]->f1 = 6;
-		moves[current_move]->r1 = 7;
-		//b->board[6][7]->hl = 1;
-		current_move++;
-	}
-
-	//Castling using Black Rook on the Left Side
-	if (b->board[0][7]->piece == ROOK && b->board[0][7]->color == BLACK && b->board[f][r]->counter == 0 && f == 4 && r == 7 && b->board[f][r]->color == BLACK && b->board[f-1][r]->piece == EMPTY && b->board[f-2][r]->piece == EMPTY && b->board[f-3][r]->piece == EMPTY)
-	{
-		moves[current_move] = malloc(sizeof(MOVE));
-		moves[current_move]->f0 = f;
-		moves[current_move]->r0 = r;
-		moves[current_move]->f1 = 2;
-		moves[current_move]->r1 = 7;
-		//b->board[2][7]->hl = 1;
-		current_move++;
-	}
-	*/
-	//Check 1 space above
-	
 	LL *out = malloc(sizeof(LL));
 	out->first = NULL;
 	out->last = NULL;
+		
+	//Castling using White Rook on the Right Side
+	if (b->board[7][0]->piece == ROOK && b->board[7][0]->color == WHITE && b->board[f][r]->counter == 0 && f == 4 && r == 0 && b->board[f][r]->color == WHITE && b->board[f+1][r]->piece == EMPTY && b->board[f+2][r]->piece == EMPTY && b->board[6][0]->counter == 0)
+	{
+		MOVE *curr = malloc(sizeof(MOVE));
+		curr->r0 = r; 
+		curr->f0 = f;
+		curr->r1 = 0;
+		curr->f1 = 6;
+		Append(out, curr);
+	} 
+
+	//Castling using White Rook on the Left Side
+	if (b->board[0][0]->piece == ROOK && b->board[0][0]->color == WHITE && b->board[f][r]->counter == 0 && f == 4 && r == 0 && b->board[f][r]->color == WHITE && b->board[f-1][r]->piece == EMPTY && b->board[f-2][r]->piece == EMPTY && b->board[f-3][r]->piece == EMPTY  && b->board[2][0]->counter == 0)
+	{
+		MOVE *curr = malloc(sizeof(MOVE));
+		curr->r0 = r; 
+		curr->f0 = f;
+		curr->r1 = 0;
+		curr->f1 = 2;
+		Append(out, curr);
+	}	
 	
+	//Castling using Black Rook on the Right Side
+	if (b->board[7][7]->piece == ROOK && b->board[7][7]->color == BLACK && b->board[f][r]->counter == 0 && f == 4 && r == 7 && b->board[f][r]->color == BLACK && b->board[f+1][r]->piece == EMPTY && b->board[f+2][r]->piece == EMPTY  && b->board[6][7]->counter == 0)
+	{
+		MOVE *curr = malloc(sizeof(MOVE));
+		curr->r0 = r; 
+		curr->f0 = f;
+		curr->r1 = 7;
+		curr->f1 = 6;
+		Append(out, curr);
+	}
+
+	//Castling using Black Rook on the Left Side
+	if (b->board[0][7]->piece == ROOK && b->board[0][7]->color == BLACK && b->board[f][r]->counter == 0 && f == 4 && r == 7 && b->board[f][r]->color == BLACK && b->board[f-1][r]->piece == EMPTY && b->board[f-2][r]->piece == EMPTY && b->board[f-3][r]->piece == EMPTY  && b->board[2][7]->counter == 0)
+	{
+		MOVE *curr = malloc(sizeof(MOVE));
+		curr->r0 = r; 
+		curr->f0 = f;
+		curr->r1 = 7; 
+		curr->f1 = 2;
+		Append(out, curr);
+	}
+
+	//Check 1 space above
 	if (r+1 <= 7)
 	{
 		if (b->board[f][r]->color != b->board[f][r+1]->color)
@@ -997,7 +986,7 @@ LL *getValidMoves(Board * board, EColor player){
 					sublist = getValidMovesPawn(f, r, board);
 					break;
 				case KING:
-					getValidMovesKing(f, r, board);
+					sublist = getValidMovesKing(f, r, board);
 					break;
 				default:
 					break;
@@ -1018,7 +1007,7 @@ LL *getValidMoves(Board * board, EColor player){
 	return out;
 }
 
-void Castling (int f0, int r0, int f1, int r1, Board *b)
+void Castling(int f0, int r0, int f1, int r1, Board *b)
 {
 	if (f1 == 6 && r1 == 0 && f0 == 4 && r0 == 0)
 	{

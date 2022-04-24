@@ -119,7 +119,7 @@ int main(int argc, char *argv[]) {
 			printf("LIST ELEMENT: %d", ((MOVE *)(list->first->data))->f1);
 			*/
 			Move(s0[0] - 65, s0[1] - 49, s1[0] - 65, s1[1] - 49, chessBoard);
-			LL *validlist = getValidMoves(chessBoard, BLACK);
+			LL *validlist = getValidMoves(chessBoard, WHITE);
 			LLElem *curr = validlist->first;
 			int count = 0;
 			while(curr){
