@@ -34,8 +34,8 @@ char *Move(int f0, int r0, int f1, int r1, Board *b) {
 			//Castling (f0, r0, f1, r1, b);
 		}
 		
-		//capturing move
-		else {
+		//capturing move (prevent capturing king)
+		else if (b->board[f1][r1]->piece != KING) {
 			b->board[f0][r0]->isCapturing = true; //so that CAN know that it is capturing
 			printf("%d\n", b->board[f0][r0]->isCapturing);
 			//CAN(f0, r0, f1, r1, b);
@@ -89,7 +89,7 @@ bool IsValid(int f0, int r0, int f1, int r1, Board *b) {
 			moves = getValidMovesPawn(f0, r0, b);
 			break;
 		case KING:
-			//moves = getValidMovesKing(f0, r0, b);
+			moves = getValidMovesKing(f0, r0, b);
 			break;
 		default:
 			return false;
@@ -653,20 +653,23 @@ LL *getValidMovesKing(int f,int r, Board *b){
 		current_move++;
 	}
 	*/
-	/*
 	//Check 1 space above
+	
+	LL *out = malloc(sizeof(LL));
+	out->first = NULL;
+	out->last = NULL;
 	
 	if (r+1 <= 7)
 	{
-		if (b->board[f][r+1]->piece || b->board[f][r]->color != b->board[f][r+1]->color)
+		if (b->board[f][r]->color != b->board[f][r+1]->color)
 		{ 
-			moves[current_move] = malloc(sizeof(MOVE));
-			moves[current_move]->f0 = f;
-			moves[current_move]->r0 = r;
-			moves[current_move]->f1 = f;
-			moves[current_move]->r1 = r+1;
-			current_move ++;
-			//b->board[f][r+1]->hl = 1;
+			MOVE *curr = malloc(sizeof(MOVE));
+			curr->r0 = r; 
+			curr->f0 = f;
+			curr->r1 = r+1;
+			curr->f1 = f;
+			Append(out, curr);
+			//b->board[i][j]->hl = 1;
 		}
 	}
 
@@ -674,15 +677,15 @@ LL *getValidMovesKing(int f,int r, Board *b){
 		
 	if (r-1 >= 0)
 	{
-		if (b->board[f][r-1]->piece == EMPTY || b->board[f][r]->color != b->board[f][r-1]->color)
+		if (b->board[f][r]->color != b->board[f][r-1]->color)
 		{ 
-			moves[current_move] = malloc(sizeof(MOVE));
-			moves[current_move]->f0 = f;
-			moves[current_move]->r0 = r;
-			moves[current_move]->f1 = f;
-			moves[current_move]->r1 = r-1;
-			current_move ++;
-			//b->board[f][r-1]->hl = 1;
+			MOVE *curr = malloc(sizeof(MOVE));
+			curr->r0 = r; 
+			curr->f0 = f;
+			curr->r1 = r-1;
+			curr->f1 = f;
+			Append(out, curr);
+			//b->board[i][j]->hl = 1;
 		}
 	}
 	
@@ -690,15 +693,15 @@ LL *getValidMovesKing(int f,int r, Board *b){
 
 	if (f-1 >= 0)
 	{
-		if (b->board[f-1][r]->piece == EMPTY || b->board[f][r]->color != b->board[f-1][r]->color)
+		if (b->board[f][r]->color != b->board[f-1][r]->color)
 		{ 
-			moves[current_move] = malloc(sizeof(MOVE));
-			moves[current_move]->f0 = f;
-			moves[current_move]->r0 = r;
-			moves[current_move]->f1 = f-1;
-			moves[current_move]->r1 = r;
-			current_move ++;
-			//b->board[f-1][r]->hl = 1;
+			MOVE *curr = malloc(sizeof(MOVE));
+			curr->r0 = r; 
+			curr->f0 = f;
+			curr->r1 = r;
+			curr->f1 = f-1;
+			Append(out, curr);
+			//b->board[i][j]->hl = 1;
 		}
 	}
 	
@@ -706,15 +709,15 @@ LL *getValidMovesKing(int f,int r, Board *b){
 	
 	if (f+1 <= 7)
 	{
-		if (b->board[f+1][r]->piece == EMPTY || b->board[f][r]->color != b->board[f+1][r]->color)
+		if (b->board[f][r]->color != b->board[f+1][r]->color)
 		{ 
-			moves[current_move] = malloc(sizeof(MOVE));
-			moves[current_move]->f0 = f;
-			moves[current_move]->r0 = r;
-			moves[current_move]->f1 = f+1;
-			moves[current_move]->r1 = r;
-			current_move ++;
-			//b->board[f+1][r]->hl = 1;
+			MOVE *curr = malloc(sizeof(MOVE));
+			curr->r0 = r; 
+			curr->f0 = f;
+			curr->r1 = r;
+			curr->f1 = f+1;
+			Append(out, curr);
+			//b->board[i][j]->hl = 1;
 		}
 	}
 	
@@ -722,15 +725,15 @@ LL *getValidMovesKing(int f,int r, Board *b){
 	
 	if (r+1 <= 7 && f+1 <= 7)
 	{
-		if (b->board[f+1][r+1]->piece == EMPTY || b->board[f][r]->color != b->board[f+1][r+1]->color)
+		if (b->board[f][r]->color != b->board[f+1][r+1]->color)
 		{ 
-			moves[current_move] = malloc(sizeof(MOVE));
-			moves[current_move]->f0 = f;
-			moves[current_move]->r0 = r;
-			moves[current_move]->f1 = f + 1;
-			moves[current_move]->r1 = r + 1;
-			current_move ++;
-			//b->board[f+1][r+1]->hl = 1;
+			MOVE *curr = malloc(sizeof(MOVE));
+			curr->r0 = r; 
+			curr->f0 = f;
+			curr->r1 = r+1;
+			curr->f1 = f+1;
+			Append(out, curr);
+			//b->board[i][j]->hl = 1;
 		}
 	}
 
@@ -738,15 +741,15 @@ LL *getValidMovesKing(int f,int r, Board *b){
 	
 	if (r+1 <= 7 && f-1 >=0)
 	{
-		if (b->board[f-1][r+1]->piece == EMPTY || b->board[f][r]->color != b->board[f-1][r+1]->color)
+		if (b->board[f][r]->color != b->board[f-1][r+1]->color)
 		{ 
-			moves[current_move] = malloc(sizeof(MOVE));
-			moves[current_move]->f0 = f;
-			moves[current_move]->r0 = r;
-			moves[current_move]->f1 = f - 1;
-			moves[current_move]->r1 = r + 1;
-			current_move ++;
-			//b->board[f-1][r+1]->hl = 1;
+			MOVE *curr = malloc(sizeof(MOVE));
+			curr->r0 = r; 
+			curr->f0 = f;
+			curr->r1 = r+1;
+			curr->f1 = f-1;
+			Append(out, curr);
+			//b->board[i][j]->hl = 1;
 		}
 	}
 
@@ -754,15 +757,15 @@ LL *getValidMovesKing(int f,int r, Board *b){
 	
 	if (r-1 >= 0 && f+1 <= 7)
 	{
-		if (b->board[f+1][r-1]->piece == EMPTY || b->board[f][r]->color != b->board[f+1][r-1]->color)
+		if (b->board[f][r]->color != b->board[f+1][r-1]->color)
 		{ 
-			moves[current_move] = malloc(sizeof(MOVE));
-			moves[current_move]->f0 = f;
-			moves[current_move]->r0 = r;
-			moves[current_move]->f1 = f + 1;
-			moves[current_move]->r1 = r - 1;
-			current_move ++;
-			//b->board[f+1][r-1]->hl = 1;
+			MOVE *curr = malloc(sizeof(MOVE));
+			curr->r0 = r; 
+			curr->f0 = f;
+			curr->r1 = r-1;
+			curr->f1 = f+1;
+			Append(out, curr);
+			//b->board[i][j]->hl = 1;
 		}
 	}
 	
@@ -770,19 +773,18 @@ LL *getValidMovesKing(int f,int r, Board *b){
 	
 	if (r-1 >= 0 && f-1 >= 0)
 	{
-		if (b->board[f-1][r-1]->piece == EMPTY || b->board[f][r]->color != b->board[f-1][r-1]->color)
+		if (b->board[f][r]->color != b->board[f-1][r-1]->color)
 		{ 
-			moves[current_move] = malloc(sizeof(MOVE));
-			moves[current_move]->f0 = f;
-			moves[current_move]->r0 = r;
-			moves[current_move]->f1 = f - 1;
-			moves[current_move]->r1 = r - 1;
-			current_move ++;
-			//b->board[f-1][r-1]->hl = 1;
+			MOVE *curr = malloc(sizeof(MOVE));
+			curr->r0 = r; 
+			curr->f0 = f;
+			curr->r1 = r-1;
+			curr->f1 = f-1;
+			Append(out, curr);
+			//b->board[i][j]->hl = 1;
 		}
 	}
-	*/
-//return moves;	
+	return out;
 }
 
 LL *getValidMovesPawn(int f0, int r0, Board *b){
@@ -976,7 +978,7 @@ bool IsInCheck(int f0, int r0, int f1, int r1, Board *b) {
 					moves = getValidMovesPawn(f, r, b2);
 					break;
 				case KING:
-					//getValidMovesKing(f, r, b2, valid);
+					getValidMovesKing(f, r, b2);
 					break;
 				default:
 					break;
@@ -1026,7 +1028,7 @@ LL *getValidMoves(Board * board, EColor player){
 					sublist = getValidMovesPawn(f, r, board);
 					break;
 				case KING:
-					//getValidMovesKing(f, r, b2, valid);
+					getValidMovesKing(f, r, board);
 					break;
 				default:
 					break;
