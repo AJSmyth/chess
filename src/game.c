@@ -893,7 +893,7 @@ LL *getValidMovesPawn(int f0, int r0, Board *b){
 		}
 		//check to see if black pawn can capture right diagonally
 		f = f0 - 1, r = r0 - 1; //right diagonal
-		if(f >= 0 && r >= 0 && b->board[f0 -1][r0-1]->piece != EMPTY && b->board[f0-1][r0-1]->piece != BLACK){//piece should not be white and not empty to capture
+		if(f >= 0 && r >= 0 && b->board[f][r]->piece == WHITE){//piece should not be white and not empty to capture
 			MOVE *curr = malloc(sizeof(MOVE));
 			curr -> f0 = f0;
 			curr -> r0 = r0;
@@ -904,7 +904,7 @@ LL *getValidMovesPawn(int f0, int r0, Board *b){
 		//check to see if black pawn can capture left diagonally
 		f = f0 + 1, r = r0 - 1; //left diagonal
 		//check to see if move to be made will put King in check
-		if(f < 8 && r >= 0 && b->board[f0 + 1][r0 - 1]->piece != EMPTY && b->board[f0 + 1][r0 - 1]->piece != BLACK){ //piece should not be white and not empty to capture
+		if(f < 8 && r >= 0 && b->board[f][r]->piece == WHITE){ //piece should not be white and not empty to capture
 			MOVE *curr = malloc(sizeof(MOVE));
 			curr -> f0 = f0;
 			curr -> r0 = r0;

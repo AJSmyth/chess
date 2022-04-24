@@ -7,7 +7,7 @@
 
 void PrintBoard(Board *b) {
 	#ifndef TEST	
-	//	system("clear");
+		system("clear");
 	#endif
 	printf("\n  ╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗\n");
 	for (int rank = 7; rank >= 0; --rank) {
@@ -126,7 +126,7 @@ wchar_t GetUnicode(EPieceType piece, EColor color) {
 	else {
 		switch (piece) {
 			case PAWN:
-				return 0x2659; //0x265F;
+				return 0x265F; //0x265F;
 			case ROOK:
 			       return 0x265C;
 			case KNIGHT:
