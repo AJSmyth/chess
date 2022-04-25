@@ -82,9 +82,6 @@ char *Move(int f0, int r0, int f1, int r1, Board *b) {
 			b->board[f0][r0]->piece = EMPTY;
 			b->board[f0][r0]->color = NO_COLOR;
 		}
-		/*
-		if (b->board[f0][r0]->piece == PAWN) printf("dOMOSF");
-		
 		//promotion (PAWN HAS BEEN MOVED)	
 		if (b->board[f1][r1]->piece == PAWN) {
 			if ((r1 == 7 && b->board[f1][r1]->color == WHITE) || (r1 == 0 && b->board[f1][r1]->color == BLACK)) {	
@@ -112,7 +109,6 @@ char *Move(int f0, int r0, int f1, int r1, Board *b) {
 				}
 			}
 		}
-		*/
 		mvprintw(1,1, "             ");
 
 	}else{
