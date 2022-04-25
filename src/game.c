@@ -23,6 +23,8 @@ char *Move(int f0, int r0, int f1, int r1, Board *b) {
 		//---------- Move the Piece ----------------
 		//store the moving piece temporarily
 		Piece *p = b->board[f0][r0];
+
+		/*
 		//White Pawn En Passant
 		if (b->board[f1][r1-1]->piece == PAWN && (b->board[f0][r0]->color != b->board[f1][r1-1]->color) && b->board[f0][r0]->color == WHITE ) {
 		 if(r0 == 4 && b->board[f1][r1-1]->counter == 1){
@@ -58,6 +60,8 @@ char *Move(int f0, int r0, int f1, int r1, Board *b) {
 			b->board[f1][r1+1]->color = NO_COLOR;
 		 }
 		}
+		*/
+	
 		//normal move
 		if (b->board[f1][r1]->piece == EMPTY) {
 			// CAN(f0, r0, f1, r1, b);
@@ -890,10 +894,11 @@ LL *getValidMovesPawn(int f0, int r0, Board *b){
 			Append(out, curr);		
 		}
 		//}
+		/*
 		//EN PASSANT for WHITE PAWN
 		f = f0+1, r = r0;
-		if (b->board[f][r]->piece == PAWN && (b->board[f0][r0]->color != b->board[f][r]->color) ) {
-		   if(f < 8 && r < 8  && r0 == 4 && b->board[f][r]->counter == 1){
+		if (f < 8 && r < 8 && b->board[f][r]->piece == PAWN && b->board[f][r]->color == BLACK){
+		   if(r == 4 && b->board[f][r]->counter == 1){
 			 MOVE *curr = malloc(sizeof(MOVE));
 			 curr -> f0 = f0;
 			 curr -> r0 = r0;
@@ -903,8 +908,8 @@ LL *getValidMovesPawn(int f0, int r0, Board *b){
 		   }
 		}
 		f = f0-1, r = r0;
-		if (b->board[f][r]->piece == PAWN && (b->board[f0][r0]->color != b->board[f][r]->color) ) {
-		   if(f < 8 && r < 8  && r0 == 4 && b->board[f][r]->counter == 1){
+		if (f >= 0 && r < 8 && b->board[f][r]->piece == PAWN && b->board[f][r]->color == BLACK){
+		   if(r == 4 && b->board[f][r]->counter == 1){
 			 MOVE *curr = malloc(sizeof(MOVE));
 			 curr -> f0 = f0;
 			 curr -> r0 = r0;
@@ -913,6 +918,7 @@ LL *getValidMovesPawn(int f0, int r0, Board *b){
 			 Append(out, curr);
 		   }
 		}
+		*/
 	}
 	//FOR BLACK PAWN
 	if(b-> board[f0][r0]->color == BLACK){
@@ -957,10 +963,11 @@ LL *getValidMovesPawn(int f0, int r0, Board *b){
 			curr -> r1 = r;
 			Append(out, curr);	
 		}
+		/*
 		//EN PASSANT for BLACK PAWN
 		f = f0+1, r = r0;
-		if (b->board[f][r]->piece == PAWN && (b->board[f0][r0]->color != b->board[f][r]->color) ) {
-		   if(f < 8 && r >= 0  && r0 == 4 && b->board[f][r]->counter == 1){
+		if (f < 8 && r < 8 && b->board[f][r]->piece == PAWN && b->board[f][r]->color == WHITE){
+		   if(r0 == 3 && b->board[f][r]->counter == 1){
 			 MOVE *curr = malloc(sizeof(MOVE));
 			 curr -> f0 = f0;
 			 curr -> r0 = r0;
@@ -970,8 +977,8 @@ LL *getValidMovesPawn(int f0, int r0, Board *b){
 		   }
 		}
 		f = f0-1, r = r0;
-		if (b->board[f][r]->piece == PAWN && (b->board[f0][r0]->color != b->board[f][r]->color) ) {
-		   if(f >= 8 && r >= 0  && r0 == 4 && b->board[f][r]->counter == 1){
+		if (f >= 0 && r < 8 && b->board[f][r]->piece == PAWN && b->board[f][r]->color == WHITE){
+		   if(r0 == 3 && b->board[f][r]->counter == 1){
 			 MOVE *curr = malloc(sizeof(MOVE));
 			 curr -> f0 = f0;
 			 curr -> r0 = r0;
@@ -980,6 +987,7 @@ LL *getValidMovesPawn(int f0, int r0, Board *b){
 			 Append(out, curr);
 		   }
 		}
+		*/
 	}
 	return out;
 }
