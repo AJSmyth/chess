@@ -243,6 +243,14 @@ void DrawGame(GUI *g) {
 	
 	//create the board window
 	g->game->bWin = newwin(18, 36, g->game->boardBound.y0, g->game->boardBound.x0); 
+	
+	//AI Move
+	EColor AIc = (g->game->board->p1 == WHITE) ? BLACK : WHITE;
+
+	if (g->game->board->currentPlayerTurn == AIc) {
+		MOVE *m = IdealMove(g->game->board, AIc);
+		Move(m->f0, m->r0, m->f1, m->r1, g->game->board);	
+	}
 
 	//print turn
 	if (g->game->board->currentPlayerTurn == WHITE) attron(A_BOLD);

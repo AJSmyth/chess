@@ -27,7 +27,7 @@ char *Move(int f0, int r0, int f1, int r1, Board *b) {
 		
 		//normal move
 		if (b->board[f1][r1]->piece == EMPTY) {
-			CAN(f0, r0, f1, r1, b);
+			//CAN(f0, r0, f1, r1, b);
 			b->board[f0][r0] = b->board[f1][r1];
 			b->board[f1][r1] = p;
 			Castling (f0, r0, f1, r1, b);
@@ -36,10 +36,10 @@ char *Move(int f0, int r0, int f1, int r1, Board *b) {
 		//capturing move (prevent capturing king)
 		else if (b->board[f1][r1]->piece != KING) {
 			b->board[f0][r0]->isCapturing = true; //so that CAN know that it is capturing
-			printf("%d\n", b->board[f0][r0]->isCapturing);
-			CAN(f0, r0, f1, r1, b);
+			//printf("%d\n", b->board[f0][r0]->isCapturing);
+			//CAN(f0, r0, f1, r1, b);
 
-			printf("CAPTURING");
+			//printf("CAPTURING");
 			Capture(f1, r1, b);
 			b->board[f1][r1] = p;
 			b->board[f0][r0] = malloc(sizeof(Piece));
@@ -1126,7 +1126,7 @@ int EvaluateBoard(Board *b){
 	}
 	return value;
 }
-
+/*
 MOVE *IdealMove(Board *b, EColor player){
 	LL *moves;
 	int score = EvaluateBoard(b);
@@ -1138,7 +1138,6 @@ MOVE *IdealMove(Board *b, EColor player){
 	DeleteBoard(b2);
 	return best;
 }
-/*
 void GenerateTree(Board *source, TREE *out, int depth){
 	MOVE * valid[VALID_MOVE_SIZE];
 
@@ -1179,6 +1178,29 @@ void GenerateTree(Board *source, TREE *out, int depth){
 }
 */
 
+MOVE *IdealMove(Board *b, EColor color) {
+	srand(time(NULL)); 
+
+	LL *m = getValidMoves(b, color);
+	int size = GetListSize(m);
+	int n = rand() % size; 
+
+	//iterate through n elements of the moves list
+	LLElem *curr = m->first;
+	for (; n >= 0; --n) {
+		curr = curr->next;	
+	}
+
+	//deep copy move to allow freeing
+	MOVE *move = malloc(sizeof(MOVE));
+	move->f0 = ((MOVE *)curr->data)->f0;
+	move->r0 = ((MOVE *)curr->data)->r0;
+	move->f1 = ((MOVE *)curr->data)->f1;
+	move->r1 = ((MOVE *)curr->data)->r1;
+
+	DeleteList(m);
+	return move;
+}
 
 
 
@@ -1355,4 +1377,16 @@ void DeleteList(LL *list){
 	}
 	free(list);
 	list = NULL;
+}
+
+int GetListSize(LL *list) {
+	int i = 0;
+	LLElem *curr = list->first;
+
+	while (curr->next) {
+		i++;
+		curr = curr->next;
+	}
+
+	return i;
 }

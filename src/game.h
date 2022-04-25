@@ -78,4 +78,5 @@ MOVE *IdealMove(Board *b, EColor player);
 
 void Append(LL *list, void *data);
 void DeleteList(LL *list);
+int GetListSize(LL *list);
 #endif
