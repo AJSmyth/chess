@@ -69,7 +69,7 @@ void MoveRandomBlack(Board *b);
 void MoveRandomWhite(Board *b);
 
 void SimulateMove(Board *b1, Board *b2, MOVE *m);
-void CAN(int, int, int, int, Board *);
+char * CAN(int, int, int, int, Board *);
 
 //void GenerateTree(Board *source, TREE *out, int depth);
 int EvaluateBoard(Board *b);
