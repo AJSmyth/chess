@@ -24,8 +24,8 @@ bool InitGUI(GUI *g) {
 	//setup menu and options
 	g->menu = malloc(sizeof(Menu));
 	g->game = malloc(sizeof(Game));
-	g->menu->size = 2;
-	g->menu->settings = calloc(2, sizeof(MenuSetting *));
+	g->menu->size = 3;
+	g->menu->settings = calloc(3, sizeof(MenuSetting *));
 
 	//GAMEMODE OPTIONS
 	g->menu->settings[0] = malloc(sizeof(MenuSetting));
@@ -68,6 +68,24 @@ bool InitGUI(GUI *g) {
        	g->menu->settings[1]->options[2]->value = 2;
 	SetBox(g->menu->settings[1], g->y, g->x, 6); 	
 	
+	//PLAYER COLOR
+	g->menu->settings[2] = malloc(sizeof(MenuSetting));
+	g->menu->playerColor = g->menu->settings[2];
+	g->menu->settings[2]->text = "COLOR:";
+	g->menu->settings[2]->size = 2;
+	g->menu->settings[2]->selected = 0;
+	//	allocate space
+	g->menu->settings[2]->options = calloc(2, sizeof(MenuOption *));
+	g->menu->settings[2]->options[0] = malloc(sizeof(MenuOption));
+	g->menu->settings[2]->options[1] = malloc(sizeof(MenuOption));
+	//	option0, tutorial
+	g->menu->settings[2]->options[0]->text = "WHITE";
+       	g->menu->settings[2]->options[0]->value = 0;
+	//	option1, player vs ai
+	g->menu->settings[2]->options[1]->text = "BLACK";
+       	g->menu->settings[2]->options[1]->value = 1;
+	SetBox(g->menu->settings[2], g->y, g->x, 8); 	
+	
 	//START BUTTON
 	g->menu->start.x0 = (g->x - 10)/2;
 	g->menu->start.x1 = g->menu->start.x0 + 9;
@@ -87,7 +105,6 @@ bool InitGUI(GUI *g) {
 	g->game->exit.x0 = (g->x - 4)/2;
 	g->game->exit.x1 = g->game->exit.x0 + 3;
 	g->game->exit.y1 = g->game->exit.y0 = g->y - 3;	
-	g->game->board->p1 == WHITE;
 
 	if (g->y < MIN_Y || g->x < MIN_X) return false;
 	else return true;
@@ -218,37 +235,51 @@ void DrawGame(GUI *g) {
 	mvhwall(g->y - 1, 0 , 0x2514, 0x2500, 0x2518, g->x);
 	
 	//setup chess board window
-	//35w 17h
+	//36w 18h
 	g->game->boardBound.y0 = (g->y - 18)/2;
 	g->game->boardBound.x0 = (g->x - 36)/2;
 	g->game->boardBound.y1 = g->game->boardBound.y0 + 18;
 	g->game->boardBound.x1 = g->game->boardBound.x0 + 36;
 	
+	//create the board window
 	g->game->bWin = newwin(18, 36, g->game->boardBound.y0, g->game->boardBound.x0); 
-	
-	/*mvvwall(g->game->boardBound.y0, g->game->boardBound.x0, 0x2502, 17);
-	mvvwall(g->game->boardBound.y0, g->game->boardBound.x1, 0x2502, 17);
-*/
+
+	//print turn
+	if (g->game->board->currentPlayerTurn == WHITE) attron(A_BOLD);
+	mvprintw(g->game->boardBound.y0 - 1, g->game->boardBound.x0 + 3, "WHITE");
+	attroff(A_BOLD);	
+
+	if (g->game->board->currentPlayerTurn == BLACK) attron(A_BOLD);
+	mvprintw(g->game->boardBound.y0 - 1, g->game->boardBound.x1 - 5, "BLACK");
+	attroff(A_BOLD);	
+
+	//begin printing board
 	bool whiteTile;
 	mvwaddstr(g->game->bWin, 0, 3, "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗");
 	
-	int dir = (g->game->board->p1 == WHITE) ? -1 : 1;	
-
-	for (int rank = (dir == 1) ? 0 : 7; (dir == 1) ? (rank <= 7) : (rank >= 0); rank += dir) {
-		if (rank % 2 == 1)
-			mvwprintw(g->game->bWin, 1 + rank * 2, 0, " %d ║█ █│   │█ █│   │█ █│   │█ █│   ║", rank + 1);
-		else
-			mvwprintw(g->game->bWin, 1 + rank * 2, 0, " %d ║   │█ █│   │█ █│   │█ █│   │█ █║", rank + 1);
-		mvwaddstr(g->game->bWin, 2 + rank * 2, 3, "╟───┼───┼───┼───┼───┼───┼───┼───╢");
-		for (int file = 0; file < 8; ++file) {
+	for (int y = 0; y < 8; ++y) {
+		int rank = (g->game->board->p1 == BLACK) ? y : (7 - y);
+		mvwprintw(g->game->bWin, 1 + y * 2, 0, " %d ║   │   │   │   │   │   │   │   ║", rank + 1);
+		mvwaddstr(g->game->bWin, 2 + y * 2, 0, "   ╟───┼───┼───┼───┼───┼───┼───┼───╢");
+		for (int x = 0; x <= 7; ++x) {
+			int file = (g->game->board->p1 == BLACK) ? (7 - x) : x;
 			whiteTile = ((rank % 2) && !(file % 2)) || (!(rank % 2) && (file % 2));
-			if (whiteTile) wattron(g->game->bWin, A_STANDOUT);
-			mvwprintw(g->game->bWin, 1 + rank * 2, 5 + file * 4, "%lc", GetUnicode(g->game->board->board[file][rank], whiteTile));
+			if (whiteTile) {
+				//print tile characters	
+				mvwprintw(g->game->bWin, 1 + y * 2, 4 + x * 4, "%s","█ █"); 
+				wattron(g->game->bWin, A_STANDOUT);
+			}
+
+			mvwprintw(g->game->bWin, 1 + y * 2, 5 + x * 4, "%lc", GetUnicode(g->game->board->board[file][rank], whiteTile));
 			wattroff(g->game->bWin, A_STANDOUT);
+		
+			if (rank == 0) {
+				mvwprintw(g->game->bWin, 17, 5 + x * 4, "%c", 65 + file); 		
+			}
 		}
 	}
 	mvwaddstr(g->game->bWin, 16, 3, "╚═══╧═══╧═══╧═══╧═══╧═══╧═══╧═══╝");
-	mvwaddstr(g->game->bWin, 17, 3, "  H   G   F   E   D   C   B   A");
+	
 	
 	//print the quit button
 	mvprintw(g->game->exit.y0, g->game->exit.x0, "QUIT");
@@ -271,10 +302,27 @@ void HandleMouse(GUI *g, MEVENT e) {
 						g->menu->settings[s]->selected = o;	
 				}
 			}
+			bool invalid = false;
 
 			if (IsInBox(e.y, e.x, g->menu->start)) {
-				clear();
-			       	g->state = GAME;
+				for (int i = 0; i < g->menu->size; ++i) {
+					if (g->menu->settings[i]->selected == -1) {
+						mvprintw(3, 3, "Invalid Settings!");
+						invalid = true;
+					}
+				}
+				if (!invalid) {
+					switch (g->menu->playerColor->selected) {
+						case 0:
+							g->game->board->p1 = WHITE;
+							break;
+						case 1:
+							g->game->board->p1 = BLACK;
+							break;
+					}
+					clear();
+					g->state = GAME;
+				}
 			}
 
 			if (IsInBox(e.y, e.x, g->menu->exit)) g->state = EXITING;
@@ -287,7 +335,7 @@ void HandleMouse(GUI *g, MEVENT e) {
 
 				if (x != -1 && y != -1 ) {
 					if (!g->game->InitMove) {
-						if (g->game->board->board[x][y]->piece != EMPTY) {
+						if (g->game->board->board[y][x]->piece != EMPTY) {
 							g->game->InitMove = true;
 							g->game->iY = y;
 							g->game->iX = x;
@@ -374,13 +422,14 @@ void SetBox(MenuSetting *s, int height, int width, int y) {
 
 //convert main window space to board
 void WinToBoard(GUI *g, int yw, int xw, int *yt, int *xt) {
-	//neeed to handle alternate board orientation
-	int x = xw, y = yw;
+	int x = xw, y = yw, rank, file;
 
 	y -= g->game->boardBound.y0 + 1;
 	x -= g->game->boardBound.x0 + 4;
+	if (y / 2 <= 7) *yt = (g->game->board->p1 == BLACK) ? (y / 2) : (7 - (y / 2));
+	else *yt = -1;
+	if (x % 4 < 3) *xt = (g->game->board->p1 == BLACK) ? (7 - (x / 4)) : (x / 4);
+	else *xt = -1;
 
-	*yt = (y / 2 <= 7) ? y / 2 : -1;
-	*xt = (x % 4 < 3) ? x / 4 : -1;
 }
 	

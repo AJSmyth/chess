@@ -41,6 +41,7 @@ typedef struct {
 	//MenuSetting represents [text | MenuOption[0] | ... | MenuOption[size - 1]]
 	MenuSetting *gamemode;
 	MenuSetting *difficulty;
+	MenuSetting *playerColor;
 
 	size_t size;
 	MenuSetting **settings;
