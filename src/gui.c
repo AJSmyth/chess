@@ -32,13 +32,13 @@ bool InitGUI(GUI *g) {
 	g->menu->gamemode = g->menu->settings[0];
 	g->menu->settings[0]->text = "GAMEMODE:";
 	g->menu->settings[0]->size = 2;
-	g->menu->settings[0]->selected = -1;
+	g->menu->settings[0]->selected = 0;
 	//	allocate space
 	g->menu->settings[0]->options = calloc(2, sizeof(MenuOption *));
 	g->menu->settings[0]->options[0] = malloc(sizeof(MenuOption));
 	g->menu->settings[0]->options[1] = malloc(sizeof(MenuOption));
 	//	option0, tutorial
-	g->menu->settings[0]->options[0]->text = "TUTORIAL";
+	g->menu->settings[0]->options[0]->text = "PLAYER VS PLAYER";
        	g->menu->settings[0]->options[0]->value = 0;
 	//	option1, player vs ai
 	g->menu->settings[0]->options[1]->text = "PLAYER VS AI";
@@ -51,7 +51,7 @@ bool InitGUI(GUI *g) {
 	g->menu->difficulty = g->menu->settings[1];
 	g->menu->settings[1]->text = "DIFFICULTY:";
 	g->menu->settings[1]->size = 3;
-	g->menu->settings[1]->selected = -1;
+	g->menu->settings[1]->selected = 0;
 	//	allocate space
 	g->menu->settings[1]->options = calloc(3, sizeof(MenuOption *));
 	g->menu->settings[1]->options[0] = malloc(sizeof(MenuOption));
@@ -333,13 +333,22 @@ void HandleMouse(GUI *g, MEVENT e) {
 				int x, y;
 				WinToBoard(g, e.y, e.x, &y, &x);
 				if (x != -1 && y != -1) { 
-					mvprintw(2,1,"%c%d clicked", x + 65, y + 1);
 					if (!g->game->InitMove) {
-						if (g->game->board->board[x][y]->piece != EMPTY && g->game->board->currentPlayerTurn == g->game->board->board[x][y]->color) {
-							g->game->iY = y;
-							g->game->iX = x;
-							g->game->InitMove = true;
+						if (g->menu->gamemode->selected == 0) {
+							if (g->game->board->board[x][y]->piece != EMPTY && g->game->board->currentPlayerTurn == g->game->board->board[x][y]->color) {
+								g->game->iY = y;
+								g->game->iX = x;
+								g->game->InitMove = true;
+							}
 						}
+						else {
+							if (g->game->board->board[x][y]->piece != EMPTY && g->game->board->currentPlayerTurn == g->game->board->p1 && g->game->board->p1 == g->game->board->board[x][y]->color) {
+								g->game->iY = y;
+								g->game->iX = x;
+								g->game->InitMove = true;
+							}
+						}
+
 					}
 					else { 
 						Move(g->game->iX, g->game->iY, x, y, g->game->board); 
