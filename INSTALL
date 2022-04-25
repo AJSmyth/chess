@@ -1,0 +1,12 @@
+to create binary
+go to src
+run make
+to delete object file run make clean
+
+
+to run binary
+cd bin
+then run
+./chess
+
+

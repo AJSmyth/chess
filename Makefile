@@ -21,3 +21,10 @@ clean:
 test:
 	$(foreach src, $(SRCS), gcc -c $(src) -DTEST $(CFLAGS) -o $(basename $(src)).o;)
 	gcc $(OBJS) $(CFLAGS) -o $(DESTDIR)/$(OUT)
+
+tar:
+	tar -zcvf Chess_V1.0.tar.gz ./README ./COPYRIGHT ./INSTALL ./bin ./doc/Chess_UserManual.pdf
+	tar -zcvf Chess_V1.0_src.tar.gz ./README ./COPYRIGHT ./INSTALL ./doc ./bin ./src ./Makefile
+
+clean_tar:
+	rm *.tar.gz
