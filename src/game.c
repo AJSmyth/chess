@@ -24,7 +24,43 @@ char *Move(int f0, int r0, int f1, int r1, Board *b) {
 		//---------- Move the Piece ----------------
 		//store the moving piece temporarily
 		Piece *p = b->board[f0][r0];
-		
+
+		//White Pawn En Passant
+		if (b->board[f1][r1-1]->piece == PAWN && (b->board[f0][r0]->color != b->board[f1][r1-1]->color) && b->board[f0][r0]->color == WHITE ) {
+		 if(r0 == 4 && b->board[f1][r1-1]->counter == 1){
+			 b->board[f0][r0]->isCapturing = true; //so that CAN know that it is capturing
+			printf("%d\n", b->board[f0][r0]->isCapturing);
+			CAN(f0, r0, f1, r1, b);
+			printf("CAPTURING");
+			Capture(f1, r1-1, b);
+			b->board[f1][r1] = p;
+			b->board[f0][r0] = malloc(sizeof(Piece));
+			b->board[f0][r0]->piece = EMPTY;
+			b->board[f0][r0]->color = NO_COLOR;
+			b->board[f1][r1-1] = malloc(sizeof(Piece));
+			b->board[f1][r1-1]->piece = EMPTY;
+			b->board[f1][r1-1]->color = NO_COLOR;
+		 }
+		}
+		//Black Pawn En Passant
+		if (b->board[f1][r1+1]->piece == PAWN && (b->board[f0][r0]->color != b->board[f1][r1+1]->color) && b->board[f0][r0]->color == BLACK ) {
+		 if(r0 == 3 && b->board[f1][r1+1]->counter == 1){
+			 b->board[f0][r0]->isCapturing = true; //so that CAN know that it is capturing
+			printf("%d\n", b->board[f0][r0]->isCapturing);
+			CAN(f0, r0, f1, r1, b);
+
+			printf("CAPTURING");
+			Capture(f1, r1 + 1, b);
+			b->board[f1][r1] = p;
+			b->board[f0][r0] = malloc(sizeof(Piece));
+			b->board[f0][r0]->piece = EMPTY;
+			b->board[f0][r0]->color = NO_COLOR;
+			b->board[f1][r1+1] = malloc(sizeof(Piece));
+			b->board[f1][r1+1]->piece = EMPTY;
+			b->board[f1][r1+1]->color = NO_COLOR;
+		 }
+		}
+
 		//normal move
 		if (b->board[f1][r1]->piece == EMPTY) {
 			//CAN(f0, r0, f1, r1, b);
@@ -849,6 +885,34 @@ LL *getValidMovesPawn(int f0, int r0, Board *b){
 			Append(out, curr);	
 		}
 		//}
+
+		//EN PASSANT for WHITE PAWN
+		f = f0+1, r = r0+1;
+		if (f < 8 && r < 8){
+			if(b->board[f0+1][r0]->piece == PAWN && b->board[f0+1][r0]->color == BLACK){
+		   		if(r0 == 4 && b->board[f0+1][r0]->counter == 1){
+			 	 MOVE *curr = malloc(sizeof(MOVE));
+			 	 curr -> f0 = f0;
+			 	 curr -> r0 = r0;
+			 	 curr -> f1 = f;
+			 	 curr -> r1 = r;
+			 	 Append(out, curr);
+		   		}
+		    }
+		}
+		f = f0-1, r = r0+1;
+		if (f >= 0 && r < 8){
+			if(b->board[f0-1][r0]->piece == PAWN && b->board[f0-1][r0]->color == BLACK){
+		   		if(r0 == 4 && b->board[f0-1][r0]->counter == 1){
+			 	MOVE *curr = malloc(sizeof(MOVE));
+			 	curr -> f0 = f0;
+			 	curr -> r0 = r0;
+			 	curr -> f1 = f;
+			 	curr -> r1 = r;
+			 	Append(out, curr);
+		   	    }
+		    }
+		}
 		//check to see if white pawn can capture left diagonally
 		f = f0 - 1, r = r0 + 1; //left diagonal
 		//if(!IsInCheck(f0, r0, f, r, b)){ //check to see if move to be made will put King in check
@@ -906,7 +970,34 @@ LL *getValidMovesPawn(int f0, int r0, Board *b){
 			curr -> r1 = r;
 			Append(out, curr);	
 		}
-		//PROMOTION FOR BLACK PAWN
+				//EN PASSANT for BLACK PAWN
+		f = f0-1, r = r0-1;
+		if (f >= 0 && r >= 0){
+		    if(b->board[f0-1][r0]->piece == PAWN && b->board[f0-1][r0]->color == WHITE){
+
+             if(r0 == 3 && b->board[f0-1][r0]->counter == 1){
+			  MOVE *curr = malloc(sizeof(MOVE));
+			  curr -> f0 = f0;
+			  curr -> r0 = r0;
+			  curr -> f1 = f;
+			  curr -> r1 = r;
+			  Append(out, curr);
+		      }
+		    }
+		}
+		f = f0+1, r = r0-1;
+		if (f < 8 && r >= 0){
+		    if(b->board[f0+1][r0]->piece == PAWN && b->board[f0+1][r0]->color == WHITE){
+		      if(r0 == 3 && b->board[f0+1][r0]->counter == 1){
+			   MOVE *curr = malloc(sizeof(MOVE));
+			   curr -> f0 = f0;
+			   curr -> r0 = r0;
+			   curr -> f1 = f;
+			   curr -> r1 = r;
+			   Append(out, curr);
+		      }
+		   }
+		}
 	}
 	return out;
 }
