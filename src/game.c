@@ -13,9 +13,9 @@ char *Move(int f0, int r0, int f1, int r1, Board *b) {
 	if (IsValid(f0, r0, f1, r1, b)) {
 		//-------- Update Misc. Board Data --------	
 		//To count the total number of moves of each piece
-		b->board[f0][r0]->counter ++;
+		b->board[f0][r0]->counter++;
 		
-		if(b->board[f0][r0]->color == BLACK){
+		if(b->currentPlayerTurn == BLACK) {
 			b->currentPlayerTurn = WHITE;
 		}else{
 			b->currentPlayerTurn = BLACK;
@@ -946,7 +946,6 @@ bool IsInCheck(int f0, int r0, int f1, int r1, Board *b) {
 					break;
 				}
 
-<<<<<<< HEAD
 				LLElem *curr = moves->first;
 				while(curr){
 					MOVE *currmove = (MOVE *)(curr->data);
@@ -954,16 +953,6 @@ bool IsInCheck(int f0, int r0, int f1, int r1, Board *b) {
 						DeleteBoard(b2);
 						DeleteList(moves);
 						return true;
-=======
-				for(int j = 0; j < VALID_MOVE_SIZE; j++){
-					if(valid[j]){
-						//printf("%d %d\n", valid[j]->f1, valid[j]->r1);
-						/*
-						if(b2->board[valid[j]->f1][valid[j]->r1]->piece == KING){
-							return true;
-						}
-						*/
->>>>>>> 411e5b1 (Prevent empty tiles from being moved)
 					}
 					curr = curr->next;
 				}

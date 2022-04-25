@@ -332,25 +332,23 @@ void HandleMouse(GUI *g, MEVENT e) {
 			if (IsInBox(e.y, e.x, g->game->boardBound)) {
 				int x, y;
 				WinToBoard(g, e.y, e.x, &y, &x);
-
-				if (x != -1 && y != -1 ) {
+				if (x != -1 && y != -1) { 
+					mvprintw(2,1,"%c%d clicked", x + 65, y + 1);
 					if (!g->game->InitMove) {
-						if (g->game->board->board[y][x]->piece != EMPTY) {
-							g->game->InitMove = true;
+						if (g->game->board->board[x][y]->piece != EMPTY && g->game->board->currentPlayerTurn == g->game->board->board[x][y]->color) {
 							g->game->iY = y;
 							g->game->iX = x;
+							g->game->InitMove = true;
 						}
 					}
-					else {
+					else { 
 						Move(g->game->iX, g->game->iY, x, y, g->game->board); 
 						g->game->InitMove = false;
 					}
+				
 				}
 			}
-			if (IsInBox(e.y, e.x, g->game->exit)) {
-			       erase();
-		       	       g->state = MENU;
-			}
+			if (IsInBox(e.y, e.x, g->menu->exit)) g->state = EXITING;
 		break;
 	}
 			
@@ -424,11 +422,14 @@ void SetBox(MenuSetting *s, int height, int width, int y) {
 void WinToBoard(GUI *g, int yw, int xw, int *yt, int *xt) {
 	int x = xw, y = yw, rank, file;
 
+	//set x and y to board coordinates
 	y -= g->game->boardBound.y0 + 1;
 	x -= g->game->boardBound.x0 + 4;
-	if (y / 2 <= 7) *yt = (g->game->board->p1 == BLACK) ? (y / 2) : (7 - (y / 2));
+
+	//>= needs to be changed to 
+	if (y % 2 >= 0 && y / 2 <= 7) *yt = (g->game->board->p1 == BLACK) ? (y / 2) : (7 - (y / 2));
 	else *yt = -1;
-	if (x % 4 < 3) *xt = (g->game->board->p1 == BLACK) ? (7 - (x / 4)) : (x / 4);
+	if (x % 4 < 3 && x / 4 <= 7) *xt = (g->game->board->p1 == BLACK) ? (7 - (x / 4)) : (x / 4);
 	else *xt = -1;
 
 }
