@@ -909,13 +909,13 @@ LL *getValidMovesPawn(int f0, int r0, Board *b){
 bool IsInCheck(int f0, int r0, int f1, int r1, Board *b) {
 	LL *moves;
 	Board *b2 = malloc(sizeof(Board));
-	MOVE *m = malloc(sizeof(MOVE));
-	m->f0 = f0;
-	m->r0 = r0;
-	m->f1 = f1;
-	m->r1 = r1;
-	SimulateMove(b, b2, m);
-	free(m);
+	// MOVE *m = malloc(sizeof(MOVE));
+	// m->f0 = f0;
+	// m->r0 = r0;
+	// m->f1 = f1;
+	// m->r1 = r1;
+	SimulateMove(b, b2, f0, r0, f1, r1);
+	//free(m);
 	for(int f = 0; f < 8; f++){
 		for(int r = 0; r < 8; r++){
 			if(b2->board[f][r]->piece != EMPTY){
@@ -936,7 +936,7 @@ bool IsInCheck(int f0, int r0, int f1, int r1, Board *b) {
 					moves = getValidMovesPawn(f, r, b2);
 					break;
 				case KING:
-					getValidMovesKing(f, r, b2);
+					moves = getValidMovesKing(f, r, b2);
 					break;
 				default:
 					break;
@@ -945,7 +945,7 @@ bool IsInCheck(int f0, int r0, int f1, int r1, Board *b) {
 				LLElem *curr = moves->first;
 				while(curr){
 					MOVE *currmove = (MOVE *)(curr->data);
-					if(b2->board[currmove->f1][currmove->r1]->piece == KING && b2->board[currmove->f1][currmove->r1]->color == b2->board[f1][r1]->color){
+					if(currmove && b2->board[currmove->f1][currmove->r1]->piece == KING && b2->board[currmove->f1][currmove->r1]->color == b2->board[f1][r1]->color){
 						DeleteBoard(b2);
 						DeleteList(moves);
 						return true;
@@ -1000,6 +1000,7 @@ LL *getValidMoves(Board * board, EColor player){
 					}
 					curr = curr->next;
 				}
+				//DeleteList(sublist);
 			}
 		}
 	}
@@ -1043,9 +1044,9 @@ void Castling(int f0, int r0, int f1, int r1, Board *b)
 
 }
 
-void SimulateMove(Board *b1, Board *b2, MOVE *m){
+void SimulateMove(Board *b1, Board *b2, int f0, int r0, int f1, int r1){
 	CopyBoard(b1, b2);
-	RawMove(m->f0, m->r0, m->f1, m->r1, b2);
+	RawMove(f0, r0, f1, r1, b2);
 }
 
 void RawMove(int f0, int r0, int f1, int r1, Board *b){
@@ -1323,7 +1324,7 @@ void Append(LL *list, void *data){
 	new->data = data;
 	new->next = NULL;
 
-	if(list->first){
+	if(list->last){
 		list->last->next = new;
 		list->last = new;
 	}else{
@@ -1334,13 +1335,133 @@ void Append(LL *list, void *data){
 
 void DeleteList(LL *list){
 	LLElem *curr = list->first;
-	LLElem *next;
-	while(curr){
-		free(curr->data);
-		next = curr->next;
-		free(curr);
-		curr = next;
+	if(list && curr){
+		LLElem *next;
+		while(curr){
+			free(curr->data);
+			next = curr->next;
+			free(curr);
+			curr = next;
+		}
+		free(list);
+		list = NULL;
 	}
-	free(list);
+}
+
+void GenerateTree(NODE* root, int depth, EColor startingplayer){
+	if(depth == 0){
+		return;
+	}else{
+		Board* source = root->value;
+		root->children = malloc(sizeof(LL));
+
+		LL* moves = getValidMoves(source, startingplayer);
+		LLElem *curr = moves->first;
+		LLElem *next;
+
+		while(curr){
+			MOVE *currmove = (MOVE *)(curr->data);
+
+			NODE* child = malloc(sizeof(NODE));
+			child->parent = root;
+			
+			Board* outcome = malloc(sizeof(Board));
+			SimulateMove(source, outcome, currmove->f0, currmove->r0, currmove->f1, currmove->r1);
+			free(currmove);
+
+			child->value = outcome;
+
+			child->children = NULL;
+
+			
+			Append(root->children, child);
+
+			if(startingplayer == WHITE){
+				GenerateTree(child, depth-1, BLACK);
+			}else{
+				GenerateTree(child, depth-1, WHITE);
+			}
+			
+			next = curr->next;
+			free(curr);
+			curr = next;
+		}
+		//DeleteList(moves);
+		if(moves){
+			free(moves);
+		}
+	}
+}
+
+void DeleteTree(NODE* root){
+	if(root){
+		if(root->children){
+			LLElem* curr = root->children->first;
+
+			while(curr){
+				NODE *currnode = (NODE *)(curr->data);
+
+				DeleteTree(currnode);
+
+				DeleteBoard(currnode->value);
+				if(currnode->children && currnode->children->first){
+					DeleteList(currnode->children);
+				}
+				free(currnode);
+
+				curr = curr->next;
+			}
+		}
+	}
+}
+
+void PrintTree(NODE* root){
+	if(root){
+		PrintBoard(root->value);
+		if(root->children){
+			LLElem* curr = root->children->first;
+
+			while(curr){
+				NODE *currnode = (NODE *)(curr->data);
+
+				PrintTree(currnode);
+
+				curr = curr->next;
+			}
+		}
+	}
+}
+
+int MiniMax(NODE* root, int depth, EColor startingplayer){
+	if(depth == 0){
+		return EvaluateBoard(root->value);
+	}
+	if(root->children){
+		if(startingplayer == WHITE){
+			int max = -500000;
+			LLElem* curr = root->children->first;
+
+			while(curr){
+				NODE *currnode = (NODE *)(curr->data);
+
+				int search = MiniMax(currnode, depth-1, BLACK);
+
+				max = max>search?max:search;
+				curr = curr->next;
+			}
+		}else{
+			int min = 500000;
+			LLElem* curr = root->children->first;
+
+			while(curr){
+				NODE *currnode = (NODE *)(curr->data);
+
+				int search = MiniMax(currnode, depth-1, WHITE);
+
+				min = min<search?min:search;
+				curr = curr->next;
+			}
+		}
+	}
 }
 

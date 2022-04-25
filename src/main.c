@@ -101,37 +101,53 @@ int main(int argc, char *argv[]) {
 	}
 	//dev only
 	if(a == 4){
-		while (true) 
-		{
-			printf("Select a piece to move in the form \"FR FR\" (e.g. A2 A3): ");
-			char s0[3], s1[3];
-			scanf("%2s %2s", s0, s1);
-			/*
-			LL *list = malloc(sizeof(LL));
-			list->first = NULL;
-			list->last = NULL;
-			MOVE *m = malloc(sizeof(MOVE));
-			m->f1 = 1;
-			m->r1 = 1;
-			m->f0 = 1;
-			m->r0 = 1;
-			Append(list, m);
-			printf("LIST ELEMENT: %d", ((MOVE *)(list->first->data))->f1);
-			*/
-			Move(s0[0] - 65, s0[1] - 49, s1[0] - 65, s1[1] - 49, chessBoard);
-			LL *validlist = getValidMoves(chessBoard, WHITE);
-			LLElem *curr = validlist->first;
-			int count = 0;
-			while(curr){
-				MOVE *currmove = (MOVE *)(curr->data);
-				printf("MOVE#%d: %c%c->%c%c\n", ++count, currmove->f0 + 65, currmove->r0 + 49, currmove->f1 + 65, currmove->r1 + 49);
-				curr = curr->next;
-			}
-			PrintBoard(chessBoard);
-		}	
+		EColor player = WHITE;
+		// while(true){
+		// 	if(player == WHITE){
+		// 		printf("Select a piece to move in the form \"FR FR\" (e.g. A2 A3): ");
+		// 		char s0[3], s1[3];
+		// 		scanf("%2s %2s", s0, s1);
+		// 		Move(s0[0] - 65, s0[1] - 49, s1[0] - 65, s1[1] - 49, chessBoard);
+		// 		player = BLACK;
+		// 	}else{
+		// 		LL *validlist = getValidMoves(chessBoard, BLACK);
+		// 		LLElem *curr = validlist->first;
+		// 		int best = 50000000;
+		// 		MOVE* bestmove;
+		// 		while(curr){
+		// 			MOVE *currmove = (MOVE *)(curr->data);
+					
+		// 			Board* simulated = malloc(sizeof(Board));
+		// 			SimulateMove(chessBoard, simulated, currmove->f0, currmove->r0, currmove->f1, currmove->r1);
+
+		// 			NODE* root = malloc(sizeof(NODE));
+		// 			root->parent = NULL;
+		// 			root->value = simulated;
+		// 			root->children = NULL;
+					
+		// 			GenerateTree(root, 1, BLACK);
+		// 			int eval = MiniMax(root, 1, BLACK);
+		// 			if(eval < best){
+		// 				best = eval;
+		// 				bestmove = currmove;
+		// 			}
+		// 			DeleteTree(root);
+		// 			curr = curr->next;
+		// 		}
+		// 		Move(bestmove->f0, bestmove->r0, bestmove->f1, bestmove->r1, chessBoard);
+		// 		player = WHITE;
+		// 	}
+		// 	PrintBoard(chessBoard);
+		// }
+		
+		NODE* root = malloc(sizeof(NODE));
+		root->parent = NULL;
+		root->value = chessBoard;
+		root->children = NULL;
+		GenerateTree(root, 4, WHITE);
+		printf("MAX: %d", MiniMax(root, 3, WHITE));
+		PrintTree(root);
+		DeleteTree(root);
 	}
-
-
-
 	return 0;
 }

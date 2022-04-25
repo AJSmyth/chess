@@ -35,6 +35,7 @@ typedef struct{
 */
 
 typedef struct LLElem LLElem;
+typedef struct NODE NODE;
 
 struct LLElem{
 	void *data;
@@ -46,6 +47,11 @@ typedef struct{
 	LLElem *last;
 }LL;
 
+struct NODE{
+	NODE* parent;
+	Board* value;
+	LL* children;
+};
 
 char *Move(int f0, int r0, int f1, int r1, Board *b);
 void RawMove(int f0, int r0, int f1, int r1, Board *b);
@@ -68,11 +74,14 @@ LL *getValidMoves(Board *, EColor);
 void MoveRandomBlack(Board *b);
 void MoveRandomWhite(Board *b);
 
-void SimulateMove(Board *b1, Board *b2, MOVE *m);
+void SimulateMove(Board *b1, Board *b2, int f0, int r0, int f1, int r1);
 void CAN(int, int, int, int, Board *);
 
-//void GenerateTree(Board *source, TREE *out, int depth);
+void GenerateTree(NODE* root, int depth, EColor startingplayer);
+void PrintTree(NODE* root);
+void DeleteTree(NODE* root);
 int EvaluateBoard(Board *b);
+int MiniMax(NODE* root, int depth, EColor startingplayer);
 
 MOVE *IdealMove(Board *b, EColor player);
 
