@@ -1287,7 +1287,7 @@ char * CAN(int f0, int r0, int f1, int r1, Board *b){
 				sprintf(buffer,"+");
 			}
 
-			sprintf(" ");
+			sprintf(buffer, " ");
 			break;
 		
 		case ROOK:
