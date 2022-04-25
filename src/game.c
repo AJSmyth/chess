@@ -325,6 +325,7 @@ LL *getValidMovesQueen(int f, int r, Board *b){
 	LL *out = malloc(sizeof(LL));
 	out->first = NULL;
 	out->last = NULL;
+
 	//check vertical line up
 	for(int i = r+1; i < 8; i++){
 		//b->board[f][i]->hl = 1;
@@ -411,21 +412,21 @@ LL *getValidMovesQueen(int f, int r, Board *b){
 		}
 	}
 	//check diagonal bottom right
-	for(int i = f+1, j=r-1; i<8 && j>=0; i++,j--){
-		//b->board[i][j]->hl = 1;
-		if(b->board[i][j]->color != b->board[f][r]->color){
+	for (int i = f+1, j= r-1; i < 8 && j>=0; i++, j--){
+		if (b->board[f][r]->color != b->board[i][j]->color){
 			MOVE *curr = malloc(sizeof(MOVE));
-			curr->r0 = r;
+			curr->r0 = r; 
 			curr->f0 = f;
 			curr->r1 = j;
 			curr->f1 = i;
 			Append(out, curr);
-			if(b->board[i][j]->color != EMPTY){
+			//b->board[i][j]->hl = 1;
+			if (b->board[i][j]->piece != EMPTY){
 				break;
 			}
-		}else{
-			break;
 		}
+
+		else break;
 	}
 	//check diagonal bottom left
 	for(int i = f-1, j=r-1; i>=0 && j>=0; i--,j--){
@@ -1011,6 +1012,13 @@ LL *getValidMoves(Board * board, EColor player){
 	return out;
 }
 
+bool IsMated(Board *b, EColor color) {
+	LL *m = getValidMoves(b, color);
+	bool mated = m->first == NULL;
+	DeleteList(m);
+	return mated;
+}
+
 void Castling(int f0, int r0, int f1, int r1, Board *b)
 {
 	if (f1 == 6 && r1 == 0 && f0 == 4 && r0 == 0)
@@ -1346,5 +1354,6 @@ void DeleteList(LL *list){
 		curr = next;
 	}
 	free(list);
+	list = NULL;
 }
 

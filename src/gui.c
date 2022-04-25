@@ -253,6 +253,12 @@ void DrawGame(GUI *g) {
 	mvprintw(g->game->boardBound.y0 - 1, g->game->boardBound.x1 - 5, "BLACK");
 	attroff(A_BOLD);	
 
+	//print any win conditions
+	if (IsMated(g->game->board, WHITE))
+		mvprintw(g->game->boardBound.y0 + 2, (g->x - 9) / 2,"BLACK WINS");	
+	if (IsMated(g->game->board, BLACK))
+		mvprintw(g->game->boardBound.y0 + 2, (g->x - 9) / 2,"WHITE WINS");	
+
 	//begin printing board
 	bool whiteTile;
 	mvwaddstr(g->game->bWin, 0, 3, "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗");
