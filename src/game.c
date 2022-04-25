@@ -969,7 +969,7 @@ LL *getValidMovesPawn(int f0, int r0, Board *b){
 		
 		//EN PASSANT for BLACK PAWN
 		f = f0-1, r = r0-1;
-		if (f < 8 && r < 8){
+		if (f >= 0 && r >= 0){
 		    if(b->board[f0-1][r0]->piece == PAWN && b->board[f0-1][r0]->color == WHITE){
 
              if(r0 == 3 && b->board[f0-1][r0]->counter == 1){
@@ -983,7 +983,7 @@ LL *getValidMovesPawn(int f0, int r0, Board *b){
 		    }
 		}
 		f = f0+1, r = r0-1;
-		if (f >= 0 && r < 8){
+		if (f < 8 && r >= 0){
 		    if(b->board[f0+1][r0]->piece == PAWN && b->board[f0+1][r0]->color == WHITE){
 		      if(r0 == 3 && b->board[f0+1][r0]->counter == 1){
 			   MOVE *curr = malloc(sizeof(MOVE));
