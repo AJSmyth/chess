@@ -33,6 +33,8 @@ typedef struct {
 	int counter;
 	bool isPromoted;
 	bool isCapturing;
+	bool isQCastled;
+	bool isKCastled;
 } Piece;
 
 typedef struct {

@@ -1101,6 +1101,8 @@ void Castling(int f0, int r0, int f1, int r1, Board *b)
 		
 		b->board[7][0] = b->board[5][0];
 		b->board[5][0] = x;
+		x->isKCastled = true;
+
 	}
 
 	if (f1 == 2 && r1 == 0 && f0 == 4 && r0 == 0)
@@ -1109,6 +1111,7 @@ void Castling(int f0, int r0, int f1, int r1, Board *b)
 		
 		b->board[0][0] = b->board[3][0];
 		b->board[3][0] = x;
+		x->isQCastled = true;
 	}
 
 	if (f1 == 6 && r1 == 7 && f0 == 4 && r0 == 7)
@@ -1117,6 +1120,7 @@ void Castling(int f0, int r0, int f1, int r1, Board *b)
 		
 		b->board[7][7] = b->board[5][7];
 		b->board[5][7] = x;
+		x->isKCastled = true;
 	}
 
 	if (f1 == 2 && r1 == 7 && f0 == 4 && r0 == 7)
@@ -1125,6 +1129,7 @@ void Castling(int f0, int r0, int f1, int r1, Board *b)
 		
 		b->board[0][7] = b->board[3][7];
 		b->board[3][7] = x;
+		x->isQCastled = true;
 	}
 
 }
@@ -1282,30 +1287,43 @@ char * CAN(int f0, int r0, int f1, int r1, Board *b){
 				sprintf(buffer,"+");
 			}
 
-			printf(" ");
+			sprintf(" ");
 			break;
 		
 		case ROOK:
-			if (b->board[f0][r0]->isPromoted == true){
+			if (b->board[f0][r0]->isKCastled || b->board[f0][r0]->isQCastled){
 
-				if (b->board[f0][r0]->isCapturing ==  true){
-					sprintf(buffer,"x%c%d=R", 65+f1, r1+1);
-				}else {
-					sprintf(buffer,"%c%d=R", 65+f1, r1+1);
-					b->board[f0][r0]->isCapturing =  false;
+				if(b->board[f0][r0]->isKCastled){
+					sprintf(buffer, "0-0");
+				}else{
+					sprintf(buffer, "0-0-0");
 				}
-			} else if (b->board[f0][r0]->isCapturing ==  true){
-				sprintf(buffer,"Rx%c%d", 65+f1, r1+1);
-				b->board[f0][r0]->isCapturing =  false;
 
+				b->board[f0][r0]->isKCastled = false;
+				b->board[f0][r0]->isQCastled = false;
+				
 			}else{
-				sprintf(buffer,"R%c%d", 65+f1, r1+1);
-			}
+				if (b->board[f0][r0]->isPromoted == true){
 
-			if(IsInCheck(f0,r0,f1,r1,b)){
-				sprintf(buffer,"+");
-			}
+					if (b->board[f0][r0]->isCapturing ==  true){
+						sprintf(buffer,"x%c%d=R", 65+f1, r1+1);
+					}else {
+						sprintf(buffer,"%c%d=R", 65+f1, r1+1);
+						b->board[f0][r0]->isCapturing =  false;
+					}
+				}else if (b->board[f0][r0]->isCapturing ==  true){
+					sprintf(buffer,"Rx%c%d", 65+f1, r1+1);
+					b->board[f0][r0]->isCapturing =  false;
 
+				}else{
+					sprintf(buffer,"R%c%d", 65+f1, r1+1);
+				}
+
+				if(IsInCheck(f0,r0,f1,r1,b)){
+					sprintf(buffer,"+");
+				}
+
+			}
 			sprintf(buffer, " ");
 
 			break;
