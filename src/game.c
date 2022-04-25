@@ -86,8 +86,8 @@ char *Move(int f0, int r0, int f1, int r1, Board *b) {
 		if (b->board[f1][r1]->piece == PAWN) {
 			if ((r1 == 7 && b->board[f1][r1]->color == WHITE) || (r1 == 0 && b->board[f1][r1]->color == BLACK)) {	
 				char promoteTo;
-				printf("Please choose a piece to promote your pawn to: \nQ:Queen\nN:Knight\nB:Bishop\nR:Rook\nPiece:");
-				scanf(" %c", &promoteTo);
+				//printf("Please choose a piece to promote your pawn to: \nQ:Queen\nN:Knight\nB:Bishop\nR:Rook\nPiece:");
+				//scanf(" %c", &promoteTo);
 				switch(promoteTo){
 					  case 'B':
 					 b->board[f1][r1]->isPromoted = true;
