@@ -1014,7 +1014,7 @@ LL *getValidMoves(Board * board, EColor player){
 
 bool IsMated(Board *b, EColor color) {
 	LL *m = getValidMoves(b, color);
-	bool mated = m->first == NULL;
+	bool mated = (m->first == NULL);
 	DeleteList(m);
 	return mated;
 }
@@ -1356,4 +1356,3 @@ void DeleteList(LL *list){
 	free(list);
 	list = NULL;
 }
-

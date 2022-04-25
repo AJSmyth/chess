@@ -255,9 +255,9 @@ void DrawGame(GUI *g) {
 
 	//print any win conditions
 	if (IsMated(g->game->board, WHITE))
-		mvprintw(g->game->boardBound.y0 + 2, (g->x - 9) / 2,"BLACK WINS");	
+		mvprintw(g->game->boardBound.y0 - 2, (g->x - 9) / 2,"BLACK WINS");	
 	if (IsMated(g->game->board, BLACK))
-		mvprintw(g->game->boardBound.y0 + 2, (g->x - 9) / 2,"WHITE WINS");	
+		mvprintw(g->game->boardBound.y0 - 2, (g->x - 9) / 2,"WHITE WINS");	
 
 	//begin printing board
 	bool whiteTile;
